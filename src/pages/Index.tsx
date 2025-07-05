@@ -9,7 +9,6 @@ import FloatingChat from '../components/FloatingChat';
 import FloatingNavButton from '../components/FloatingNavButton';
 import VerticalNavbar from '../components/VerticalNavbar';
 import PreLoader from '../components/PreLoader';
-import AnimatedHighlights from '../components/AnimatedHighlights';
 
 const Index = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -33,9 +32,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 relative">
-      {/* Animated Highlights Bar */}
-      <AnimatedHighlights />
-      
       {/* Main Content */}
       <Hero />
       <AboutPreview />

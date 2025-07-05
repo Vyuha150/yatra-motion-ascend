@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
-import { ArrowLeft, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import PageLayout from '@/components/PageLayout';
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -77,24 +76,9 @@ const Projects = () => {
     : projects.filter(project => project.category === activeFilter);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Home</span>
-          </Link>
-          <img 
-            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-            alt="Yatra Elevators Logo" 
-            className="h-10 w-auto"
-          />
-        </div>
-      </div>
-
+    <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Our Projects</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -183,23 +167,7 @@ const Projects = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Start Your Project With Us</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Ready to begin your elevator installation? Contact our team to discuss 
-            your requirements and get a customized solution for your project.
-          </p>
-          <Link to="/contact">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4">
-              Get Started
-            </Button>
-          </Link>
-        </div>
-      </section>
-    </div>
+    </PageLayout>
   );
 };
 

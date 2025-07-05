@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { ArrowLeft, Home, Users, Truck, Zap, Settings, Wrench, RefreshCw } from 'lucide-react';
+import { Home, Users, Truck, Zap, Settings, Wrench, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import PageLayout from '@/components/PageLayout';
 
 const Products = () => {
   const products = [
@@ -40,39 +41,27 @@ const Products = () => {
     {
       icon: Settings,
       title: "Installation",
-      description: "Professional installation services with quality assurance and timely completion."
+      description: "Professional installation services with quality assurance and timely completion.",
+      image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=300&h=200&fit=crop"
     },
     {
       icon: Wrench,
       title: "Maintenance",
-      description: "Comprehensive maintenance programs to ensure optimal performance and safety."
+      description: "Comprehensive maintenance programs to ensure optimal performance and safety.",
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300&h=200&fit=crop"
     },
     {
       icon: RefreshCw,
       title: "Modernization",
-      description: "Upgrade your existing elevators with latest technology and safety features."
+      description: "Upgrade your existing elevators with latest technology and safety features.",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=200&fit=crop"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Home</span>
-          </Link>
-          <img 
-            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-            alt="Yatra Elevators Logo" 
-            className="h-10 w-auto"
-          />
-        </div>
-      </div>
-
+    <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Products & Services</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -127,6 +116,11 @@ const Products = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <div key={index} className="text-center p-8 bg-slate-50 rounded-lg hover:shadow-lg transition-shadow duration-300">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-40 object-cover rounded-lg mb-6"
+                />
                 <service.icon className="h-16 w-16 text-blue-600 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
                 <p className="text-gray-700 mb-6">{service.description}</p>
@@ -165,7 +159,7 @@ const Products = () => {
           </div>
         </div>
       </section>
-    </div>
+    </PageLayout>
   );
 };
 

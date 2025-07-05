@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { ArrowLeft, Briefcase, MapPin, Clock, Users } from 'lucide-react';
+import { Briefcase, MapPin, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import PageLayout from '@/components/PageLayout';
 
 const Careers = () => {
   const jobOpenings = [
@@ -41,24 +41,9 @@ const Careers = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Home</span>
-          </Link>
-          <img 
-            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-            alt="Yatra Elevators Logo" 
-            className="h-10 w-auto"
-          />
-        </div>
-      </div>
-
+    <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Join Our Team</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -74,21 +59,41 @@ const Careers = () => {
           <h2 className="text-4xl font-bold text-center mb-12">Why Choose Yatra Elevators?</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&h=200&fit=crop" 
+                alt="Great team" 
+                className="w-full h-32 object-cover rounded-lg mb-4"
+              />
               <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Great Team</h3>
               <p className="text-gray-700">Work with passionate professionals who care about excellence.</p>
             </div>
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=300&h=200&fit=crop" 
+                alt="Career growth" 
+                className="w-full h-32 object-cover rounded-lg mb-4"
+              />
               <Briefcase className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Career Growth</h3>
               <p className="text-gray-700">Opportunities for professional development and advancement.</p>
             </div>
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=300&h=200&fit=crop" 
+                alt="Great locations" 
+                className="w-full h-32 object-cover rounded-lg mb-4"
+              />
               <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Great Locations</h3>
               <p className="text-gray-700">Work across major cities in South India with travel opportunities.</p>
             </div>
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=300&h=200&fit=crop" 
+                alt="Work-life balance" 
+                className="w-full h-32 object-cover rounded-lg mb-4"
+              />
               <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Work-Life Balance</h3>
               <p className="text-gray-700">Flexible working arrangements and comprehensive benefits.</p>
@@ -166,32 +171,7 @@ const Careers = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Join Us?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Don't see a position that matches your skills? Send us your resume 
-            and we'll keep you in mind for future opportunities.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4">
-                Send Resume
-              </Button>
-            </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4"
-            >
-              View All Openings
-            </Button>
-          </div>
-        </div>
-      </section>
-    </div>
+    </PageLayout>
   );
 };
 

@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import PageLayout from '@/components/PageLayout';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -22,29 +22,13 @@ const ContactUs = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log('Form submitted:', formData);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Home</span>
-          </Link>
-          <img 
-            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-            alt="Yatra Elevators Logo" 
-            className="h-10 w-auto"
-          />
-        </div>
-      </div>
-
+    <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Contact Us</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -61,6 +45,15 @@ const ContactUs = () => {
             {/* Contact Information */}
             <div>
               <h2 className="text-3xl font-bold mb-8">Get in Touch</h2>
+              
+              {/* Office Image */}
+              <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
+                <img 
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=300&fit=crop" 
+                  alt="Our office" 
+                  className="w-full h-48 object-cover"
+                />
+              </div>
               
               <div className="space-y-6 mb-8">
                 <div className="flex items-start space-x-4">
@@ -223,7 +216,7 @@ const ContactUs = () => {
           </div>
         </div>
       </section>
-    </div>
+    </PageLayout>
   );
 };
 

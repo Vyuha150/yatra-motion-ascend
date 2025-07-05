@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { ArrowLeft, Users, Target, Award, Clock } from 'lucide-react';
+import { Users, Target, Award, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import PageLayout from '@/components/PageLayout';
 
 const AboutUs = () => {
   const teamMembers = [
@@ -27,24 +28,9 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Home</span>
-          </Link>
-          <img 
-            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-            alt="Yatra Elevators Logo" 
-            className="h-10 w-auto"
-          />
-        </div>
-      </div>
-
+    <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">About YATRA ELEVATORS</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -54,23 +40,32 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Our Story */}
+      {/* Our Story with Image */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12">Our Story</h2>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg text-gray-700 mb-6">
-                Founded with a vision to revolutionize vertical transportation in South India, 
-                Yatra Elevators has been at the forefront of elevator technology and service excellence. 
-                Our journey began with a simple mission: to provide reliable, safe, and smart elevator solutions 
-                that exceed customer expectations.
-              </p>
-              <p className="text-lg text-gray-700 mb-6">
-                Over the years, we have successfully completed 50+ installations across South India, 
-                establishing ourselves as a trusted name in the elevator industry. Our commitment to 
-                quality, innovation, and customer satisfaction drives everything we do.
-              </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold mb-8">Our Story</h2>
+              <div className="prose prose-lg max-w-none">
+                <p className="text-lg text-gray-700 mb-6">
+                  Founded with a vision to revolutionize vertical transportation in South India, 
+                  Yatra Elevators has been at the forefront of elevator technology and service excellence. 
+                  Our journey began with a simple mission: to provide reliable, safe, and smart elevator solutions 
+                  that exceed customer expectations.
+                </p>
+                <p className="text-lg text-gray-700 mb-6">
+                  Over the years, we have successfully completed 50+ installations across South India, 
+                  establishing ourselves as a trusted name in the elevator industry. Our commitment to 
+                  quality, innovation, and customer satisfaction drives everything we do.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop" 
+                alt="Modern office building" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -100,12 +95,17 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Values */}
+      {/* Values with Images */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Our Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&h=200&fit=crop" 
+                alt="Customer service" 
+                className="w-full h-40 object-cover rounded-lg mb-4"
+              />
               <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Customer First</h3>
               <p className="text-gray-700">
@@ -113,6 +113,11 @@ const AboutUs = () => {
               </p>
             </div>
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=300&h=200&fit=crop" 
+                alt="Quality excellence" 
+                className="w-full h-40 object-cover rounded-lg mb-4"
+              />
               <Award className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Quality Excellence</h3>
               <p className="text-gray-700">
@@ -120,6 +125,11 @@ const AboutUs = () => {
               </p>
             </div>
             <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=300&h=200&fit=crop" 
+                alt="Reliability" 
+                className="w-full h-40 object-cover rounded-lg mb-4"
+              />
               <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-3">Reliability</h3>
               <p className="text-gray-700">
@@ -179,7 +189,7 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-    </div>
+    </PageLayout>
   );
 };
 

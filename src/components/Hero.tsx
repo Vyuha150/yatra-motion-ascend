@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, Phone, Download, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import HeaderAuth from './HeaderAuth';
+import ContactModal from './ContactModal';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -23,6 +24,20 @@ const Hero = () => {
       clearInterval(slideInterval);
     };
   }, []);
+
+  const handleDownloadBrochure = () => {
+    // Create a dummy PDF download
+    const link = document.createElement('a');
+    link.href = 'data:application/pdf;base64,'; // You would put actual PDF data here
+    link.download = 'Yatra_Elevators_Brochure.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleCallRequest = () => {
+    window.open('tel:+911234567890');
+  };
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
@@ -74,18 +89,21 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in delay-700">
-            <Button 
-              size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <Phone className="mr-2 h-5 w-5" />
-              Get a Quote
-            </Button>
+            <ContactModal buttonText="Get a Quote">
+              <Button 
+                size="lg" 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <Phone className="mr-2 h-5 w-5" />
+                Get a Quote
+              </Button>
+            </ContactModal>
             
             <Button 
               variant="outline" 
               size="lg"
               className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
+              onClick={handleDownloadBrochure}
             >
               <Download className="mr-2 h-5 w-5" />
               Download Brochure
@@ -95,6 +113,7 @@ const Hero = () => {
               variant="ghost" 
               size="lg"
               className="text-blue-300 hover:text-white hover:bg-blue-600/20 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
+              onClick={handleCallRequest}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
               Request Call Back

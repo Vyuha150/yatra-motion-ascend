@@ -14,7 +14,7 @@ const AdminButton = () => {
 
   return (
     <Link to="/admin">
-      <Button variant="outline" size="sm">
+      <Button variant="outline" size="sm" className="border-white text-white hover:bg-white hover:text-slate-900 h-10">
         <Shield className="h-4 w-4 mr-2" />
         Admin
       </Button>

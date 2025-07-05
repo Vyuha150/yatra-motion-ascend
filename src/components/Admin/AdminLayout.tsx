@@ -4,11 +4,12 @@ import { useAuth } from '../Auth/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LogOut, Users, MessageSquare, Building, Package } from 'lucide-react';
+import { LogOut, Users, MessageSquare, Building, Package, BarChart3 } from 'lucide-react';
 import ContactsManager from './ContactsManager';
 import ProjectsManager from './ProjectsManager';
 import ProductsManager from './ProductsManager';
 import UsersManager from './UsersManager';
+import AdminDashboard from './AdminDashboard';
 
 const AdminLayout = () => {
   const { signOut, profile } = useAuth();
@@ -46,8 +47,12 @@ const AdminLayout = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="contacts" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs defaultValue="dashboard" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
             <TabsTrigger value="contacts" className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4" />
               Contacts
@@ -65,6 +70,10 @@ const AdminLayout = () => {
               Users
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="dashboard">
+            <AdminDashboard />
+          </TabsContent>
 
           <TabsContent value="contacts">
             <ContactsManager />

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface FloatingNavButtonProps {
   onToggle: (isOpen: boolean) => void;
@@ -9,12 +10,12 @@ interface FloatingNavButtonProps {
 
 const EscalatorIcon = () => (
   <svg 
-    width="32" 
-    height="32" 
+    width="24" 
+    height="24" 
     viewBox="0 0 24 24" 
     fill="none" 
     xmlns="http://www.w3.org/2000/svg"
-    className="h-8 w-8"
+    className="h-6 w-6"
   >
     {/* Up Arrow */}
     <path 
@@ -41,17 +42,18 @@ const FloatingNavButton = ({ onToggle, isNavOpen }: FloatingNavButtonProps) => {
   };
 
   return (
-    <div className="fixed right-4 top-4 z-50">
-      <button
+    <div className="fixed right-6 top-6 z-50">
+      <Button
         onClick={handleClick}
-        className="w-16 h-16 rounded-full text-white hover:text-blue-300 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+        size="lg"
+        className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
       >
         {isNavOpen ? (
-          <X className="h-8 w-8" />
+          <X className="h-6 w-6" />
         ) : (
           <EscalatorIcon />
         )}
-      </button>
+      </Button>
     </div>
   );
 };

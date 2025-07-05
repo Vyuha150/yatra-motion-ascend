@@ -25,13 +25,15 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-      {/* Logo in top-left corner - larger and without background */}
-      <div className="absolute top-4 left-4 z-20">
-        <img 
-          src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-          alt="Yatra Elevators Logo" 
-          className="h-16 w-auto"
-        />
+      {/* Logo in top-left corner */}
+      <div className="absolute top-6 left-6 z-20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
+          <img 
+            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
+            alt="Yatra Elevators Logo" 
+            className="h-12 w-auto"
+          />
+        </div>
       </div>
 
       {/* Background Slider */}

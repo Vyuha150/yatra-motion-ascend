@@ -1,9 +1,8 @@
 
 import React from 'react';
-import { Home, Users, Truck, Zap, Settings, Wrench, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Home, Users, Truck, Zap, Settings, Wrench, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import PageLayout from '../components/PageLayout';
 
 const Products = () => {
   const products = [
@@ -41,32 +40,40 @@ const Products = () => {
     {
       icon: Settings,
       title: "Installation",
-      description: "Professional installation services with quality assurance and timely completion.",
-      image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=300&fit=crop"
+      description: "Professional installation services with quality assurance and timely completion."
     },
     {
       icon: Wrench,
       title: "Maintenance",
-      description: "Comprehensive maintenance programs to ensure optimal performance and safety.",
-      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop"
+      description: "Comprehensive maintenance programs to ensure optimal performance and safety."
     },
     {
       icon: RefreshCw,
       title: "Modernization",
-      description: "Upgrade your existing elevators with latest technology and safety features.",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop"
+      description: "Upgrade your existing elevators with latest technology and safety features."
     }
   ];
 
   return (
-    <PageLayout>
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2">
+            <ArrowLeft className="h-5 w-5" />
+            <span>Back to Home</span>
+          </Link>
+          <img 
+            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
+            alt="Yatra Elevators Logo" 
+            className="h-10 w-auto"
+          />
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="pt-24 pb-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop')" }}
-        />
-        <div className="container mx-auto px-4 text-center relative z-10">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Products & Services</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
             Discover our comprehensive range of elevator solutions designed to meet 
@@ -119,20 +126,13 @@ const Products = () => {
           <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-slate-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <img 
-                  src={service.image} 
-                  alt={service.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-8 text-center">
-                  <service.icon className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-                  <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                  <p className="text-gray-700 mb-6">{service.description}</p>
-                  <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
-                    Get Quote
-                  </Button>
-                </div>
+              <div key={index} className="text-center p-8 bg-slate-50 rounded-lg hover:shadow-lg transition-shadow duration-300">
+                <service.icon className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+                <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
+                <p className="text-gray-700 mb-6">{service.description}</p>
+                <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+                  Get Quote
+                </Button>
               </div>
             ))}
           </div>
@@ -165,7 +165,7 @@ const Products = () => {
           </div>
         </div>
       </section>
-    </PageLayout>
+    </div>
   );
 };
 

@@ -1,65 +1,55 @@
 
 import React from 'react';
-import { Award, Users, Clock, Shield, Target, Eye, Heart } from 'lucide-react';
+import { ArrowLeft, Users, Target, Award, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import PageLayout from '../components/PageLayout';
 
 const AboutUs = () => {
-  const values = [
-    {
-      icon: Shield,
-      title: "Safety First",
-      description: "Every elevator we install meets the highest safety standards with rigorous testing."
-    },
-    {
-      icon: Award,
-      title: "Quality Excellence",
-      description: "ISI certified products with premium components for lasting performance."
-    },
-    {
-      icon: Clock,
-      title: "Reliable Service",
-      description: "24/7 maintenance support with guaranteed response times."
-    },
-    {
-      icon: Heart,
-      title: "Customer Care",
-      description: "Building lasting relationships through exceptional service and support."
-    }
-  ];
-
   const teamMembers = [
     {
       name: "Rajesh Kumar",
       position: "Founder & CEO",
+      experience: "15+ Years",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face"
     },
     {
       name: "Priya Sharma",
       position: "Technical Director",
+      experience: "12+ Years",
       image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face"
     },
     {
-      name: "Amit Patel",
-      position: "Operations Manager",
+      name: "Arjun Patel",
+      position: "Service Manager",
+      experience: "10+ Years",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face"
     }
   ];
 
   return (
-    <PageLayout>
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2">
+            <ArrowLeft className="h-5 w-5" />
+            <span>Back to Home</span>
+          </Link>
+          <img 
+            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
+            alt="Yatra Elevators Logo" 
+            className="h-10 w-auto"
+          />
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="pt-24 pb-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop')" }}
-        />
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-5xl font-bold mb-6 animate-fade-in">About Yatra Elevators</h1>
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-5xl font-bold mb-6 animate-fade-in">About YATRA ELEVATORS</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
-            Leading South India's vertical transportation revolution with innovative 
-            elevator solutions and unmatched service excellence since our inception.
+            Your trusted partner in vertical transportation solutions across South India. 
+            We combine innovation, reliability, and exceptional service to elevate your experience.
           </p>
         </div>
       </section>
@@ -67,94 +57,96 @@ const AboutUs = () => {
       {/* Our Story */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">Our Story</h2>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-12">Our Story</h2>
+            <div className="prose prose-lg max-w-none">
               <p className="text-lg text-gray-700 mb-6">
                 Founded with a vision to revolutionize vertical transportation in South India, 
-                Yatra Elevators has grown from a small startup to a trusted name in the elevator industry.
+                Yatra Elevators has been at the forefront of elevator technology and service excellence. 
+                Our journey began with a simple mission: to provide reliable, safe, and smart elevator solutions 
+                that exceed customer expectations.
               </p>
               <p className="text-lg text-gray-700 mb-6">
-                Over the years, we've installed and maintained hundreds of elevators across 
-                residential, commercial, and industrial sectors, always prioritizing safety, 
-                reliability, and customer satisfaction.
+                Over the years, we have successfully completed 50+ installations across South India, 
+                establishing ourselves as a trusted name in the elevator industry. Our commitment to 
+                quality, innovation, and customer satisfaction drives everything we do.
               </p>
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
-                  <div className="text-gray-600">Installations</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
-                  <div className="text-gray-600">Years Experience</div>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" 
-                alt="Modern Building with Elevators"
-                className="rounded-lg shadow-lg"
-              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12">
-            <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+            <div className="text-center">
               <Target className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
-              <p className="text-gray-700">
-                To provide safe, reliable, and innovative vertical transportation solutions 
-                that enhance the quality of life and contribute to sustainable urban development.
+              <h3 className="text-3xl font-bold mb-4">Our Mission</h3>
+              <p className="text-lg text-gray-700">
+                To provide world-class elevator solutions with uncompromising quality, 
+                safety, and reliability while ensuring exceptional customer service and support.
               </p>
             </div>
-            <div className="text-center p-8 bg-white rounded-lg shadow-lg">
-              <Eye className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-              <p className="text-gray-700">
-                To be South India's most trusted elevator company, known for excellence in 
-                technology, service, and customer satisfaction.
+            <div className="text-center">
+              <Award className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+              <h3 className="text-3xl font-bold mb-4">Our Vision</h3>
+              <p className="text-lg text-gray-700">
+                To be the leading elevator company in South India, recognized for innovation, 
+                quality, and customer satisfaction in vertical transportation solutions.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Values */}
+      {/* Values */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Our Values</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <div key={index} className="text-center p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <value.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                <p className="text-gray-700">{value.description}</p>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-3">Customer First</h3>
+              <p className="text-gray-700">
+                Every decision we make is centered around our customers' needs and satisfaction.
+              </p>
+            </div>
+            <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <Award className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-3">Quality Excellence</h3>
+              <p className="text-gray-700">
+                We maintain the highest standards in products, services, and processes.
+              </p>
+            </div>
+            <div className="text-center p-6 bg-white rounded-lg shadow-lg">
+              <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-3">Reliability</h3>
+              <p className="text-gray-700">
+                Our commitment to dependable service and support you can count on.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Team */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Meet Our Team</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <div key={index} className="text-center bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                />
+              <div key={index} className="text-center group">
+                <div className="relative overflow-hidden rounded-full w-48 h-48 mx-auto mb-6">
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                <p className="text-blue-600 font-medium">{member.position}</p>
+                <p className="text-blue-600 font-medium mb-1">{member.position}</p>
+                <p className="text-gray-600">{member.experience}</p>
               </div>
             ))}
           </div>
@@ -164,30 +156,30 @@ const AboutUs = () => {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Experience Excellence?</h2>
+          <h2 className="text-4xl font-bold mb-6">Ready to Elevate Your Experience?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join hundreds of satisfied customers who trust Yatra Elevators 
-            for their vertical transportation needs.
+            Get in touch with our team to discuss your elevator needs and discover 
+            how we can provide the perfect solution for your project.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/products">
+            <Link to="/contact">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4">
-                Explore Products
+                Contact Us
               </Button>
             </Link>
-            <Link to="/contact">
+            <Link to="/products">
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4"
               >
-                Contact Us
+                Explore Products
               </Button>
             </Link>
           </div>
         </div>
       </section>
-    </PageLayout>
+    </div>
   );
 };
 

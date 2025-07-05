@@ -2,6 +2,7 @@
 import React from 'react';
 import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 interface VerticalNavbarProps {
   isOpen: boolean;
@@ -9,13 +10,15 @@ interface VerticalNavbarProps {
 }
 
 const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
+  const location = useLocation();
+  
   const navItems = [
-    { icon: Home, label: 'Home', href: '#home' },
-    { icon: User, label: 'About Us', href: '#about' },
-    { icon: Package, label: 'Products & Services', href: '#products' },
-    { icon: Briefcase, label: 'Projects', href: '#projects' },
-    { icon: Phone, label: 'Contact Us', href: '#contact' },
-    { icon: Users, label: 'Careers', href: '#careers' },
+    { icon: Home, label: 'Home', href: '/' },
+    { icon: User, label: 'About Us', href: '/about' },
+    { icon: Package, label: 'Products & Services', href: '/products' },
+    { icon: Briefcase, label: 'Projects', href: '/projects' },
+    { icon: Phone, label: 'Contact Us', href: '/contact' },
+    { icon: Users, label: 'Careers', href: '/careers' },
     { icon: ShoppingCart, label: 'Cart', href: '#cart' },
   ];
 
@@ -70,20 +73,20 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
           <div className="flex-1 py-6">
             <nav className="space-y-2 px-4">
               {navItems.map((item, index) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.href}
                   onClick={handleItemClick}
                   className={`flex items-center space-x-4 p-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 transform hover:translate-x-2 group ${
                     isOpen ? 'animate-fade-in' : ''
-                  }`}
+                  } ${location.pathname === item.href ? 'bg-blue-50 text-blue-600' : ''}`}
                   style={{
                     animationDelay: isOpen ? `${index * 100}ms` : '0ms',
                   }}
                 >
                   <item.icon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
                   <span className="font-medium">{item.label}</span>
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

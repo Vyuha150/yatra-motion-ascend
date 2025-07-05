@@ -28,9 +28,11 @@ const Hero = () => {
       {/* Logo in top-left corner */}
       <div className="absolute top-6 left-6 z-20">
         <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
-          <h1 className="text-2xl font-bold text-white">
-            <span className="text-blue-300">Yatra</span> Elevators
-          </h1>
+          <img 
+            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
+            alt="Yatra Elevators Logo" 
+            className="h-12 w-auto"
+          />
         </div>
       </div>
 
@@ -55,8 +57,8 @@ const Hero = () => {
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
-            <span className="block mb-2">Yatra</span>
-            <span className="text-blue-300">Elevators</span>
+            <span className="block mb-2">YATRA</span>
+            <span className="text-blue-300">ELEVATORS</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-blue-100 mb-4 animate-fade-in delay-300">

@@ -26,8 +26,12 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
       <div className="text-center">
         {/* Logo Container */}
         <div className="relative mb-8">
-          <div className="w-32 h-32 mx-auto bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center animate-scale-in shadow-2xl">
-            <div className="text-white font-bold text-2xl">YE</div>
+          <div className="w-48 h-48 mx-auto flex items-center justify-center animate-scale-in">
+            <img 
+              src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
+              alt="Yatra Elevators Logo" 
+              className="w-full h-auto animate-pulse"
+            />
           </div>
           
           {/* Animated Elevator Lines */}
@@ -41,7 +45,7 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
 
         {/* Company Name */}
         <div className="animate-fade-in" style={{animationDelay: '0.5s'}}>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Yatra Elevators</h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">YATRA ELEVATORS</h1>
           <p className="text-slate-600 font-medium">Reliable. Safe. Smart.</p>
         </div>
 

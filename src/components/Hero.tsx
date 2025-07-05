@@ -54,55 +54,62 @@ const Hero = () => {
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-6">
-        {/* Logo */}
+        {/* Logo - Left Top Corner */}
         <div className="flex items-center">
           <img 
             src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
             alt="Yatra Elevators Logo" 
-            className="h-20 w-auto"
+            className="h-24 w-auto"
           />
         </div>
 
-        {/* Navigation and Auth Buttons */}
-        <div className="flex items-center space-x-4">
-          {/* Navigation Button */}
-          <Button
-            variant="ghost"
-            size="lg"
-            className="text-white hover:text-blue-300 hover:bg-white/10 p-3"
-          >
-            <EscalatorIcon />
-          </Button>
-
-          {/* Admin Panel Button */}
-          <Link to="/admin">
+        {/* Right Side Buttons - Center section for auth buttons, far right for nav/admin */}
+        <div className="flex items-center space-x-6">
+          {/* Auth Buttons - Centered */}
+          <div className="flex items-center space-x-4">
+            {/* Sign In Button */}
             <Button
-              variant="ghost" 
+              variant="ghost"
+              size="lg"
+              className="text-white hover:text-blue-300 hover:bg-white/10 px-6 py-3 text-base font-semibold"
+            >
+              <User className="mr-2 h-5 w-5" />
+              Sign In
+            </Button>
+
+            {/* Sign Up Button */}
+            <Button
+              variant="ghost"
+              size="lg"
+              className="text-white hover:text-blue-300 hover:bg-white/10 px-6 py-3 text-base font-semibold border border-white/30"
+            >
+              <UserPlus className="mr-2 h-5 w-5" />
+              Sign Up
+            </Button>
+          </div>
+
+          {/* Admin and Nav Buttons - Far Right */}
+          <div className="flex items-center space-x-3">
+            {/* Admin Panel Button */}
+            <Link to="/admin">
+              <Button
+                variant="ghost" 
+                size="lg"
+                className="text-white hover:text-blue-300 hover:bg-white/10 p-3"
+              >
+                <Settings className="h-8 w-8" />
+              </Button>
+            </Link>
+
+            {/* Navigation Button */}
+            <Button
+              variant="ghost"
               size="lg"
               className="text-white hover:text-blue-300 hover:bg-white/10 p-3"
             >
-              <Settings className="h-8 w-8" />
+              <EscalatorIcon />
             </Button>
-          </Link>
-
-          {/* Sign In Button */}
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-6 py-3 text-base font-semibold"
-          >
-            <User className="mr-2 h-5 w-5" />
-            Sign In
-          </Button>
-
-          {/* Sign Up Button */}
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-base font-semibold"
-          >
-            <UserPlus className="mr-2 h-5 w-5" />
-            Sign Up
-          </Button>
+          </div>
         </div>
       </header>
 
@@ -124,7 +131,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-24">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-32">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
             <span className="block mb-2">YATRA</span>

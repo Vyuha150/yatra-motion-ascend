@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Phone, Download, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import HeaderAuth from './HeaderAuth';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -25,8 +26,8 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-      {/* Logo in top-left corner */}
-      <div className="absolute top-6 left-6 z-20">
+      {/* Header with Logo and Auth */}
+      <div className="absolute top-0 left-0 right-0 z-20 flex justify-between items-center p-6">
         <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
           <img 
             src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
@@ -34,6 +35,7 @@ const Hero = () => {
             className="h-12 w-auto"
           />
         </div>
+        <HeaderAuth />
       </div>
 
       {/* Background Slider */}
@@ -54,7 +56,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-20">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
             <span className="block mb-2">YATRA</span>

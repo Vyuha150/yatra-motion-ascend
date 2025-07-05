@@ -5,14 +5,6 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentHighlight, setCurrentHighlight] = useState(0);
-
-  const highlights = [
-    "50+ Lift Installations Across South India",
-    "MRL Lifts Available - Space Efficient",
-    "ISI Certified & Energy Efficient",
-    "24/7 Customer Support Available"
-  ];
 
   const heroImages = [
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop",
@@ -26,24 +18,19 @@ const Hero = () => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 5000);
 
-    const highlightInterval = setInterval(() => {
-      setCurrentHighlight((prev) => (prev + 1) % highlights.length);
-    }, 3000);
-
     return () => {
       clearInterval(slideInterval);
-      clearInterval(highlightInterval);
     };
   }, []);
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-      {/* Animated Highlights Bar */}
-      <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-r from-blue-600 to-blue-700 py-3">
-        <div className="container mx-auto px-4">
-          <div className="text-center text-white font-medium animate-fade-in">
-            {highlights[currentHighlight]}
-          </div>
+      {/* Logo in top-left corner */}
+      <div className="absolute top-6 left-6 z-20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
+          <h1 className="text-2xl font-bold text-white">
+            <span className="text-blue-300">Yatra</span> Elevators
+          </h1>
         </div>
       </div>
 
@@ -65,7 +52,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-16">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
             <span className="block mb-2">Yatra</span>

@@ -1,34 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Phone, Download, MessageCircle, Settings, User, UserPlus } from 'lucide-react';
+import { ChevronDown, Phone, Download, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-
-const EscalatorIcon = () => (
-  <svg 
-    width="32" 
-    height="32" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-8 w-8"
-  >
-    <path 
-      d="M7 14L12 9L17 14" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-    <path 
-      d="M17 10L12 15L7 10" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -52,62 +25,16 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-      {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-6">
-        {/* Logo - Left with white background */}
-        <div className="flex items-center">
-          <div className="bg-white rounded-lg p-2">
-            <img 
-              src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-              alt="Yatra Elevators Logo" 
-              className="h-16 w-auto"
-            />
-          </div>
+      {/* Logo in top-left corner */}
+      <div className="absolute top-6 left-6 z-20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
+          <img 
+            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
+            alt="Yatra Elevators Logo" 
+            className="h-12 w-auto"
+          />
         </div>
-
-        {/* All buttons in one line - Right side */}
-        <div className="flex items-center space-x-4">
-          {/* Sign In Button */}
-          <Button
-            variant="ghost"
-            size="lg"
-            className="text-white hover:text-blue-300 hover:bg-white/10 px-6 py-3 text-base font-semibold"
-          >
-            <User className="mr-2 h-5 w-5" />
-            Sign In
-          </Button>
-
-          {/* Sign Up Button */}
-          <Button
-            variant="ghost"
-            size="lg"
-            className="text-white hover:text-blue-300 hover:bg-white/10 px-6 py-3 text-base font-semibold border border-white/30"
-          >
-            <UserPlus className="mr-2 h-5 w-5" />
-            Sign Up
-          </Button>
-
-          {/* Admin Panel Button */}
-          <Link to="/admin">
-            <Button
-              variant="ghost" 
-              size="lg"
-              className="text-white hover:text-blue-300 hover:bg-white/10 p-3"
-            >
-              <Settings className="h-8 w-8" />
-            </Button>
-          </Link>
-
-          {/* Navigation Button */}
-          <Button
-            variant="ghost"
-            size="lg"
-            className="text-white hover:text-blue-300 hover:bg-white/10 p-3"
-          >
-            <EscalatorIcon />
-          </Button>
-        </div>
-      </header>
+      </div>
 
       {/* Background Slider */}
       <div className="absolute inset-0 z-0">
@@ -127,7 +54,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-24">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
             <span className="block mb-2">YATRA</span>

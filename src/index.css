@@ -9,59 +9,35 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Elevator Cabin Theme Colors */
-    --background: 220 15% 12%;
-    --foreground: 210 20% 95%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 220 18% 15%;
-    --card-foreground: 210 20% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 220 18% 15%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 80% 60%;
-    --primary-foreground: 220 15% 12%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 220 25% 25%;
-    --secondary-foreground: 210 20% 95%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 220 20% 20%;
-    --muted-foreground: 210 15% 70%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 45 95% 70%;
-    --accent-foreground: 220 15% 12%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 25% 25%;
-    --input: 220 25% 25%;
-    --ring: 210 80% 60%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-
-    /* Elevator-specific colors */
-    --steel-gray: 220 15% 29%;
-    --chrome-silver: 210 15% 75%;
-    --elevator-blue: 210 80% 60%;
-    --safety-yellow: 45 95% 70%;
-    --cabin-dark: 220 15% 12%;
-    --glass-overlay: 210 50% 95%;
-    
-    /* Gradients */
-    --gradient-steel: linear-gradient(135deg, hsl(220 15% 29%), hsl(220 20% 35%));
-    --gradient-cabin: linear-gradient(180deg, hsl(220 15% 12%), hsl(220 18% 15%));
-    --gradient-glass: linear-gradient(135deg, hsla(210 50% 95% / 0.1), hsla(210 50% 95% / 0.05));
-    --gradient-button: linear-gradient(135deg, hsl(210 80% 60%), hsl(210 85% 65%));
-    
-    /* Shadows */
-    --shadow-cabin: 0 8px 32px hsla(220 15% 5% / 0.5);
-    --shadow-button: 0 4px 20px hsla(210 80% 60% / 0.3);
-    --shadow-glass: inset 0 1px 2px hsla(210 50% 95% / 0.1);
-    
-    /* Animations */
-    --transition-elevator: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-button: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -129,78 +105,23 @@ All colors MUST be HSL.
   }
 }
 
-/* Elevator-themed animations and utilities */
+/* Custom animations and utilities */
 @layer utilities {
-  /* Elevator cabin styles */
-  .cabin-bg {
-    background: var(--gradient-cabin);
-    box-shadow: var(--shadow-cabin);
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
   
-  .steel-panel {
-    background: var(--gradient-steel);
-    box-shadow: var(--shadow-glass);
+  .delay-300 {
+    animation-delay: 300ms;
   }
   
-  .glass-overlay {
-    background: var(--gradient-glass);
-    backdrop-filter: blur(10px);
+  .delay-500 {
+    animation-delay: 500ms;
   }
   
-  .elevator-button {
-    background: var(--gradient-button);
-    box-shadow: var(--shadow-button);
-    transition: var(--transition-button);
+  .delay-700 {
+    animation-delay: 700ms;
   }
-  
-  .elevator-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px hsla(210 80% 60% / 0.4);
-  }
-  
-  .elevator-button:active {
-    transform: translateY(0);
-  }
-
-  /* Floor transition animations */
-  .floor-transition {
-    transition: var(--transition-elevator);
-  }
-  
-  .floor-up {
-    animation: floorUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .floor-down {
-    animation: floorDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  /* Elevator doors animation */
-  .doors-opening {
-    animation: doorsOpening 2s ease-out;
-  }
-  
-  .doors-closing {
-    animation: doorsClosing 2s ease-in;
-  }
-  
-  /* LED floor display */
-  .led-display {
-    color: hsl(var(--safety-yellow));
-    text-shadow: 0 0 10px hsl(var(--safety-yellow)), 0 0 20px hsl(var(--safety-yellow));
-    font-family: 'Courier New', monospace;
-  }
-  
-  /* Button panel glow */
-  .button-glow {
-    box-shadow: 0 0 15px hsla(210 80% 60% / 0.6);
-  }
-  
-  /* Delay utilities */
-  .delay-300 { animation-delay: 300ms; }
-  .delay-500 { animation-delay: 500ms; }
-  .delay-700 { animation-delay: 700ms; }
-  .delay-1000 { animation-delay: 1000ms; }
 
   .line-clamp-3 {
     display: -webkit-box;
@@ -208,86 +129,48 @@ All colors MUST be HSL.
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 2s ease-in-out infinite;
+  }
+
+  .animate-stagger-in {
+    animation: staggerIn 0.6s ease-out forwards;
+  }
 }
 
-/* Elevator-themed keyframes */
-@keyframes doorsOpening {
-  0% {
-    transform: scaleX(1);
-    opacity: 1;
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
   }
   50% {
-    transform: scaleX(0.8);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scaleX(1);
-    opacity: 1;
+    transform: translateY(-10px);
   }
 }
 
-@keyframes doorsClosing {
-  0% {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleX(0);
-    opacity: 0;
-  }
-}
-
-@keyframes floorUp {
-  0% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes floorDown {
-  0% {
-    transform: translateY(-100vh);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes ledFlicker {
+@keyframes slideUp {
   0%, 100% {
-    opacity: 1;
-    text-shadow: 0 0 10px hsl(var(--safety-yellow)), 0 0 20px hsl(var(--safety-yellow));
+    transform: translateY(20px);
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.8;
-    text-shadow: 0 0 5px hsl(var(--safety-yellow)), 0 0 10px hsl(var(--safety-yellow));
+    transform: translateY(-20px);
+    opacity: 1;
   }
 }
 
-@keyframes buttonPulse {
-  0%, 100% {
-    box-shadow: 0 4px 20px hsla(210 80% 60% / 0.3);
+@keyframes staggerIn {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
   }
-  50% {
-    box-shadow: 0 4px 25px hsla(210 80% 60% / 0.5);
-  }
-}
-
-@keyframes cabinHum {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  25% {
-    transform: translateY(-1px);
-  }
-  75% {
-    transform: translateY(1px);
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 

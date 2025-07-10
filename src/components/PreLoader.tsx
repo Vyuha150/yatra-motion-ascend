@@ -94,29 +94,38 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
         </div>
       </div>
 
-      {/* Elevator Doors */}
+      {/* Enhanced Elevator Doors */}
       <div className="absolute inset-0 z-20 pointer-events-none">
         {/* Left Door */}
         <div 
-          className={`absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-secondary to-muted border-r-2 border-primary/30 transition-transform duration-1500 ease-out ${
-            doorsOpen ? 'animate-elevator-doors-open' : ''
+          className={`absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-slate-700 via-slate-600 to-slate-500 border-r border-slate-400 transition-transform duration-1500 ease-out shadow-2xl ${
+            doorsOpen ? '-translate-x-full' : 'translate-x-0'
           }`}
         >
-          {/* Door Panel Details */}
-          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-1 h-32 bg-border rounded-full" />
-          <div className="absolute right-8 top-1/3 w-6 h-8 glass-reflection rounded border border-border" />
+          {/* Enhanced Door Panel Details */}
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 w-1 h-40 bg-slate-400 rounded-full shadow-inner" />
+          <div className="absolute right-6 top-1/3 w-8 h-12 bg-slate-800 rounded border border-slate-400 shadow-lg" />
+          <div className="absolute right-6 bottom-1/3 w-8 h-12 bg-slate-800 rounded border border-slate-400 shadow-lg" />
+          
+          {/* Vertical Grooves */}
+          <div className="absolute right-12 top-0 bottom-0 w-px bg-slate-400 opacity-60" />
+          <div className="absolute right-16 top-0 bottom-0 w-px bg-slate-400 opacity-40" />
         </div>
         
         {/* Right Door */}
         <div 
-          className={`absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-secondary to-muted border-l-2 border-primary/30 transition-transform duration-1500 ease-out ${
-            doorsOpen ? 'animate-elevator-doors-open' : ''
+          className={`absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-slate-700 via-slate-600 to-slate-500 border-l border-slate-400 transition-transform duration-1500 ease-out shadow-2xl ${
+            doorsOpen ? 'translate-x-full' : 'translate-x-0'
           }`}
-          style={{ transform: doorsOpen ? 'translateX(100%)' : 'translateX(0%)' }}
         >
-          {/* Door Panel Details */}
-          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 w-1 h-32 bg-border rounded-full" />
-          <div className="absolute left-8 top-1/3 w-6 h-8 glass-reflection rounded border border-border" />
+          {/* Enhanced Door Panel Details */}
+          <div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-1 h-40 bg-slate-400 rounded-full shadow-inner" />
+          <div className="absolute left-6 top-1/3 w-8 h-12 bg-slate-800 rounded border border-slate-400 shadow-lg" />
+          <div className="absolute left-6 bottom-1/3 w-8 h-12 bg-slate-800 rounded border border-slate-400 shadow-lg" />
+          
+          {/* Vertical Grooves */}
+          <div className="absolute left-12 top-0 bottom-0 w-px bg-slate-400 opacity-60" />
+          <div className="absolute left-16 top-0 bottom-0 w-px bg-slate-400 opacity-40" />
         </div>
       </div>
     </div>

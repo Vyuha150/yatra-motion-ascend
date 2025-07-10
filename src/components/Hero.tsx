@@ -41,16 +41,18 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-      {/* Header with Logo and Auth */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex justify-between items-center p-6">
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/20">
+      {/* Header with Centered Logo */}
+      <div className="absolute top-0 left-0 right-0 z-20 flex justify-center items-center p-6">
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl px-8 py-4 border border-white/30 shadow-2xl">
           <img 
             src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
             alt="Yatra Elevators Logo" 
-            className="h-12 w-auto"
+            className="h-16 w-auto drop-shadow-lg"
           />
         </div>
-        <HeaderAuth />
+        <div className="absolute top-6 right-6">
+          <HeaderAuth />
+        </div>
       </div>
 
       {/* Background Slider */}
@@ -73,16 +75,16 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-20">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in elevator-text-glow">
             <span className="block mb-2">YATRA</span>
             <span className="text-blue-300">ELEVATORS</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-blue-100 mb-4 animate-fade-in delay-300">
+          <p className="text-xl md:text-2xl text-white mb-4 animate-fade-in delay-300 drop-shadow-lg">
             Reliable. Safe. Smart.
           </p>
           
-          <p className="text-lg text-slate-300 mb-12 max-w-2xl mx-auto animate-fade-in delay-500">
+          <p className="text-lg text-white mb-12 max-w-2xl mx-auto animate-fade-in delay-500 drop-shadow-lg">
             Premium elevator solutions with lifetime service commitment. 
             Experience excellence in vertical transportation across South India.
           </p>

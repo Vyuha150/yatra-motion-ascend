@@ -113,8 +113,17 @@ All colors MUST be HSL.
   }
 }
 
-/* Elevator-themed animations and utilities */
+  /* Elevator-themed animations and utilities */
 @layer utilities {
+  /* Enhanced Text Visibility */
+  .elevator-text-glow {
+    color: #ffffff;
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(255, 255, 255, 0.4);
+  }
+  
   /* Elevator Door Animations */
   .elevator-doors-open {
     animation: elevatorDoorsOpen 1.5s ease-out forwards;
@@ -127,6 +136,11 @@ All colors MUST be HSL.
   /* Floor Transition */
   .floor-transition {
     animation: floorTransition 0.8s ease-in-out;
+  }
+  
+  /* LED Glow Effect */
+  .led-glow {
+    filter: drop-shadow(0 0 8px currentColor);
   }
   
   /* Elevator Panel Glow */

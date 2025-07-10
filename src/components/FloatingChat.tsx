@@ -1,98 +1,79 @@
-
 import React, { useState } from 'react';
-import { MessageCircle, X, Phone, Mail } from 'lucide-react';
+import { MessageCircle, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
 
 const FloatingChat = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const toggleChat = () => setIsOpen(!isOpen);
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      // Here you would typically send the message to your backend
+      console.log('Sending message:', message);
+      setMessage('');
+      setIsOpen(false);
+      // You could show a toast notification here
+    }
+  };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      {/* Chat Widget */}
-      {isOpen && (
-        <Card className="mb-4 w-80 shadow-2xl border-0 animate-scale-in">
-          <CardContent className="p-0">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-t-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-white font-bold">Need Help?</h3>
-                  <p className="text-blue-100 text-sm">We're here to assist you</p>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleChat}
-                  className="text-white hover:bg-white/20 p-1 h-8 w-8"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-4 bg-white">
-              <p className="text-slate-700 mb-4 text-sm">
-                Get instant support for your elevator needs. Our experts are ready to help!
-              </p>
-
-              <div className="space-y-3">
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white justify-start"
-                  size="sm"
-                >
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  Chat on WhatsApp
-                </Button>
-
-                <Button 
-                  variant="outline"
-                  className="w-full justify-start border-blue-200 text-blue-600 hover:bg-blue-50"
-                  size="sm"
-                >
-                  <Phone className="mr-2 h-4 w-4" />
-                  Call +91 98765 43210
-                </Button>
-
-                <Button 
-                  variant="outline"
-                  className="w-full justify-start border-slate-200 text-slate-600 hover:bg-slate-50"
-                  size="sm"
-                >
-                  <Mail className="mr-2 h-4 w-4" />
-                  Send Email
-                </Button>
-              </div>
-
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <p className="text-xs text-blue-700 font-medium">⚡ Quick Response</p>
-                <p className="text-xs text-blue-600">Average response time: 2 minutes</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Floating Button */}
+    <>
+      {/* Chat Button */}
       <Button
-        onClick={toggleChat}
-        className="h-16 w-16 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 pulse"
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full elevator-button shadow-2xl"
       >
         {isOpen ? (
-          <X className="h-6 w-6 text-white" />
+          <X className="h-6 w-6" />
         ) : (
-          <MessageCircle className="h-6 w-6 text-white" />
+          <MessageCircle className="h-6 w-6" />
         )}
       </Button>
 
-      {/* Pulse animation indicator */}
-      {!isOpen && (
-        <div className="absolute inset-0 rounded-full bg-blue-600 animate-ping opacity-20" />
+      {/* Chat Panel */}
+      {isOpen && (
+        <div className="fixed bottom-24 right-6 z-50 w-80 steel-panel rounded-lg border border-accent/30 shadow-2xl">
+          <div className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-foreground">Quick Support</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="steel-panel p-3 rounded-lg border border-accent/20">
+                <p className="text-sm text-muted-foreground">
+                  Hi! Need help with elevators? Send us a quick message and we'll get back to you.
+                </p>
+              </div>
+              
+              <Textarea
+                placeholder="Type your message here..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="min-h-[80px] resize-none"
+              />
+              
+              <Button
+                onClick={handleSendMessage}
+                className="w-full elevator-button"
+                disabled={!message.trim()}
+              >
+                <Send className="h-4 w-4 mr-2" />
+                Send Message
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

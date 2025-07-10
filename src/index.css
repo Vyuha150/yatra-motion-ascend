@@ -3,39 +3,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Elevator-themed design system with metallic textures and industrial elegance 
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    /* Elevator Steel Background Palette */
+    --background: 210 15% 8%;
+    --foreground: 0 0% 98%;
+    
+    /* Elevator Panel Colors */
+    --card: 210 10% 12%;
+    --card-foreground: 0 0% 95%;
+    
+    --popover: 210 10% 15%;
+    --popover-foreground: 0 0% 95%;
+    
+    /* Elevator Blue Theme */
+    --primary: 214 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Steel Secondary */
+    --secondary: 210 8% 25%;
+    --secondary-foreground: 0 0% 90%;
+    
+    /* Muted Steel */
+    --muted: 210 8% 18%;
+    --muted-foreground: 210 8% 65%;
+    
+    /* Electric Accent */
+    --accent: 51 100% 50%;
+    --accent-foreground: 210 15% 8%;
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    
+    /* Elevator Panel Borders */
+    --border: 210 10% 20%;
+    --input: 210 10% 15%;
+    --ring: 214 100% 50%;
 
     --radius: 0.5rem;
 
@@ -56,34 +63,35 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
+  .light {
+    /* Light mode - Elevator cabin with natural lighting */
+    --background: 210 15% 95%;
+    --foreground: 210 15% 10%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 210 15% 10%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 15% 10%;
+    
+    --primary: 214 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 210 8% 90%;
+    --secondary-foreground: 210 15% 15%;
+    
+    --muted: 210 8% 92%;
+    --muted-foreground: 210 8% 45%;
+    
+    --accent: 51 100% 45%;
+    --accent-foreground: 210 15% 10%;
+    
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    
+    --border: 210 10% 80%;
+    --input: 210 10% 85%;
+    --ring: 214 100% 45%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -105,23 +113,85 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom animations and utilities */
+/* Elevator-themed animations and utilities */
 @layer utilities {
+  /* Elevator Door Animations */
+  .elevator-doors-open {
+    animation: elevatorDoorsOpen 1.5s ease-out forwards;
+  }
+  
+  .elevator-doors-close {
+    animation: elevatorDoorsClose 1.5s ease-in forwards;
+  }
+  
+  /* Floor Transition */
+  .floor-transition {
+    animation: floorTransition 0.8s ease-in-out;
+  }
+  
+  /* Elevator Panel Glow */
+  .panel-glow {
+    box-shadow: 
+      0 0 10px hsl(var(--primary) / 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Steel Texture */
+  .steel-texture {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--secondary)) 0%,
+      hsl(var(--muted)) 25%,
+      hsl(var(--secondary)) 50%,
+      hsl(var(--muted)) 75%,
+      hsl(var(--secondary)) 100%
+    );
+    background-size: 40px 40px;
+  }
+  
+  /* Glass Reflection */
+  .glass-reflection {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Elevator Button */
+  .elevator-button {
+    position: relative;
+    background: radial-gradient(circle at 30% 30%, 
+      hsl(var(--secondary)), 
+      hsl(var(--muted))
+    );
+    border: 1px solid hsl(var(--border));
+    transition: all 0.3s ease;
+  }
+  
+  .elevator-button:hover {
+    box-shadow: 
+      0 0 15px hsl(var(--primary) / 0.5),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+  
+  .elevator-button:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Utility animations */
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
   
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-  
-  .delay-500 {
-    animation-delay: 500ms;
-  }
-  
-  .delay-700 {
-    animation-delay: 700ms;
-  }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-700 { animation-delay: 700ms; }
 
   .line-clamp-3 {
     display: -webkit-box;
@@ -130,16 +200,46 @@ All colors MUST be HSL.
     overflow: hidden;
   }
 
-  .pulse {
-    animation: pulse 2s infinite;
-  }
-
   .animate-slide-up {
     animation: slideUp 2s ease-in-out infinite;
   }
 
   .animate-stagger-in {
     animation: staggerIn 0.6s ease-out forwards;
+  }
+}
+
+/* Elevator-specific keyframe animations */
+@keyframes elevatorDoorsOpen {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes elevatorDoorsClose {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes floorTransition {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -179,20 +279,30 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* Elevator-themed scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: hsl(var(--muted));
   border-radius: 4px;
 }
 
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--primary)),
+    hsl(var(--primary) / 0.8)
+  );
+  border-radius: 4px;
+  border: 1px solid hsl(var(--border));
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--accent)),
+    hsl(var(--accent) / 0.8)
+  );
 }

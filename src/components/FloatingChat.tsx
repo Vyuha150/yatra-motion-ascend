@@ -93,20 +93,25 @@ const FloatingChat = () => {
 
       {/* Floating Button */}
       <Button
-        onClick={toggleChat}
-        className="h-16 w-16 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 pulse"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleChat();
+        }}
+        className="relative h-16 w-16 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer"
+        style={{ zIndex: 9999 }}
       >
         {isOpen ? (
           <X className="h-6 w-6 text-white" />
         ) : (
           <MessageCircle className="h-6 w-6 text-white" />
         )}
+        
+        {/* Pulse animation indicator */}
+        {!isOpen && (
+          <div className="absolute inset-0 rounded-full bg-blue-600 animate-ping opacity-20 pointer-events-none" />
+        )}
       </Button>
-
-      {/* Pulse animation indicator */}
-      {!isOpen && (
-        <div className="absolute inset-0 rounded-full bg-blue-600 animate-ping opacity-20" />
-      )}
     </div>
   );
 };

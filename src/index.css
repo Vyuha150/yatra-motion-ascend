@@ -36,6 +36,12 @@ All colors MUST be HSL.
     --accent: 51 100% 50%;
     --accent-foreground: 210 15% 8%;
     
+    /* Steel-themed elevator colors */
+    --steel-dark: 213 16% 25%;
+    --steel-medium: 213 16% 35%;
+    --steel-light: 213 16% 45%;
+    --steel-accent: 210 100% 75%;
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     

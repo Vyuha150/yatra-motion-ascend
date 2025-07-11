@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Phone, Download, MessageCircle } from 'lucide-react';
+import { ChevronDown, Phone, Download, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import HeaderAuth from './HeaderAuth';
+import CommonHeader from './CommonHeader';
 import ContactModal from './ContactModal';
 
 const Hero = () => {
@@ -41,19 +41,8 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
-      {/* Header with Centered Logo */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex justify-center items-center p-6">
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl px-8 py-4 border border-white/30 shadow-2xl">
-          <img 
-            src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-            alt="Yatra Elevators Logo" 
-            className="h-16 w-auto drop-shadow-lg"
-          />
-        </div>
-        <div className="absolute top-6 right-6">
-          <HeaderAuth />
-        </div>
-      </div>
+      {/* Common Header */}
+      <CommonHeader />
 
       {/* Background Slider */}
       <div className="absolute inset-0 z-0">
@@ -75,9 +64,9 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-20">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in elevator-text-glow">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
             <span className="block mb-2">YATRA</span>
-            <span className="text-blue-300">ELEVATORS</span>
+            <span className="text-steel-accent">ELEVATORS</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-white mb-4 animate-fade-in delay-300 drop-shadow-lg">
@@ -114,11 +103,11 @@ const Hero = () => {
             <Button 
               variant="ghost" 
               size="lg"
-              className="text-blue-300 hover:text-white hover:bg-blue-600/20 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
+              className="text-steel-accent hover:text-white hover:bg-steel-medium/20 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
               onClick={handleCallRequest}
             >
-              <MessageCircle className="mr-2 h-5 w-5" />
-              Request Call Back
+              <Calendar className="mr-2 h-5 w-5" />
+              Book Yatra Elevator Service
             </Button>
           </div>
         </div>

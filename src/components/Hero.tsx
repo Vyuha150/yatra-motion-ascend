@@ -101,9 +101,9 @@ const Hero = () => {
             </Button>
             
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="lg"
-              className="text-steel-accent hover:text-white hover:bg-steel-medium/20 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
+              className="border-2 border-steel-accent text-steel-accent hover:bg-steel-accent hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
               onClick={handleCallRequest}
             >
               <Calendar className="mr-2 h-5 w-5" />

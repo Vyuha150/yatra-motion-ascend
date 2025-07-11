@@ -41,9 +41,13 @@ const FloatingChat = () => {
 
               <div className="space-y-3">
                 <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white justify-start"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white justify-start cursor-pointer"
                   size="sm"
-                  onClick={() => window.open('https://wa.me/919876543210?text=Hello, I need help with elevator services.', '_blank')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open('https://wa.me/919876543210?text=Hello, I need help with elevator services.', '_blank');
+                  }}
                 >
                   <MessageCircle className="mr-2 h-4 w-4" />
                   Chat on WhatsApp
@@ -51,9 +55,13 @@ const FloatingChat = () => {
 
                 <Button 
                   variant="outline"
-                  className="w-full justify-start border-blue-200 text-blue-600 hover:bg-blue-50"
+                  className="w-full justify-start border-blue-200 text-blue-600 hover:bg-blue-50 cursor-pointer"
                   size="sm"
-                  onClick={() => window.open('tel:+919876543210', '_self')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open('tel:+919876543210', '_self');
+                  }}
                 >
                   <Phone className="mr-2 h-4 w-4" />
                   Call +91 98765 43210
@@ -61,9 +69,13 @@ const FloatingChat = () => {
 
                 <Button 
                   variant="outline"
-                  className="w-full justify-start border-slate-200 text-slate-600 hover:bg-slate-50"
+                  className="w-full justify-start border-slate-200 text-slate-600 hover:bg-slate-50 cursor-pointer"
                   size="sm"
-                  onClick={() => window.open('mailto:info@yatraelevators.com?subject=Elevator Service Inquiry', '_self')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open('mailto:info@yatraelevators.com?subject=Elevator Service Inquiry', '_self');
+                  }}
                 >
                   <Mail className="mr-2 h-4 w-4" />
                   Send Email

@@ -8,7 +8,7 @@ interface FloatingNavButtonProps {
   isNavOpen: boolean;
 }
 
-const ElevatorIcon = () => (
+const MenuIcon = () => (
   <svg 
     width="24" 
     height="24" 
@@ -17,17 +17,10 @@ const ElevatorIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     className="h-6 w-6"
   >
-    {/* Elevator cabin */}
-    <rect x="6" y="4" width="12" height="16" stroke="currentColor" strokeWidth="2" fill="none" rx="1"/>
-    {/* Top floor indicator */}
-    <rect x="8" y="6" width="2" height="1" fill="currentColor"/>
-    <rect x="11" y="6" width="2" height="1" fill="currentColor"/>
-    <rect x="14" y="6" width="2" height="1" fill="currentColor"/>
-    {/* Door split line */}
-    <line x1="12" y1="9" x2="12" y2="17" stroke="currentColor" strokeWidth="1"/>
-    {/* Door handles */}
-    <circle cx="10" cy="13" r="0.5" fill="currentColor"/>
-    <circle cx="14" cy="13" r="0.5" fill="currentColor"/>
+    {/* Menu lines */}
+    <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 
@@ -41,12 +34,15 @@ const FloatingNavButton = ({ onToggle, isNavOpen }: FloatingNavButtonProps) => {
       <Button
         onClick={handleClick}
         size="lg"
-        className="w-14 h-14 rounded-full bg-steel-dark hover:bg-steel-medium text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-steel-accent"
+        className="w-18 h-18 rounded-full bg-steel-dark hover:bg-steel-medium text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-steel-accent flex flex-col items-center justify-center gap-1"
       >
         {isNavOpen ? (
           <X className="h-6 w-6" />
         ) : (
-          <ElevatorIcon />
+          <>
+            <MenuIcon />
+            <span className="text-xs font-medium">Menu</span>
+          </>
         )}
       </Button>
     </div>

@@ -14,9 +14,9 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
       setDoorsOpen(true); // Start opening doors animation
       setTimeout(() => {
         setIsLoading(false);
-        setTimeout(onLoadComplete, 300); // Allow fade out animation to complete
-      }, 800); // Wait for doors to open
-    }, 1200); // Show loader for 1.2 seconds before opening doors
+        setTimeout(onLoadComplete, 500); // Allow fade out animation to complete
+      }, 1800); // Wait for doors to open slowly
+    }, 2000); // Show loader for 2 seconds before opening doors
 
     return () => clearTimeout(timer);
   }, [onLoadComplete]);
@@ -45,21 +45,43 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
       <div className="absolute inset-0 z-20 pointer-events-none">
         {/* Left Door */}
         <div 
-          className={`absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-steel-dark via-steel-medium to-steel-light border-r border-steel-accent transition-transform duration-[800ms] ease-out shadow-2xl ${
+          className={`absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-steel-dark via-steel-medium to-steel-light border-r border-steel-accent transition-transform duration-[1400ms] ease-in-out shadow-2xl ${
             doorsOpen ? '-translate-x-full' : 'translate-x-0'
           }`}
+          style={{
+            background: `linear-gradient(to right, 
+              hsl(var(--steel-dark)), 
+              hsl(var(--steel-medium)) 50%, 
+              hsl(var(--steel-light))),
+              linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)`
+          }}
         >
-          {/* Subtle door edge detail */}
+          {/* Vertical brushed metal texture lines */}
+          <div className="absolute inset-0 opacity-30" style={{
+            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)`
+          }} />
+          {/* Door edge detail */}
           <div className="absolute right-1 top-0 bottom-0 w-px bg-steel-accent shadow-inner" />
         </div>
         
         {/* Right Door */}
         <div 
-          className={`absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-steel-dark via-steel-medium to-steel-light border-l border-steel-accent transition-transform duration-[800ms] ease-out shadow-2xl ${
+          className={`absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-steel-dark via-steel-medium to-steel-light border-l border-steel-accent transition-transform duration-[1400ms] ease-in-out shadow-2xl ${
             doorsOpen ? 'translate-x-full' : 'translate-x-0'
           }`}
+          style={{
+            background: `linear-gradient(to left, 
+              hsl(var(--steel-dark)), 
+              hsl(var(--steel-medium)) 50%, 
+              hsl(var(--steel-light))),
+              linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)`
+          }}
         >
-          {/* Subtle door edge detail */}
+          {/* Vertical brushed metal texture lines */}
+          <div className="absolute inset-0 opacity-30" style={{
+            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)`
+          }} />
+          {/* Door edge detail */}
           <div className="absolute left-1 top-0 bottom-0 w-px bg-steel-accent shadow-inner" />
         </div>
       </div>

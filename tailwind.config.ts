@@ -70,6 +70,15 @@ export default {
 					accent: 'hsl(var(--steel-accent))'
 				}
 			},
+			spacing: {
+				"18": "4.5rem",
+			},
+			width: {
+				"18": "4.5rem",
+			},
+			height: {
+				"18": "4.5rem",
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',

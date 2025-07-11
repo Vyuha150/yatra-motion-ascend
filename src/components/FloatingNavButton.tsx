@@ -30,7 +30,7 @@ const FloatingNavButton = ({ onToggle, isNavOpen }: FloatingNavButtonProps) => {
   };
 
   return (
-    <div className="fixed right-6 top-20 z-50">
+    <div className="fixed right-4 top-16 z-50">
       <Button
         onClick={handleClick}
         size="lg"

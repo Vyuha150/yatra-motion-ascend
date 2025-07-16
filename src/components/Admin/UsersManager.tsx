@@ -14,7 +14,7 @@ interface Profile {
   first_name: string | null;
   last_name: string | null;
   phone: string | null;
-  role: string;
+  role: 'super_admin' | 'admin' | 'showroom_employee' | 'bulk_buyer' | 'user';
   created_at: string;
 }
 
@@ -42,7 +42,7 @@ const UsersManager = () => {
     }
   };
 
-  const updateUserRole = async (id: string, role: string) => {
+  const updateUserRole = async (id: string, role: 'super_admin' | 'admin' | 'showroom_employee' | 'bulk_buyer' | 'user') => {
     try {
       const { error } = await supabase
         .from('profiles')
@@ -105,14 +105,17 @@ const UsersManager = () => {
                   <TableCell>
                     <Select
                       value={profile.role}
-                      onValueChange={(value) => updateUserRole(profile.id, value)}
+                      onValueChange={(value: 'super_admin' | 'admin' | 'showroom_employee' | 'bulk_buyer' | 'user') => updateUserRole(profile.id, value)}
                     >
-                      <SelectTrigger className="w-24">
+                      <SelectTrigger className="w-40">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="user">User</SelectItem>
+                        <SelectItem value="showroom_employee">Showroom Employee</SelectItem>
+                        <SelectItem value="bulk_buyer">Bulk Buyer</SelectItem>
                         <SelectItem value="admin">Admin</SelectItem>
+                        <SelectItem value="super_admin">Super Admin</SelectItem>
                       </SelectContent>
                     </Select>
                   </TableCell>

@@ -41,8 +41,23 @@ const Admin = () => {
     );
   }
 
-  // For debugging: show admin panel for all logged-in users
-  // TODO: Restore proper role checking after debugging
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Access Denied</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center text-gray-600">
+              You don't have admin privileges to access this panel.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return <AdminLayout />;
 };
 

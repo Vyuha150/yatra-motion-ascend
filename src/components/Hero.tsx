@@ -86,21 +86,6 @@ const Hero = () => {
             Experience excellence in vertical transportation across South India.
           </p>
 
-          {/* Admin Panel Button - Show for ALL logged in users for debugging */}
-          {user && (
-            <div className="mb-6 animate-fade-in delay-500">
-              <Link to="/admin">
-                <Button 
-                  size="lg" 
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-yellow-400"
-                >
-                  <Shield className="mr-2 h-5 w-5" />
-                  🚀 ADMIN PANEL ACCESS ({profile?.role || 'loading...'})
-                </Button>
-              </Link>
-            </div>
-          )}
-
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in delay-700">
             <ContactModal buttonText="Book your elevator now">

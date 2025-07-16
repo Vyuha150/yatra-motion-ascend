@@ -1,12 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Phone, Download, Calendar } from 'lucide-react';
+import { ChevronDown, Phone, Download, Calendar, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CommonHeader from './CommonHeader';
 import ContactModal from './ContactModal';
+import { useAuth } from './Auth/AuthProvider';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { user, profile, isAdmin } = useAuth();
 
   const heroImages = [
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop",
@@ -77,6 +80,21 @@ const Hero = () => {
             Premium elevator solutions with lifetime service commitment. 
             Experience excellence in vertical transportation across South India.
           </p>
+
+          {/* Admin Panel Button - Only show for admin users */}
+          {isAdmin && (
+            <div className="mb-6 animate-fade-in delay-500">
+              <Link to="/admin">
+                <Button 
+                  size="lg" 
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-yellow-400"
+                >
+                  <Shield className="mr-2 h-5 w-5" />
+                  🚀 Admin Panel Access
+                </Button>
+              </Link>
+            </div>
+          )}
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in delay-700">

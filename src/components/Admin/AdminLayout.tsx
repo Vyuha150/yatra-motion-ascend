@@ -4,12 +4,29 @@ import { useAuth } from '../Auth/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LogOut, Users, MessageSquare, Building, Package, BarChart3 } from 'lucide-react';
+import { 
+  LogOut, 
+  Users, 
+  MessageSquare, 
+  Building, 
+  Package, 
+  BarChart3, 
+  ShoppingCart, 
+  FileText, 
+  Wrench, 
+  Shield,
+  Settings
+} from 'lucide-react';
 import ContactsManager from './ContactsManager';
 import ProjectsManager from './ProjectsManager';
 import ProductsManager from './ProductsManager';
 import UsersManager from './UsersManager';
 import AdminDashboard from './AdminDashboard';
+import OrdersManager from './OrdersManager';
+import InvoicesManager from './InvoicesManager';
+import LeadsManager from './LeadsManager';
+import ServiceTicketsManager from './ServiceTicketsManager';
+import AMCManager from './AMCManager';
 
 const AdminLayout = () => {
   const { signOut, profile } = useAuth();
@@ -19,24 +36,32 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Enhanced Header */}
+      <div className="bg-white/80 backdrop-blur-md shadow-lg border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <img 
-                src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-                alt="Yatra Elevators Logo" 
-                className="h-8 w-auto mr-4"
-              />
-              <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <Shield className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    Yatra Elevators
+                  </h1>
+                  <p className="text-xs text-slate-500">Admin Control Panel</p>
+                </div>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                Welcome, {profile?.first_name} {profile?.last_name}
-              </span>
-              <Button onClick={handleSignOut} variant="outline" size="sm">
+              <div className="text-right">
+                <p className="text-sm font-medium text-slate-700">
+                  {profile?.first_name} {profile?.last_name}
+                </p>
+                <p className="text-xs text-slate-500 capitalize">{profile?.role} Access</p>
+              </div>
+              <Button onClick={handleSignOut} variant="outline" size="sm" className="border-red-200 text-red-600 hover:bg-red-50">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>
@@ -47,49 +72,125 @@ const AdminLayout = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="dashboard" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="contacts" className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4" />
-              Contacts
-            </TabsTrigger>
-            <TabsTrigger value="projects" className="flex items-center gap-2">
-              <Building className="h-4 w-4" />
-              Projects
-            </TabsTrigger>
-            <TabsTrigger value="products" className="flex items-center gap-2">
-              <Package className="h-4 w-4" />
-              Products
-            </TabsTrigger>
-            <TabsTrigger value="users" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Users
-            </TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          {/* Enhanced Tab Navigation */}
+          <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-2 border border-white/20 shadow-lg">
+            <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 gap-1 bg-transparent h-auto p-1">
+              <TabsTrigger 
+                value="dashboard" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-blue-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <BarChart3 className="h-5 w-5" />
+                <span className="text-xs font-medium">Dashboard</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="contacts" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-green-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <MessageSquare className="h-5 w-5" />
+                <span className="text-xs font-medium">Contacts</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="leads" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-purple-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Users className="h-5 w-5" />
+                <span className="text-xs font-medium">Leads</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="orders" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-orange-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                <span className="text-xs font-medium">Orders</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="projects" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-indigo-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Building className="h-5 w-5" />
+                <span className="text-xs font-medium">Projects</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="products" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-cyan-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Package className="h-5 w-5" />
+                <span className="text-xs font-medium">Products</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="invoices" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-emerald-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <FileText className="h-5 w-5" />
+                <span className="text-xs font-medium">Invoices</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="amc" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-teal-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Shield className="h-5 w-5" />
+                <span className="text-xs font-medium">AMC</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="tickets" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-red-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Wrench className="h-5 w-5" />
+                <span className="text-xs font-medium">Tickets</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="users" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-slate-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Settings className="h-5 w-5" />
+                <span className="text-xs font-medium">Users</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-          <TabsContent value="dashboard">
-            <AdminDashboard />
-          </TabsContent>
+          {/* Tab Content */}
+          <div className="bg-white/30 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg overflow-hidden">
+            <TabsContent value="dashboard" className="p-6 m-0">
+              <AdminDashboard />
+            </TabsContent>
 
-          <TabsContent value="contacts">
-            <ContactsManager />
-          </TabsContent>
+            <TabsContent value="contacts" className="p-6 m-0">
+              <ContactsManager />
+            </TabsContent>
 
-          <TabsContent value="projects">
-            <ProjectsManager />
-          </TabsContent>
+            <TabsContent value="leads" className="p-6 m-0">
+              <LeadsManager />
+            </TabsContent>
 
-          <TabsContent value="products">
-            <ProductsManager />
-          </TabsContent>
+            <TabsContent value="orders" className="p-6 m-0">
+              <OrdersManager />
+            </TabsContent>
 
-          <TabsContent value="users">
-            <UsersManager />
-          </TabsContent>
+            <TabsContent value="projects" className="p-6 m-0">
+              <ProjectsManager />
+            </TabsContent>
+
+            <TabsContent value="products" className="p-6 m-0">
+              <ProductsManager />
+            </TabsContent>
+
+            <TabsContent value="invoices" className="p-6 m-0">
+              <InvoicesManager />
+            </TabsContent>
+
+            <TabsContent value="amc" className="p-6 m-0">
+              <AMCManager />
+            </TabsContent>
+
+            <TabsContent value="tickets" className="p-6 m-0">
+              <ServiceTicketsManager />
+            </TabsContent>
+
+            <TabsContent value="users" className="p-6 m-0">
+              <UsersManager />
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
     </div>

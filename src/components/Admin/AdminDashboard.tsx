@@ -110,12 +110,22 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+        <div className="flex justify-between items-center">
+          <div>
+            <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+            <p className="text-muted-foreground">Loading real-time data...</p>
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="p-6">
-                <div className="h-16 bg-muted rounded"></div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="h-4 bg-muted rounded w-32"></div>
+                  <div className="h-8 w-8 bg-muted rounded"></div>
+                </div>
+                <div className="h-8 bg-muted rounded w-16 mb-2"></div>
+                <div className="h-3 bg-muted rounded w-24"></div>
               </CardContent>
             </Card>
           ))}

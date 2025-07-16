@@ -16,6 +16,20 @@ const HeaderAuth = () => {
   if (user) {
     return (
       <div className="flex items-center space-x-2 h-12">
+        {/* Admin Panel Button - Prominent for Admin Users */}
+        {(['admin', 'super_admin'].includes(profile?.role || '')) && (
+          <Link to="/admin">
+            <Button
+              size="sm"
+              className="bg-red-600 hover:bg-red-700 text-white border border-yellow-400 mr-2"
+              title="Admin Panel"
+            >
+              <Shield className="h-4 w-4 mr-1" />
+              Admin Panel
+            </Button>
+          </Link>
+        )}
+        
         {/* User Icon with Role Badge */}
         <div className="flex items-center space-x-2 bg-white/10 rounded-full px-3 py-2">
           <div className="relative">
@@ -27,23 +41,12 @@ const HeaderAuth = () => {
             )}
           </div>
           <span className="text-sm text-white font-medium">
-            {profile?.first_name || 'User'}
+            {profile?.first_name || 'User'} 
+            {profile?.role && (
+              <span className="text-xs text-blue-200 ml-1">({profile.role})</span>
+            )}
           </span>
         </div>
-        
-        {/* Admin Panel Button for Admin Users */}
-        {(['admin', 'super_admin'].includes(profile?.role || '')) && (
-          <Link to="/admin">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-white hover:bg-white/20 hover:text-white h-10 px-3 mr-2"
-              title="Admin Panel"
-            >
-              <Shield className="h-4 w-4" />
-            </Button>
-          </Link>
-        )}
         
         {/* Sign Out Button */}
         <Button
@@ -58,7 +61,19 @@ const HeaderAuth = () => {
     );
   }
 
-  return null;
+  // Show Login Button for non-logged-in users
+  return (
+    <div className="flex items-center space-x-2 h-12">
+      <Link to="/auth">
+        <Button
+          size="sm"
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Sign In
+        </Button>
+      </Link>
+    </div>
+  );
 };
 
 export default HeaderAuth;

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import FloatingNavButton from './FloatingNavButton';
 import VerticalNavbar from './VerticalNavbar';
+import HeaderAuth from './HeaderAuth';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -20,13 +21,14 @@ const PageLayout = ({ children }: PageLayoutProps) => {
 
   return (
     <div className="min-h-screen bg-slate-50 relative">
-      {/* Logo in top-left corner */}
-      <div className="absolute top-6 left-6 z-20">
+      {/* Header with Logo and Auth */}
+      <div className="absolute top-0 left-0 right-0 z-20 flex justify-between items-center p-6">
         <img 
           src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
           alt="Yatra Elevators Logo" 
           className="h-16 w-auto"
         />
+        <HeaderAuth />
       </div>
 
       {/* Page Content */}

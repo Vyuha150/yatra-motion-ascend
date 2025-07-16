@@ -2,7 +2,7 @@
 import React from 'react';
 import { useAuth } from './Auth/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { LogOut, User, Settings } from 'lucide-react';
+import { LogOut, User, Settings, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeaderAuth = () => {
@@ -25,6 +25,20 @@ const HeaderAuth = () => {
             {profile?.first_name || 'User'}
           </span>
         </div>
+        
+        {/* Admin Panel Button for Admin Users */}
+        {(['admin', 'super_admin'].includes(profile?.role || '')) && (
+          <Link to="/admin">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-white hover:bg-white/20 hover:text-white h-10 px-3 mr-2"
+              title="Admin Panel"
+            >
+              <Shield className="h-4 w-4" />
+            </Button>
+          </Link>
+        )}
         
         {/* Sign Out Button */}
         <Button

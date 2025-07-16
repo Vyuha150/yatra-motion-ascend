@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthFormProps {
   mode: 'signin' | 'signup';
@@ -20,6 +21,7 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,13 +44,30 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
         if (error) throw error;
         toast.success('Account created! Please check your email to verify your account.');
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password
         });
         
         if (error) throw error;
-        toast.success('Signed in successfully!');
+        
+        // Check if user is admin and redirect accordingly
+        if (data.user) {
+          // Fetch user profile to check role
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single();
+          
+          if (profile?.role === 'admin' || profile?.role === 'super_admin') {
+            toast.success('Admin login successful! Redirecting to admin panel...');
+            setTimeout(() => navigate('/admin'), 1000);
+          } else {
+            toast.success('Signed in successfully!');
+            setTimeout(() => navigate('/'), 1000);
+          }
+        }
       }
     } catch (error: any) {
       toast.error(error.message);

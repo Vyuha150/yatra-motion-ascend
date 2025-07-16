@@ -1,9 +1,9 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from './Auth/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { LogOut, User } from 'lucide-react';
-import AuthModal from './Auth/AuthModal';
 import AdminButton from './AdminButton';
 
 const HeaderAuth = () => {
@@ -29,7 +29,16 @@ const HeaderAuth = () => {
     );
   }
 
-  return null; // Remove sign in/up buttons as requested
+  return (
+    <div className="flex items-center space-x-3">
+      <Link to="/auth">
+        <Button variant="outline" size="sm" className="border-white text-white hover:bg-white hover:text-slate-900 h-10">
+          <User className="h-4 w-4 mr-2" />
+          Admin Login
+        </Button>
+      </Link>
+    </div>
+  );
 };
 
 export default HeaderAuth;

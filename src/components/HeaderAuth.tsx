@@ -7,6 +7,11 @@ import { Link } from 'react-router-dom';
 
 const HeaderAuth = () => {
   const { user, profile, signOut } = useAuth();
+  
+  // Debug logging
+  console.log('HeaderAuth - User:', user?.id);
+  console.log('HeaderAuth - Profile:', profile);
+  console.log('HeaderAuth - Role:', profile?.role);
 
   if (user) {
     return (

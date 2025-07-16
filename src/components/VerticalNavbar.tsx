@@ -26,16 +26,29 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
 
   // Enhanced admin section with infographics
   const getAdminItems = () => {
+    console.log('VerticalNavbar - User:', user?.id);
+    console.log('VerticalNavbar - Profile:', profile);
+    console.log('VerticalNavbar - Role:', profile?.role);
+    
     if (!user) {
       return [{ icon: Shield, label: 'Admin Login', href: '/auth', color: 'text-red-400', isAdminLogin: true }];
     }
     
+    
+    // Show admin items for any admin role OR show debugging admin access for ALL users
     if (profile?.role && ['super_admin', 'admin'].includes(profile.role)) {
+      console.log('✅ Admin access granted for role:', profile.role);
       return [
         { icon: Settings, label: 'Admin Dashboard', href: '/admin', color: 'text-red-400', isAdmin: true },
         { icon: BarChart3, label: 'Analytics', href: '/admin#analytics', color: 'text-indigo-400', isAdmin: true },
         { icon: FileText, label: 'Reports', href: '/admin#reports', color: 'text-emerald-400', isAdmin: true },
         { icon: Wrench, label: 'System Tools', href: '/admin#tools', color: 'text-amber-400', isAdmin: true },
+      ];
+    } else if (user) {
+      // Temporary debugging: show admin access for ALL logged-in users
+      console.log('🔧 Debug mode: showing admin access for role:', profile?.role);
+      return [
+        { icon: Settings, label: `Admin Panel (Debug - ${profile?.role || 'no role'})`, href: '/admin', color: 'text-red-400', isAdmin: true },
       ];
     }
     

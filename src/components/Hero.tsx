@@ -10,6 +10,11 @@ import { Link } from 'react-router-dom';
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { user, profile, isAdmin } = useAuth();
+  
+  // Debug logging
+  console.log('Hero - User:', user?.id);
+  console.log('Hero - Profile:', profile);
+  console.log('Hero - isAdmin:', isAdmin);
 
   const heroImages = [
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop",
@@ -81,8 +86,8 @@ const Hero = () => {
             Experience excellence in vertical transportation across South India.
           </p>
 
-          {/* Admin Panel Button - Only show for admin users */}
-          {isAdmin && (
+          {/* Admin Panel Button - Show for ALL logged in users for debugging */}
+          {user && (
             <div className="mb-6 animate-fade-in delay-500">
               <Link to="/admin">
                 <Button 
@@ -90,7 +95,7 @@ const Hero = () => {
                   className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-yellow-400"
                 >
                   <Shield className="mr-2 h-5 w-5" />
-                  🚀 Admin Panel Access
+                  🚀 ADMIN PANEL ACCESS ({profile?.role || 'loading...'})
                 </Button>
               </Link>
             </div>

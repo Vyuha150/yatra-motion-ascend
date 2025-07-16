@@ -4,14 +4,15 @@ import HeaderAuth from './HeaderAuth';
 
 const CommonHeader = () => {
   return (
-    <div className="absolute top-12 left-0 right-0 z-20 flex justify-between items-center p-4">
-      {/* Logo in top left */}
+    <div className="absolute top-16 left-0 right-0 z-20 flex justify-between items-center p-4">
+      {/* Logo aligned with menu and floor indicator */}
       <Link to="/" className="flex items-center">
-        <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/40 shadow-xl hover:bg-white/30 transition-all duration-300">
+        <div className="bg-white/15 backdrop-blur-sm rounded-md px-4 py-2 border border-white/30 shadow-lg hover:bg-white/25 transition-all duration-300">
           <img 
             src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
             alt="Yatra Elevators Logo" 
-            className="h-16 w-auto drop-shadow-lg"
+            style={{ width: '238.59px', height: '65.2px' }}
+            className="drop-shadow-lg"
           />
         </div>
       </Link>

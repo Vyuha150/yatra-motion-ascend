@@ -80,13 +80,13 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in delay-700">
-            <ContactModal buttonText="Get a Quote">
+            <ContactModal buttonText="Book your elevator now">
               <Button 
                 size="lg" 
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
                 <Phone className="mr-2 h-5 w-5" />
-                Get a Quote
+                Book your elevator now
               </Button>
             </ContactModal>
             

@@ -197,6 +197,45 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
 
+          {/* Quick Admin Account Creation for Testing */}
+          <div className="mt-6 p-4 bg-muted rounded-lg">
+            <h3 className="font-medium mb-2">Quick Test Account</h3>
+            <p className="text-sm text-muted-foreground mb-3">
+              Click below to create a test admin account instantly (for demo purposes):
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={async () => {
+                setLoading(true);
+                try {
+                  const { error } = await supabase.auth.signUp({
+                    email: 'admin@yatraelevators.com',
+                    password: 'Admin@123',
+                    options: {
+                      data: {
+                        first_name: 'Admin',
+                        last_name: 'User',
+                        role: 'admin'
+                      },
+                      emailRedirectTo: `${window.location.origin}/`,
+                    },
+                  });
+                  
+                  if (error) throw error;
+                  setMessage('Admin account created! Email: admin@yatraelevators.com, Password: Admin@123');
+                } catch (error: any) {
+                  setError(error.message);
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              disabled={loading}
+            >
+              Create Test Admin Account
+            </Button>
+          </div>
+
           {error && (
             <Alert className="mt-4" variant="destructive">
               <AlertDescription>{error}</AlertDescription>

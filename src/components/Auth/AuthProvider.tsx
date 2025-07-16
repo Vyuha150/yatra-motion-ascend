@@ -9,7 +9,10 @@ interface Profile {
   first_name: string | null;
   last_name: string | null;
   phone: string | null;
-  role: string;
+  role: 'super_admin' | 'admin' | 'showroom_employee' | 'bulk_buyer' | 'user';
+  showroom_id: string | null;
+  employee_id: string | null;
+  bulk_buyer_id: string | null;
 }
 
 interface AuthContextType {
@@ -19,6 +22,9 @@ interface AuthContextType {
   loading: boolean;
   signOut: () => Promise<void>;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
+  isShowroomEmployee: boolean;
+  isBulkBuyer: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,7 +101,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await supabase.auth.signOut();
   };
 
-  const isAdmin = profile?.role === 'admin';
+  const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
+  const isSuperAdmin = profile?.role === 'super_admin';
+  const isShowroomEmployee = profile?.role === 'showroom_employee';
+  const isBulkBuyer = profile?.role === 'bulk_buyer';
 
   const value = {
     user,
@@ -103,7 +112,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     session,
     loading,
     signOut,
-    isAdmin
+    isAdmin,
+    isSuperAdmin,
+    isShowroomEmployee,
+    isBulkBuyer
   };
 
   return (

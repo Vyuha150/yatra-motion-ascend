@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings } from 'lucide-react';
+import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './Auth/AuthProvider';
@@ -15,22 +15,34 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
   const { user, profile } = useAuth();
   
   const navItems = [
-    { icon: Home, label: 'Home', href: '/' },
-    { icon: User, label: 'About Us', href: '/about' },
-    { icon: Package, label: 'Products & Services', href: '/products' },
-    { icon: Briefcase, label: 'Projects', href: '/projects' },
-    { icon: Phone, label: 'Contact Us', href: '/contact' },
-    { icon: Users, label: 'Careers', href: '/careers' },
-    { icon: ShoppingCart, label: 'Cart', href: '#cart' },
+    { icon: Home, label: 'Home', href: '/', color: 'text-blue-400' },
+    { icon: User, label: 'About Us', href: '/about', color: 'text-green-400' },
+    { icon: Package, label: 'Products & Services', href: '/products', color: 'text-purple-400' },
+    { icon: Briefcase, label: 'Projects', href: '/projects', color: 'text-orange-400' },
+    { icon: Phone, label: 'Contact Us', href: '/contact', color: 'text-pink-400' },
+    { icon: Users, label: 'Careers', href: '/careers', color: 'text-cyan-400' },
+    { icon: ShoppingCart, label: 'Cart', href: '#cart', color: 'text-yellow-400' },
   ];
 
-  // Add admin panel link for authenticated users with admin roles
-  const adminItems = user && profile?.role && ['super_admin', 'admin'].includes(profile.role) 
-    ? [{ icon: Settings, label: 'Admin Panel', href: '/admin' }]
-    : user 
-    ? [] 
-    : [{ icon: User, label: 'Admin Login', href: '/auth' }];
+  // Enhanced admin section with infographics
+  const getAdminItems = () => {
+    if (!user) {
+      return [{ icon: Shield, label: 'Admin Login', href: '/auth', color: 'text-red-400', isAdminLogin: true }];
+    }
+    
+    if (profile?.role && ['super_admin', 'admin'].includes(profile.role)) {
+      return [
+        { icon: Settings, label: 'Admin Dashboard', href: '/admin', color: 'text-red-400', isAdmin: true },
+        { icon: BarChart3, label: 'Analytics', href: '/admin#analytics', color: 'text-indigo-400', isAdmin: true },
+        { icon: FileText, label: 'Reports', href: '/admin#reports', color: 'text-emerald-400', isAdmin: true },
+        { icon: Wrench, label: 'System Tools', href: '/admin#tools', color: 'text-amber-400', isAdmin: true },
+      ];
+    }
+    
+    return [];
+  };
 
+  const adminItems = getAdminItems();
   const allNavItems = [...navItems, ...adminItems];
 
   const socialIcons = [
@@ -82,23 +94,64 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
 
           {/* Navigation Items */}
           <div className="flex-1 py-6">
-            <nav className="space-y-2 px-4">
-              {allNavItems.map((item, index) => (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  onClick={handleItemClick}
-                  className={`flex items-center space-x-4 p-3 rounded-lg hover:bg-steel-dark/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white ${
-                    isOpen ? 'animate-fade-in' : ''
-                  } ${location.pathname === item.href ? 'bg-steel-dark/30 text-white' : ''}`}
-                  style={{
-                    animationDelay: isOpen ? `${index * 100}ms` : '0ms',
-                  }}
-                >
-                  <item.icon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
-                  <span className="font-medium">{item.label}</span>
-                </Link>
-              ))}
+            <nav className="space-y-3 px-4">
+              {/* Main Navigation */}
+              <div className="space-y-2">
+                <h3 className="text-xs font-semibold text-steel-light uppercase tracking-wide mb-3">Main Menu</h3>
+                {navItems.map((item, index) => (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    onClick={handleItemClick}
+                    className={`flex items-center space-x-4 p-3 rounded-lg hover:bg-steel-dark/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white ${
+                      isOpen ? 'animate-fade-in' : ''
+                    } ${location.pathname === item.href ? 'bg-steel-dark/30 text-white border-l-4 border-white' : ''}`}
+                    style={{
+                      animationDelay: isOpen ? `${index * 100}ms` : '0ms',
+                    }}
+                  >
+                    <item.icon className={`h-5 w-5 group-hover:scale-110 transition-transform duration-200 ${item.color}`} />
+                    <span className="font-medium">{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Admin Section */}
+              {adminItems.length > 0 && (
+                <div className="space-y-2 pt-4 border-t border-steel-accent">
+                  <h3 className="text-xs font-semibold text-steel-light uppercase tracking-wide mb-3">
+                    {user ? 'Admin Tools' : 'Authentication'}
+                  </h3>
+                  {adminItems.map((item, index) => (
+                    <Link
+                      key={item.label}
+                      to={item.href}
+                      onClick={handleItemClick}
+                      className={`flex items-center space-x-4 p-3 rounded-lg hover:bg-steel-dark/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white ${
+                        isOpen ? 'animate-fade-in' : ''
+                      } ${location.pathname === item.href ? 'bg-steel-dark/30 text-white border-l-4 border-yellow-400' : ''} ${
+                        item.isAdmin ? 'bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-400/20' : ''
+                      }`}
+                      style={{
+                        animationDelay: isOpen ? `${(navItems.length + index) * 100}ms` : '0ms',
+                      }}
+                    >
+                      <item.icon className={`h-5 w-5 group-hover:scale-110 transition-transform duration-200 ${item.color}`} />
+                      <div className="flex flex-col">
+                        <span className="font-medium">{item.label}</span>
+                        {item.isAdmin && (
+                          <span className="text-xs text-steel-light">Manager Access</span>
+                        )}
+                      </div>
+                      {item.isAdmin && (
+                        <div className="ml-auto">
+                          <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        </div>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </nav>
           </div>
 

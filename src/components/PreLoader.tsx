@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import Lottie from 'lottie-react';
 
 interface PreLoaderProps {
   onLoadComplete: () => void;
@@ -7,108 +8,168 @@ interface PreLoaderProps {
 
 const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [doorsOpen, setDoorsOpen] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
+
+  // Fallback elevator doors animation data (lightweight inline)
+  const elevatorDoorsAnimation = {
+    v: "5.7.4",
+    fr: 30,
+    ip: 0,
+    op: 60,
+    w: 800,
+    h: 600,
+    nm: "Elevator Doors",
+    ddd: 0,
+    assets: [],
+    layers: [
+      {
+        ddd: 0,
+        ind: 1,
+        ty: 4,
+        nm: "Left Door",
+        sr: 1,
+        ks: {
+          o: { a: 0, k: 100 },
+          r: { a: 0, k: 0 },
+          p: { a: 0, k: [200, 300] },
+          a: { a: 0, k: [0, 0] },
+          s: {
+            a: 1,
+            k: [
+              { i: { x: [0.42], y: [1] }, o: { x: [0.58], y: [0] }, t: 30, s: [100, 100] },
+              { t: 60, s: [0, 100] }
+            ]
+          }
+        },
+        ao: 0,
+        shapes: [
+          {
+            ty: "gr",
+            it: [
+              {
+                ty: "rc",
+                d: 1,
+                s: { a: 0, k: [400, 600] },
+                p: { a: 0, k: [0, 0] },
+                r: { a: 0, k: 0 }
+              },
+              {
+                ty: "fl",
+                c: { a: 0, k: [0.7, 0.7, 0.75, 1] },
+                o: { a: 0, k: 100 }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        ddd: 0,
+        ind: 2,
+        ty: 4,
+        nm: "Right Door",
+        sr: 1,
+        ks: {
+          o: { a: 0, k: 100 },
+          r: { a: 0, k: 0 },
+          p: { a: 0, k: [600, 300] },
+          a: { a: 0, k: [0, 0] },
+          s: {
+            a: 1,
+            k: [
+              { i: { x: [0.42], y: [1] }, o: { x: [0.58], y: [0] }, t: 30, s: [100, 100] },
+              { t: 60, s: [0, 100] }
+            ]
+          }
+        },
+        ao: 0,
+        shapes: [
+          {
+            ty: "gr",
+            it: [
+              {
+                ty: "rc",
+                d: 1,
+                s: { a: 0, k: [400, 600] },
+                p: { a: 0, k: [0, 0] },
+                r: { a: 0, k: 0 }
+              },
+              {
+                ty: "fl",
+                c: { a: 0, k: [0.7, 0.7, 0.75, 1] },
+                o: { a: 0, k: 100 }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
 
   useEffect(() => {
+    // Auto-start animation after 1 second, complete in ~2 seconds total
     const timer = setTimeout(() => {
-      setDoorsOpen(true); // Start opening doors animation
+      setAnimationComplete(true);
       setTimeout(() => {
         setIsLoading(false);
-        setTimeout(onLoadComplete, 500); // Allow fade out animation to complete
-      }, 2500); // Wait longer for doors to open slowly
-    }, 3000); // Show loader for 3 seconds before opening doors
+        onLoadComplete();
+      }, 300); // Brief fade out
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [onLoadComplete]);
 
   return (
     <div
-      className={`fixed inset-0 z-[100] ${
+      className={`fixed inset-0 z-[100] bg-background ${
         isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      } transition-opacity duration-500`}
+      } transition-opacity duration-300`}
     >
-      {/* Main Content - Logo centered during animation */}
-      <div className="relative z-10 flex items-center justify-center h-full">
+      {/* Logo with soft spotlight while doors are closed */}
+      <div className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ${
+        animationComplete ? 'opacity-0' : 'opacity-100'
+      }`}>
         <div className="text-center">
-          <div className="animate-pulse">
+          {/* Soft spotlight background */}
+          <div className="absolute inset-0 bg-gradient-radial from-white/10 via-transparent to-transparent blur-3xl" />
+          
+          <div className="relative z-10">
             <img 
               src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
               alt="Yatra Elevators Logo" 
-              className="w-40 h-auto mx-auto mb-4 drop-shadow-2xl animate-bounce"
-              style={{ animationDuration: '2s' }}
+              className="w-32 h-auto mx-auto mb-3 drop-shadow-2xl animate-pulse"
+              style={{ animationDuration: '3s' }}
             />
-          </div>
-          <div className="bg-black/50 backdrop-blur-sm rounded-lg px-6 py-2 inline-block animate-fade-in">
-            <h2 className="text-white text-xl font-medium tracking-wide">YATRA ELEVATORS</h2>
+            <div className="bg-black/30 backdrop-blur-sm rounded-lg px-4 py-2 inline-block">
+              <h2 className="text-white text-lg font-medium tracking-wide">YATRA ELEVATORS</h2>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Clean Elevator Doors */}
-      <div className="absolute inset-0 z-20 pointer-events-none">
-        {/* Left Door */}
-        <div 
-          className={`absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-steel-dark via-steel-medium to-steel-light border-r border-steel-accent transition-transform duration-[2000ms] ease-in-out shadow-2xl flex items-center justify-end pr-8 ${
-            doorsOpen ? '-translate-x-full' : 'translate-x-0'
-          }`}
+      {/* Lottie elevator doors animation */}
+      <div className="absolute inset-0 z-20">
+        <Lottie
+          animationData={elevatorDoorsAnimation}
+          loop={false}
+          autoplay={!animationComplete}
+          onComplete={() => setAnimationComplete(true)}
           style={{
-            background: `linear-gradient(to right, 
-              hsl(var(--steel-dark)), 
-              hsl(var(--steel-medium)) 50%, 
-              hsl(var(--steel-light))),
-              linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)`
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(135deg, #9ca3af 0%, #6b7280 50%, #4b5563 100%)',
+            filter: 'drop-shadow(0 0 20px rgba(0,0,0,0.3))'
           }}
-        >
-          {/* Logo on left door */}
-          {!doorsOpen && (
-            <div className="transform -rotate-90 opacity-70">
-              <img 
-                src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-                alt="Yatra Elevators" 
-                className="h-16 w-auto drop-shadow-lg"
-              />
-            </div>
-          )}
-          
-          {/* Vertical brushed metal texture lines */}
-          <div className="absolute inset-0 opacity-30" style={{
-            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)`
-          }} />
-          {/* Door edge detail */}
-          <div className="absolute right-1 top-0 bottom-0 w-px bg-steel-accent shadow-inner" />
-        </div>
+          rendererSettings={{
+            preserveAspectRatio: 'xMidYMid slice',
+            progressiveLoad: true,
+            hideOnTransparent: true
+          }}
+        />
         
-        {/* Right Door */}
-        <div 
-          className={`absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-steel-dark via-steel-medium to-steel-light border-l border-steel-accent transition-transform duration-[2000ms] ease-in-out shadow-2xl flex items-center justify-start pl-8 ${
-            doorsOpen ? 'translate-x-full' : 'translate-x-0'
-          }`}
-          style={{
-            background: `linear-gradient(to left, 
-              hsl(var(--steel-dark)), 
-              hsl(var(--steel-medium)) 50%, 
-              hsl(var(--steel-light))),
-              linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)`
-          }}
-        >
-          {/* Logo on right door */}
-          {!doorsOpen && (
-            <div className="transform rotate-90 opacity-70">
-              <img 
-                src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-                alt="Yatra Elevators" 
-                className="h-16 w-auto drop-shadow-lg"
-              />
-            </div>
-          )}
-          
-          {/* Vertical brushed metal texture lines */}
-          <div className="absolute inset-0 opacity-30" style={{
-            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)`
-          }} />
-          {/* Door edge detail */}
-          <div className="absolute left-1 top-0 bottom-0 w-px bg-steel-accent shadow-inner" />
-        </div>
+        {/* Brushed metal texture overlay */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
+          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.1) 1px, rgba(255,255,255,0.1) 2px)`
+        }} />
       </div>
     </div>
   );

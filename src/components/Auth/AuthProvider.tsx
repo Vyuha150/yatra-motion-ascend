@@ -48,6 +48,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Set a timeout to ensure loading state resolves
+    const loadingTimeout = setTimeout(() => {
+      console.log('Auth loading timeout - forcing loading to false');
+      setLoading(false);
+    }, 10000); // 10 second timeout
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -56,12 +62,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         fetchProfile(session.user.id);
       } else {
         setLoading(false);
+        clearTimeout(loadingTimeout);
       }
+    }).catch((error) => {
+      console.error('Error getting session:', error);
+      setLoading(false);
+      clearTimeout(loadingTimeout);
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.id);
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -71,27 +83,72 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setProfile(null);
           setLoading(false);
         }
+        clearTimeout(loadingTimeout);
       }
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(loadingTimeout);
+    };
   }, []);
 
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('Fetching profile for user:', userId);
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single();
+        .maybeSingle(); // Use maybeSingle to handle case where profile doesn't exist
 
       if (error) {
         console.error('Error fetching profile:', error);
-      } else {
+        // Set a default profile if fetch fails
+        setProfile({
+          id: userId,
+          email: null,
+          first_name: null,
+          last_name: null,
+          phone: null,
+          role: 'user',
+          showroom_id: null,
+          employee_id: null,
+          bulk_buyer_id: null,
+        });
+      } else if (data) {
+        console.log('Profile fetched successfully:', data);
         setProfile(data);
+      } else {
+        console.log('No profile found, creating default profile');
+        // Profile doesn't exist, set a default one
+        setProfile({
+          id: userId,
+          email: null,
+          first_name: null,
+          last_name: null,
+          phone: null,
+          role: 'user',
+          showroom_id: null,
+          employee_id: null,
+          bulk_buyer_id: null,
+        });
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
+      // Set a default profile if anything goes wrong
+      setProfile({
+        id: userId,
+        email: null,
+        first_name: null,
+        last_name: null,
+        phone: null,
+        role: 'user',
+        showroom_id: null,
+        employee_id: null,
+        bulk_buyer_id: null,
+      });
     } finally {
       setLoading(false);
     }

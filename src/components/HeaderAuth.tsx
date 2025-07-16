@@ -29,16 +29,7 @@ const HeaderAuth = () => {
     );
   }
 
-  return (
-    <div className="flex items-center space-x-3">
-      <Link to="/auth">
-        <Button variant="outline" size="sm" className="border-white text-white hover:bg-white hover:text-slate-900 h-10">
-          <User className="h-4 w-4 mr-2" />
-          Admin Login
-        </Button>
-      </Link>
-    </div>
-  );
+  return null;
 };
 
 export default HeaderAuth;

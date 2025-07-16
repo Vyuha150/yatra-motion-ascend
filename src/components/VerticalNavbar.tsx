@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart } from 'lucide-react';
+import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from './Auth/AuthProvider';
 
 interface VerticalNavbarProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface VerticalNavbarProps {
 
 const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
   const location = useLocation();
+  const { user, profile } = useAuth();
   
   const navItems = [
     { icon: Home, label: 'Home', href: '/' },
@@ -21,6 +23,15 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
     { icon: Users, label: 'Careers', href: '/careers' },
     { icon: ShoppingCart, label: 'Cart', href: '#cart' },
   ];
+
+  // Add admin panel link for authenticated users with admin roles
+  const adminItems = user && profile?.role && ['super_admin', 'admin'].includes(profile.role) 
+    ? [{ icon: Settings, label: 'Admin Panel', href: '/admin' }]
+    : user 
+    ? [] 
+    : [{ icon: User, label: 'Admin Login', href: '/auth' }];
+
+  const allNavItems = [...navItems, ...adminItems];
 
   const socialIcons = [
     { name: 'Facebook', href: '#', color: 'hover:text-blue-600' },
@@ -72,7 +83,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
           {/* Navigation Items */}
           <div className="flex-1 py-6">
             <nav className="space-y-2 px-4">
-              {navItems.map((item, index) => (
+              {allNavItems.map((item, index) => (
                 <Link
                   key={item.label}
                   to={item.href}

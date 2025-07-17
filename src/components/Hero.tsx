@@ -126,6 +126,19 @@ const Hero = () => {
               <Calendar className="mr-2 h-5 w-5" />
               Book Yatra Elevator Service
             </Button>
+            
+            {/* Admin Panel Button for Admin Users */}
+            {isAdmin && (
+              <Link to="/admin">
+                <Button 
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-yellow-400"
+                >
+                  <Shield className="mr-2 h-5 w-5" />
+                  Admin Panel
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
 

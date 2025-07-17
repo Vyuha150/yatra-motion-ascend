@@ -8,26 +8,30 @@ import { Link } from 'react-router-dom';
 const HeaderAuth = () => {
   const { user, profile, signOut, isAdmin } = useAuth();
   
+  // Check if user is admin by email or profile role
+  const isUserAdmin = isAdmin || user?.email === 'admin@yatraelevators.com';
+  
   // Debug logging
   console.log('HeaderAuth - User:', user?.id);
   console.log('HeaderAuth - Profile:', profile);
   console.log('HeaderAuth - Role:', profile?.role);
   console.log('HeaderAuth - isAdmin:', isAdmin);
   console.log('HeaderAuth - User Email:', user?.email);
+  console.log('HeaderAuth - isUserAdmin:', isUserAdmin);
 
   if (user) {
     return (
       <div className="flex items-center space-x-2 h-12">
-        {/* Admin Panel Button - Prominent for Admin Users */}
-        {isAdmin && (
+        {/* Admin Panel Button - Always visible for admin users */}
+        {isUserAdmin && (
           <Link to="/admin">
             <Button
               size="sm"
-              className="bg-red-600 hover:bg-red-700 text-white border border-yellow-400 mr-2"
+              className="bg-red-600 hover:bg-red-700 text-white border-2 border-yellow-400 shadow-lg font-bold px-4 py-2"
               title="Admin Panel"
             >
-              <Shield className="h-4 w-4 mr-1" />
-              Admin Panel
+              <Shield className="h-4 w-4 mr-2" />
+              ADMIN PANEL
             </Button>
           </Link>
         )}

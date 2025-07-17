@@ -6,7 +6,20 @@ import { LogOut, User, Settings, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeaderAuth = () => {
-  const { user, profile, signOut } = useAuth();
+  // Handle auth safely - check if AuthProvider is available
+  let user = null;
+  let profile = null;
+  let signOut = async () => {};
+  
+  try {
+    const authContext = useAuth();
+    user = authContext.user;
+    profile = authContext.profile;
+    signOut = authContext.signOut;
+  } catch (error) {
+    // AuthProvider not available yet, use defaults
+    console.log('AuthProvider not available in HeaderAuth, using defaults');
+  }
   
   // Debug logging
   console.log('HeaderAuth - User:', user?.id);
@@ -14,14 +27,16 @@ const HeaderAuth = () => {
   console.log('HeaderAuth - Role:', profile?.role);
 
   if (user) {
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
+    
     return (
       <div className="flex items-center space-x-2 h-12">
         {/* Admin Panel Button - Prominent for Admin Users */}
-        {(['admin', 'super_admin'].includes(profile?.role || '')) && (
+        {isAdmin && (
           <Link to="/admin">
             <Button
               size="sm"
-              className="bg-red-600 hover:bg-red-700 text-white border border-yellow-400 mr-2"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground border border-accent shadow-lg"
               title="Admin Panel"
             >
               <Shield className="h-4 w-4 mr-1" />

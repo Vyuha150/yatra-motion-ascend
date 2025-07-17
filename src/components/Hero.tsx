@@ -9,12 +9,21 @@ import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { user, profile, isAdmin } = useAuth();
   
-  // Debug logging
-  console.log('Hero - User:', user?.id);
-  console.log('Hero - Profile:', profile);
-  console.log('Hero - isAdmin:', isAdmin);
+  // Handle auth safely - check if AuthProvider is available
+  let user = null;
+  let profile = null;
+  let isAdmin = false;
+  
+  try {
+    const authContext = useAuth();
+    user = authContext.user;
+    profile = authContext.profile;
+    isAdmin = authContext.isAdmin;
+  } catch (error) {
+    // AuthProvider not available yet, use defaults
+    console.log('AuthProvider not available, using defaults');
+  }
 
   const heroImages = [
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop",

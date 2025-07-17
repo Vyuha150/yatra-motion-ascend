@@ -149,6 +149,11 @@ All colors MUST be HSL.
     filter: drop-shadow(0 0 8px currentColor);
   }
   
+  /* Blue Glow Effect for Icons */
+  .glow-blue {
+    filter: drop-shadow(0 0 3px rgb(59 130 246 / 0.8)) drop-shadow(0 0 8px rgb(59 130 246 / 0.4));
+  }
+  
   /* Elevator Panel Glow */
   .panel-glow {
     box-shadow: 

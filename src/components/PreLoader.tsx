@@ -13,13 +13,13 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
     // Start door animation after brief delay
     const startTimer = setTimeout(() => {
       setDoorsOpen(true);
-    }, 500);
+    }, 1000);
 
-    // Complete loading after doors finish opening
+    // Complete loading after doors finish opening (slower animation)
     const completeTimer = setTimeout(() => {
       setIsLoading(false);
       onLoadComplete();
-    }, 2500);
+    }, 4000);
 
     return () => {
       clearTimeout(startTimer);
@@ -64,68 +64,125 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
         </div>
       </div>
 
-      {/* Elevator Doors */}
+      {/* Elevator Doors with Realistic Texture */}
       <div className="absolute inset-0 z-20">
         {/* Left Door */}
         <div 
-          className={`absolute top-0 left-0 w-1/2 h-full transform transition-transform duration-[2000ms] ease-out ${
+          className={`absolute top-0 left-0 w-1/2 h-full transform transition-transform duration-[3500ms] ease-in-out ${
             doorsOpen ? '-translate-x-full' : 'translate-x-0'
           }`}
           style={{
-            background: 'linear-gradient(90deg, #6b7280 0%, #9ca3af 30%, #d1d5db 50%, #9ca3af 70%, #6b7280 100%)',
-            boxShadow: 'inset -10px 0 20px rgba(0,0,0,0.3), inset 10px 0 20px rgba(255,255,255,0.1)'
+            background: `
+              linear-gradient(90deg, 
+                #4a5568 0%, #718096 15%, #a0aec0 25%, #e2e8f0 40%, 
+                #f7fafc 50%, #e2e8f0 60%, #a0aec0 75%, #718096 85%, #4a5568 100%
+              )`,
+            boxShadow: `
+              inset -15px 0 30px rgba(0,0,0,0.4), 
+              inset 15px 0 30px rgba(255,255,255,0.15),
+              0 0 50px rgba(0,0,0,0.3)
+            `
           }}
         >
-          {/* Brushed metal texture */}
+          {/* Realistic Steel Texture */}
           <div 
-            className="absolute inset-0 opacity-40"
+            className="absolute inset-0 opacity-60"
             style={{
               backgroundImage: `
-                repeating-linear-gradient(90deg, 
-                  transparent, transparent 1px, 
-                  rgba(255,255,255,0.1) 1px, rgba(255,255,255,0.1) 2px
-                ),
                 repeating-linear-gradient(0deg, 
-                  transparent, transparent 2px, 
-                  rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px
+                  transparent, transparent 1px, 
+                  rgba(255,255,255,0.08) 1px, rgba(255,255,255,0.08) 2px,
+                  transparent 2px, transparent 4px
+                ),
+                repeating-linear-gradient(90deg, 
+                  transparent, transparent 8px, 
+                  rgba(0,0,0,0.03) 8px, rgba(0,0,0,0.03) 16px
+                ),
+                repeating-linear-gradient(45deg, 
+                  transparent, transparent 1px, 
+                  rgba(255,255,255,0.02) 1px, rgba(255,255,255,0.02) 2px
                 )`
             }}
           />
+          {/* Door Panel Lines */}
+          <div className="absolute inset-4 border border-gray-400/20 rounded-sm">
+            <div className="absolute inset-2 border border-gray-300/10 rounded-sm">
+              <div className="absolute inset-4 border border-gray-400/15 rounded-sm"></div>
+            </div>
+          </div>
+          {/* Handle */}
+          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-3 h-16 bg-gradient-to-r from-gray-600 to-gray-400 rounded-full shadow-lg"></div>
           {/* Door edge highlight */}
-          <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-white/30 via-white/10 to-white/30" />
+          <div className="absolute top-0 right-0 w-2 h-full bg-gradient-to-b from-white/40 via-white/15 to-white/40 shadow-lg" />
         </div>
 
         {/* Right Door */}
         <div 
-          className={`absolute top-0 right-0 w-1/2 h-full transform transition-transform duration-[2000ms] ease-out ${
+          className={`absolute top-0 right-0 w-1/2 h-full transform transition-transform duration-[3500ms] ease-in-out ${
             doorsOpen ? 'translate-x-full' : 'translate-x-0'
           }`}
           style={{
-            background: 'linear-gradient(90deg, #6b7280 0%, #9ca3af 30%, #d1d5db 50%, #9ca3af 70%, #6b7280 100%)',
-            boxShadow: 'inset 10px 0 20px rgba(0,0,0,0.3), inset -10px 0 20px rgba(255,255,255,0.1)'
+            background: `
+              linear-gradient(90deg, 
+                #4a5568 0%, #718096 15%, #a0aec0 25%, #e2e8f0 40%, 
+                #f7fafc 50%, #e2e8f0 60%, #a0aec0 75%, #718096 85%, #4a5568 100%
+              )`,
+            boxShadow: `
+              inset 15px 0 30px rgba(0,0,0,0.4), 
+              inset -15px 0 30px rgba(255,255,255,0.15),
+              0 0 50px rgba(0,0,0,0.3)
+            `
           }}
         >
-          {/* Brushed metal texture */}
+          {/* Realistic Steel Texture */}
           <div 
-            className="absolute inset-0 opacity-40"
+            className="absolute inset-0 opacity-60"
             style={{
               backgroundImage: `
-                repeating-linear-gradient(90deg, 
-                  transparent, transparent 1px, 
-                  rgba(255,255,255,0.1) 1px, rgba(255,255,255,0.1) 2px
-                ),
                 repeating-linear-gradient(0deg, 
-                  transparent, transparent 2px, 
-                  rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px
+                  transparent, transparent 1px, 
+                  rgba(255,255,255,0.08) 1px, rgba(255,255,255,0.08) 2px,
+                  transparent 2px, transparent 4px
+                ),
+                repeating-linear-gradient(90deg, 
+                  transparent, transparent 8px, 
+                  rgba(0,0,0,0.03) 8px, rgba(0,0,0,0.03) 16px
+                ),
+                repeating-linear-gradient(45deg, 
+                  transparent, transparent 1px, 
+                  rgba(255,255,255,0.02) 1px, rgba(255,255,255,0.02) 2px
                 )`
             }}
           />
+          {/* Door Panel Lines */}
+          <div className="absolute inset-4 border border-gray-400/20 rounded-sm">
+            <div className="absolute inset-2 border border-gray-300/10 rounded-sm">
+              <div className="absolute inset-4 border border-gray-400/15 rounded-sm"></div>
+            </div>
+          </div>
+          {/* Handle */}
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 w-3 h-16 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full shadow-lg"></div>
           {/* Door edge highlight */}
-          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-white/30 via-white/10 to-white/30" />
+          <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-white/40 via-white/15 to-white/40 shadow-lg" />
         </div>
 
-        {/* Center divider */}
-        <div className="absolute top-0 left-1/2 w-2 h-full bg-slate-900 transform -translate-x-1/2 shadow-lg" />
+        {/* Center divider with realistic design */}
+        <div className="absolute top-0 left-1/2 w-4 h-full bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 transform -translate-x-1/2 shadow-2xl border-l border-r border-gray-600/30" />
+      </div>
+
+      {/* Landing Page Preview (visible as doors open) */}
+      <div className={`absolute inset-0 z-10 transition-all duration-1000 ${
+        doorsOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+      }`}>
+        <div className="h-full w-full bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-6xl font-bold mb-4 animate-pulse">
+              <span className="block mb-2">YATRA</span>
+              <span className="text-blue-400">ELEVATORS</span>
+            </h1>
+            <p className="text-xl opacity-80">Welcome to Premium Vertical Transportation</p>
+          </div>
+        </div>
       </div>
     </div>
   );

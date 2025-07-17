@@ -101,43 +101,69 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .maybeSingle(); // Use maybeSingle to handle case where profile doesn't exist
+        .single();
 
       if (error) {
         console.error('Error fetching profile:', error);
-        // Set a default profile if fetch fails
-        setProfile({
-          id: userId,
-          email: null,
-          first_name: null,
-          last_name: null,
-          phone: null,
-          role: 'user',
-          showroom_id: null,
-          employee_id: null,
-          bulk_buyer_id: null,
-        });
+        
+        // If profile doesn't exist, try to create one
+        if (error.code === 'PGRST116') {
+          console.log('Profile not found, attempting to create default profile');
+          const { data: userData } = await supabase.auth.getUser();
+          const userEmail = userData.user?.email;
+          
+          // Set role based on email for admin users
+          const role = userEmail === 'admin@yatraelevators.com' ? 'admin' : 'user';
+          
+          const { data: newProfile, error: insertError } = await supabase
+            .from('profiles')
+            .insert({
+              id: userId,
+              email: userEmail,
+              first_name: userEmail === 'admin@yatraelevators.com' ? 'Admin' : 'User',
+              last_name: userEmail === 'admin@yatraelevators.com' ? 'User' : 'Account',
+              role: role
+            })
+            .select()
+            .single();
+            
+          if (insertError) {
+            console.error('Error creating profile:', insertError);
+            setProfile({
+              id: userId,
+              email: userEmail,
+              first_name: 'User',
+              last_name: 'Account',
+              phone: null,
+              role: role as any,
+              showroom_id: null,
+              employee_id: null,
+              bulk_buyer_id: null,
+            });
+          } else {
+            console.log('Profile created successfully:', newProfile);
+            setProfile(newProfile);
+          }
+        } else {
+          // Other error, set default profile
+          setProfile({
+            id: userId,
+            email: null,
+            first_name: null,
+            last_name: null,
+            phone: null,
+            role: 'user',
+            showroom_id: null,
+            employee_id: null,
+            bulk_buyer_id: null,
+          });
+        }
       } else if (data) {
         console.log('Profile fetched successfully:', data);
         setProfile(data);
-      } else {
-        console.log('No profile found, creating default profile');
-        // Profile doesn't exist, set a default one
-        setProfile({
-          id: userId,
-          email: null,
-          first_name: null,
-          last_name: null,
-          phone: null,
-          role: 'user',
-          showroom_id: null,
-          employee_id: null,
-          bulk_buyer_id: null,
-        });
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
-      // Set a default profile if anything goes wrong
+      console.error('Unexpected error fetching profile:', error);
       setProfile({
         id: userId,
         email: null,

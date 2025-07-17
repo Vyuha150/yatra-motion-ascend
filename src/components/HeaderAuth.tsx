@@ -6,23 +6,22 @@ import { LogOut, User, Settings, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeaderAuth = () => {
-  const { user, profile, signOut, isAdmin } = useAuth();
+  const { user, profile, signOut } = useAuth();
   
   // Debug logging
   console.log('HeaderAuth - User:', user?.id);
   console.log('HeaderAuth - Profile:', profile);
   console.log('HeaderAuth - Role:', profile?.role);
-  console.log('HeaderAuth - isAdmin:', isAdmin);
 
   if (user) {
     return (
       <div className="flex items-center space-x-2 h-12">
-        {/* Admin Panel Button - Show for Admin Users */}
-        {isAdmin && (
+        {/* Admin Panel Button - Prominent for Admin Users */}
+        {(['admin', 'super_admin'].includes(profile?.role || '')) && (
           <Link to="/admin">
             <Button
               size="sm"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground border border-accent mr-2"
+              className="bg-red-600 hover:bg-red-700 text-white border border-yellow-400 mr-2"
               title="Admin Panel"
             >
               <Shield className="h-4 w-4 mr-1" />

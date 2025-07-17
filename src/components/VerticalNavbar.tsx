@@ -15,13 +15,13 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
   const { user, profile } = useAuth();
   
   const navItems = [
-    { icon: Home, label: 'Home', href: '/', color: 'text-blue-400 glow-blue' },
-    { icon: User, label: 'About Us', href: '/about', color: 'text-blue-400 glow-blue' },
-    { icon: Package, label: 'Products & Services', href: '/products', color: 'text-blue-400 glow-blue' },
-    { icon: Briefcase, label: 'Projects', href: '/projects', color: 'text-blue-400 glow-blue' },
-    { icon: Phone, label: 'Contact Us', href: '/contact', color: 'text-blue-400 glow-blue' },
-    { icon: Users, label: 'Careers', href: '/careers', color: 'text-blue-400 glow-blue' },
-    { icon: ShoppingCart, label: 'Cart', href: '#cart', color: 'text-blue-400 glow-blue' },
+    { icon: Home, label: 'Home', href: '/', color: 'text-blue-400' },
+    { icon: User, label: 'About Us', href: '/about', color: 'text-green-400' },
+    { icon: Package, label: 'Products & Services', href: '/products', color: 'text-purple-400' },
+    { icon: Briefcase, label: 'Projects', href: '/projects', color: 'text-orange-400' },
+    { icon: Phone, label: 'Contact Us', href: '/contact', color: 'text-pink-400' },
+    { icon: Users, label: 'Careers', href: '/careers', color: 'text-cyan-400' },
+    { icon: ShoppingCart, label: 'Cart', href: '#cart', color: 'text-yellow-400' },
   ];
 
   // Enhanced admin section with infographics
@@ -31,7 +31,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
     console.log('VerticalNavbar - Role:', profile?.role);
     
     if (!user) {
-      return [{ icon: Shield, label: 'Admin Login', href: '/auth', color: 'text-blue-400 glow-blue', isAdminLogin: true }];
+      return [{ icon: Shield, label: 'Admin Login', href: '/auth', color: 'text-red-400', isAdminLogin: true }];
     }
     
     
@@ -39,10 +39,10 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
     if (profile?.role && ['super_admin', 'admin'].includes(profile.role)) {
       console.log('✅ Admin access granted for role:', profile.role);
       return [
-        { icon: Settings, label: 'Admin Dashboard', href: '/admin', color: 'text-blue-400 glow-blue', isAdmin: true },
-        { icon: BarChart3, label: 'Analytics', href: '/admin#analytics', color: 'text-blue-400 glow-blue', isAdmin: true },
-        { icon: FileText, label: 'Reports', href: '/admin#reports', color: 'text-blue-400 glow-blue', isAdmin: true },
-        { icon: Wrench, label: 'System Tools', href: '/admin#tools', color: 'text-blue-400 glow-blue', isAdmin: true },
+        { icon: Settings, label: 'Admin Dashboard', href: '/admin', color: 'text-red-400', isAdmin: true },
+        { icon: BarChart3, label: 'Analytics', href: '/admin#analytics', color: 'text-indigo-400', isAdmin: true },
+        { icon: FileText, label: 'Reports', href: '/admin#reports', color: 'text-emerald-400', isAdmin: true },
+        { icon: Wrench, label: 'System Tools', href: '/admin#tools', color: 'text-amber-400', isAdmin: true },
       ];
     }
     

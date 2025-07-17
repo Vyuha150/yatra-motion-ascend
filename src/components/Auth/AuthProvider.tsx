@@ -101,44 +101,54 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single(); // Use single since we expect a profile to exist
+        .maybeSingle(); // Use maybeSingle to handle case where profile doesn't exist
 
       if (error) {
         console.error('Error fetching profile:', error);
         // Set a default profile if fetch fails
-        const defaultProfile = {
+        setProfile({
           id: userId,
           email: null,
           first_name: null,
           last_name: null,
           phone: null,
-          role: 'user' as const,
+          role: 'user',
           showroom_id: null,
           employee_id: null,
           bulk_buyer_id: null,
-        };
-        console.log('Setting default profile:', defaultProfile);
-        setProfile(defaultProfile);
+        });
       } else if (data) {
         console.log('Profile fetched successfully:', data);
         setProfile(data);
+      } else {
+        console.log('No profile found, creating default profile');
+        // Profile doesn't exist, set a default one
+        setProfile({
+          id: userId,
+          email: null,
+          first_name: null,
+          last_name: null,
+          phone: null,
+          role: 'user',
+          showroom_id: null,
+          employee_id: null,
+          bulk_buyer_id: null,
+        });
       }
     } catch (error) {
-      console.error('Error in fetchProfile:', error);
+      console.error('Error fetching profile:', error);
       // Set a default profile if anything goes wrong
-      const defaultProfile = {
+      setProfile({
         id: userId,
         email: null,
         first_name: null,
         last_name: null,
         phone: null,
-        role: 'user' as const,
+        role: 'user',
         showroom_id: null,
         employee_id: null,
         bulk_buyer_id: null,
-      };
-      console.log('Setting fallback profile:', defaultProfile);
-      setProfile(defaultProfile);
+      });
     } finally {
       setLoading(false);
     }

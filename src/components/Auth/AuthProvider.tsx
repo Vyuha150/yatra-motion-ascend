@@ -101,56 +101,75 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .maybeSingle(); // Use maybeSingle to handle case where profile doesn't exist
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching profile:', error);
-        // Set a default profile if fetch fails
-        setProfile({
-          id: userId,
-          email: null,
-          first_name: null,
-          last_name: null,
-          phone: null,
-          role: 'user',
-          showroom_id: null,
-          employee_id: null,
-          bulk_buyer_id: null,
-        });
+        // Create a profile if fetch fails
+        await createDefaultProfile(userId);
       } else if (data) {
         console.log('Profile fetched successfully:', data);
         setProfile(data);
       } else {
         console.log('No profile found, creating default profile');
-        // Profile doesn't exist, set a default one
-        setProfile({
-          id: userId,
-          email: null,
-          first_name: null,
-          last_name: null,
-          phone: null,
-          role: 'user',
-          showroom_id: null,
-          employee_id: null,
-          bulk_buyer_id: null,
-        });
+        await createDefaultProfile(userId);
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
-      // Set a default profile if anything goes wrong
-      setProfile({
+      console.error('Error in fetchProfile:', error);
+      await createDefaultProfile(userId);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createDefaultProfile = async (userId: string) => {
+    try {
+      // Get user details from auth
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const defaultProfile = {
         id: userId,
-        email: null,
-        first_name: null,
-        last_name: null,
+        email: user?.email || null,
+        first_name: user?.user_metadata?.first_name || 'User',
+        last_name: user?.user_metadata?.last_name || 'Account',
         phone: null,
-        role: 'user',
+        role: user?.email === 'admin@yatraelevators.com' ? 'admin' as const : 'user' as const,
         showroom_id: null,
         employee_id: null,
         bulk_buyer_id: null,
-      });
-    } finally {
-      setLoading(false);
+      };
+
+      console.log('Creating default profile:', defaultProfile);
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert(defaultProfile)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating profile:', error);
+        // Use local profile if database insert fails
+        setProfile(defaultProfile);
+      } else {
+        console.log('Profile created successfully:', data);
+        setProfile(data);
+      }
+    } catch (error) {
+      console.error('Error creating default profile:', error);
+      // Set a fallback profile
+      const fallbackProfile = {
+        id: userId,
+        email: null,
+        first_name: 'User',
+        last_name: 'Account',
+        phone: null,
+        role: 'user' as const,
+        showroom_id: null,
+        employee_id: null,
+        bulk_buyer_id: null,
+      };
+      setProfile(fallbackProfile);
     }
   };
 

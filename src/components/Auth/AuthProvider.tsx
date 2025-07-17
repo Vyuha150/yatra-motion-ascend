@@ -78,8 +78,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
+          console.log('User found, fetching profile for:', session.user.id);
           await fetchProfile(session.user.id);
         } else {
+          console.log('No user, clearing profile');
           setProfile(null);
           setLoading(false);
         }
@@ -95,80 +97,86 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const fetchProfile = async (userId: string) => {
     try {
-      console.log('Fetching profile for user:', userId);
+      console.log('fetchProfile: Starting fetch for user:', userId);
       
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
-      if (error) {
-        console.error('Error fetching profile:', error);
+      console.log('fetchProfile: Query result - data:', data, 'error:', error);
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('fetchProfile: Database error:', error);
+        throw error;
+      }
+
+      if (data) {
+        console.log('fetchProfile: Profile found:', data);
+        setProfile(data);
+      } else {
+        console.log('fetchProfile: No profile found, creating one');
         
-        // If profile doesn't exist, try to create one
-        if (error.code === 'PGRST116') {
-          console.log('Profile not found, attempting to create default profile');
-          const { data: userData } = await supabase.auth.getUser();
-          const userEmail = userData.user?.email;
+        // Get user data to extract email
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+        console.log('fetchProfile: User data:', userData, 'error:', userError);
+        
+        if (userError) {
+          console.error('fetchProfile: Error getting user data:', userError);
+          throw userError;
+        }
+
+        const userEmail = userData.user?.email;
+        console.log('fetchProfile: User email:', userEmail);
+        
+        // Determine role based on email
+        const role: 'admin' | 'user' = userEmail === 'admin@yatraelevators.com' ? 'admin' : 'user';
+        console.log('fetchProfile: Assigned role:', role);
+        
+        const newProfileData = {
+          id: userId,
+          email: userEmail,
+          first_name: userEmail === 'admin@yatraelevators.com' ? 'Admin' : 'User',
+          last_name: userEmail === 'admin@yatraelevators.com' ? 'User' : 'Account',
+          role: role
+        };
+
+        console.log('fetchProfile: Creating profile with data:', newProfileData);
+        
+        const { data: newProfile, error: insertError } = await supabase
+          .from('profiles')
+          .insert(newProfileData)
+          .select()
+          .single();
           
-          // Set role based on email for admin users
-          const role = userEmail === 'admin@yatraelevators.com' ? 'admin' : 'user';
-          
-          const { data: newProfile, error: insertError } = await supabase
-            .from('profiles')
-            .insert({
-              id: userId,
-              email: userEmail,
-              first_name: userEmail === 'admin@yatraelevators.com' ? 'Admin' : 'User',
-              last_name: userEmail === 'admin@yatraelevators.com' ? 'User' : 'Account',
-              role: role
-            })
-            .select()
-            .single();
-            
-          if (insertError) {
-            console.error('Error creating profile:', insertError);
-            setProfile({
-              id: userId,
-              email: userEmail,
-              first_name: 'User',
-              last_name: 'Account',
-              phone: null,
-              role: role as any,
-              showroom_id: null,
-              employee_id: null,
-              bulk_buyer_id: null,
-            });
-          } else {
-            console.log('Profile created successfully:', newProfile);
-            setProfile(newProfile);
-          }
-        } else {
-          // Other error, set default profile
+        if (insertError) {
+          console.error('fetchProfile: Error creating profile:', insertError);
+          // Set a default profile even if insert fails
           setProfile({
             id: userId,
-            email: null,
-            first_name: null,
-            last_name: null,
+            email: userEmail,
+            first_name: newProfileData.first_name,
+            last_name: newProfileData.last_name,
             phone: null,
-            role: 'user',
+            role: role as any,
             showroom_id: null,
             employee_id: null,
             bulk_buyer_id: null,
           });
+        } else {
+          console.log('fetchProfile: Profile created successfully:', newProfile);
+          setProfile(newProfile);
         }
-      } else if (data) {
-        console.log('Profile fetched successfully:', data);
-        setProfile(data);
       }
     } catch (error) {
-      console.error('Unexpected error fetching profile:', error);
+      console.error('fetchProfile: Unexpected error:', error);
+      // Set a minimal default profile
       setProfile({
         id: userId,
         email: null,
-        first_name: null,
-        last_name: null,
+        first_name: 'User',
+        last_name: 'Account',
         phone: null,
         role: 'user',
         showroom_id: null,
@@ -176,6 +184,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         bulk_buyer_id: null,
       });
     } finally {
+      console.log('fetchProfile: Setting loading to false');
       setLoading(false);
     }
   };

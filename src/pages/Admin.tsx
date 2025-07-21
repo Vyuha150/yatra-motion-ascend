@@ -5,14 +5,14 @@ import AdminLayout from '../components/Admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Admin = () => {
-  const { user, isAdmin, loading, profile } = useAuth();
+  const { user, isAdmin, loading } = useAuth();
   
-  // Check if user is admin by email or profile role
+  // Check if user is admin by email or role
   const isUserAdmin = isAdmin || user?.email === 'admin@yatraelevators.com';
   
   // Debug logging
-  console.log('Admin Page - User:', user?.id);
-  console.log('Admin Page - Profile:', profile);
+  console.log('Admin Page - User:', user?._id);
+  console.log('Admin Page - User Role:', user?.role);
   console.log('Admin Page - isAdmin:', isAdmin);
   console.log('Admin Page - isUserAdmin:', isUserAdmin);
   console.log('Admin Page - Loading:', loading);

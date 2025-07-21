@@ -31,7 +31,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       const response = await authService.login(credentials);
-      setUser(response.data.user);
+      if (response && response.data) {
+        // Store the token first
+        localStorage.setItem('token', response.data.token);
+        // Then set the user
+        setUser(response.data.user);
+      } else {
+        throw new Error('Invalid response from server');
+      }
     } catch (error) {
       console.error('Login error:', error);
       throw error;

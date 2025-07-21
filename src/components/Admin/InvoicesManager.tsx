@@ -5,25 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { supabase } from '@/lib/mockSupabase';
+import { invoiceService, Invoice } from '@/services/invoiceService';
 import { useAuth } from '@/components/Auth/useAuth';
 import { Search, Plus, Eye, Edit, Download } from 'lucide-react';
 import { format } from 'date-fns';
-
-interface Invoice {
-  id: string;
-  invoice_number: string;
-  customer_name: string;
-  customer_address: string;
-  invoice_date: string;
-  due_date: string;
-  total_amount: number;
-  paid_amount: number;
-  balance_amount: number;
-  status: string;
-  invoice_type: string;
-  created_at: string;
-}
 
 const InvoicesManager = () => {
   const { isAdmin, isSuperAdmin } = useAuth();
@@ -39,13 +24,8 @@ const InvoicesManager = () => {
 
   const fetchInvoices = async () => {
     try {
-      const { data, error } = await supabase
-        .from('invoices')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setInvoices(data || []);
+      const data = await invoiceService.getInvoices();
+      setInvoices(data);
     } catch (error) {
       console.error('Error fetching invoices:', error);
     } finally {
@@ -55,15 +35,18 @@ const InvoicesManager = () => {
 
   const updateInvoiceStatus = async (invoiceId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
-        .from('invoices')
-        .update({ status: newStatus })
-        .eq('id', invoiceId);
+      const validStatuses = ['draft', 'sent', 'paid', 'overdue', 'cancelled'];
+      if (!validStatuses.includes(newStatus)) {
+        console.error('Invalid status:', newStatus);
+        return;
+      }
 
-      if (error) throw error;
+      await invoiceService.updateInvoice(invoiceId, { 
+        status: newStatus as 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled' 
+      });
       
       setInvoices(invoices.map(invoice => 
-        invoice.id === invoiceId ? { ...invoice, status: newStatus } : invoice
+        invoice._id === invoiceId ? { ...invoice, status: newStatus as 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled' } : invoice
       ));
     } catch (error) {
       console.error('Error updating invoice status:', error);
@@ -94,11 +77,11 @@ const InvoicesManager = () => {
   };
 
   const filteredInvoices = invoices.filter(invoice => {
-    const matchesSearch = invoice.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         invoice.invoice_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         invoice.customer_address.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = invoice.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         invoice.customerAddress.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || invoice.status === statusFilter;
-    const matchesType = typeFilter === 'all' || invoice.invoice_type === typeFilter;
+    const matchesType = typeFilter === 'all'; // No invoice type in new schema
     
     return matchesSearch && matchesStatus && matchesType;
   });

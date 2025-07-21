@@ -5,25 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { supabase } from '@/lib/mockSupabase';
+import { leadService, Lead } from '@/services/leadService';
 import { useAuth } from '@/components/Auth/useAuth';
 import { Search, Plus, Eye, Edit } from 'lucide-react';
 import { format } from 'date-fns';
-
-interface Lead {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  message: string;
-  lead_type: string;
-  status: string;
-  estimated_value: number;
-  created_at: string;
-  showroom_id: string;
-  assigned_to: string;
-}
 
 const LeadsManager = () => {
   const { isAdmin, isSuperAdmin } = useAuth();
@@ -39,13 +24,8 @@ const LeadsManager = () => {
 
   const fetchLeads = async () => {
     try {
-      const { data, error } = await supabase
-        .from('leads')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setLeads(data || []);
+      const data = await leadService.getLeads();
+      setLeads(data);
     } catch (error) {
       console.error('Error fetching leads:', error);
     } finally {
@@ -55,16 +35,19 @@ const LeadsManager = () => {
 
   const updateLeadStatus = async (leadId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
-        .from('leads')
-        .update({ status: newStatus })
-        .eq('id', leadId);
+      const validStatuses = ['new', 'contacted', 'qualified', 'converted', 'lost'];
+      if (!validStatuses.includes(newStatus)) {
+        console.error('Invalid status:', newStatus);
+        return;
+      }
 
-      if (error) throw error;
+      await leadService.updateLead(leadId, { 
+        status: newStatus as 'new' | 'contacted' | 'qualified' | 'converted' | 'lost' 
+      });
       
       // Update local state
       setLeads(leads.map(lead => 
-        lead.id === leadId ? { ...lead, status: newStatus } : lead
+        lead._id === leadId ? { ...lead, status: newStatus as 'new' | 'contacted' | 'qualified' | 'converted' | 'lost' } : lead
       ));
     } catch (error) {
       console.error('Error updating lead status:', error);
@@ -97,7 +80,7 @@ const LeadsManager = () => {
                          lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          lead.company?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || lead.status === statusFilter;
-    const matchesType = typeFilter === 'all' || lead.lead_type === typeFilter;
+    const matchesType = typeFilter === 'all' || lead.leadType === typeFilter;
     
     return matchesSearch && matchesStatus && matchesType;
   });
@@ -196,7 +179,7 @@ const LeadsManager = () => {
               </TableHeader>
               <TableBody>
                 {filteredLeads.map((lead) => (
-                  <TableRow key={lead.id}>
+                  <TableRow key={lead._id}>
                     <TableCell className="font-medium">{lead.name}</TableCell>
                     <TableCell>
                       <div className="text-sm">
@@ -206,14 +189,14 @@ const LeadsManager = () => {
                     </TableCell>
                     <TableCell>{lead.company || '-'}</TableCell>
                     <TableCell>
-                      <Badge variant={getTypeBadgeVariant(lead.lead_type)}>
-                        {lead.lead_type}
+                      <Badge variant={getTypeBadgeVariant(lead.leadType)}>
+                        {lead.leadType}
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <Select 
                         value={lead.status} 
-                        onValueChange={(value) => updateLeadStatus(lead.id, value)}
+                        onValueChange={(value) => updateLeadStatus(lead._id, value)}
                         disabled={!isAdmin && !isSuperAdmin}
                       >
                         <SelectTrigger className="w-32">
@@ -231,10 +214,10 @@ const LeadsManager = () => {
                       </Select>
                     </TableCell>
                     <TableCell>
-                      {lead.estimated_value ? `₹${(lead.estimated_value / 100000).toFixed(1)}L` : '-'}
+                      {'-'}
                     </TableCell>
                     <TableCell>
-                      {format(new Date(lead.created_at), 'MMM dd, yyyy')}
+                      {format(new Date(lead.createdAt), 'MMM dd, yyyy')}
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-2">

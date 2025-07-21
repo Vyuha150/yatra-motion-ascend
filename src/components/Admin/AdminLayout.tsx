@@ -29,8 +29,9 @@ import ServiceTicketsManager from './ServiceTicketsManager';
 import AMCManager from './AMCManager';
 
 const AdminLayout = () => {
-  const { signOut, profile } = useAuth();
-
+  const auth = useAuth();
+  const profile = auth.user || auth.profile; // Use the correct property from your Auth context
+  // TODO: Replace with the correct sign out method from your Auth context
   const handleSignOut = async () => {
     await signOut();
   };
@@ -57,7 +58,7 @@ const AdminLayout = () => {
             <div className="flex items-center space-x-4">
               <div className="text-right">
                 <p className="text-sm font-medium text-slate-700">
-                  {profile?.first_name} {profile?.last_name}
+                  {profile?.firstName} {profile?.lastName}
                 </p>
                 <p className="text-xs text-slate-500 capitalize">{profile?.role} Access</p>
               </div>
@@ -198,3 +199,7 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
+function signOut() {
+  throw new Error('Function not implemented.');
+}
+

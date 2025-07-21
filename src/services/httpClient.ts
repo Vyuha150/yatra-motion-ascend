@@ -36,6 +36,21 @@ class HttpClient {
     // Response interceptor for handling errors
     this.client.interceptors.response.use(
       (response: AxiosResponse<ApiResponse>) => {
+        // Ensure we're returning data in the expected format
+        if (response.data && typeof response.data === 'object') {
+          // If the response is already in our ApiResponse format, return it
+          if ('success' in response.data) {
+            return response;
+          }
+          // Otherwise, wrap it in our ApiResponse format
+          return {
+            ...response,
+            data: {
+              success: true,
+              data: response.data,
+            },
+          };
+        }
         return response;
       },
       (error) => {
@@ -44,7 +59,13 @@ class HttpClient {
           this.removeAuthToken();
           window.location.href = '/auth';
         }
-        return Promise.reject(error);
+        // Format error response
+        const errorResponse = {
+          success: false,
+          message: error.response?.data?.message || 'An error occurred',
+          error: error.response?.data?.error || error.message,
+        };
+        return Promise.reject(errorResponse);
       }
     );
   }

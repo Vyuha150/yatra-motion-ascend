@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from './Auth/AuthProvider';
+import { useAuth } from './Auth/useAuth';
 import { Button } from '@/components/ui/button';
 import { Shield, Settings, LogOut, User } from 'lucide-react';
 
 const MainNavbar = () => {
-  const { user, profile, signOut, isAdmin } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const location = useLocation();
 
   // Debug logging
-  console.log('MainNavbar - User:', user?.id);
-  console.log('MainNavbar - Profile:', profile);
+  console.log('MainNavbar - User:', user?._id);
+  console.log('MainNavbar - User Role:', user?.role);
   console.log('MainNavbar - isAdmin:', isAdmin);
 
   const navItems = [
@@ -60,10 +60,10 @@ const MainNavbar = () => {
                 <div className="flex items-center space-x-2 text-white">
                   <User className="h-4 w-4" />
                   <span className="text-sm">
-                    {profile?.first_name || 'User'}
-                    {profile?.role && (
+                    {user?.firstName || user?.email || 'User'}
+                    {user?.role && (
                       <span className="ml-1 text-xs text-blue-400">
-                        ({profile.role})
+                        ({user.role})
                       </span>
                     )}
                   </span>
@@ -91,7 +91,7 @@ const MainNavbar = () => {
 
                 {/* Sign Out */}
                 <Button
-                  onClick={signOut}
+                  onClick={logout}
                   variant="ghost"
                   size="sm"
                   className="text-gray-300 hover:text-white"

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/lib/mockSupabase';
-import { useAuth } from '@/components/Auth/AuthProvider';
+import { useAuth } from '@/components/Auth/useAuth';
 import { Search, Plus, Eye, Edit } from 'lucide-react';
 import { format } from 'date-fns';
 

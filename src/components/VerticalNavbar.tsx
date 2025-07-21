@@ -3,7 +3,7 @@ import React from 'react';
 import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from './Auth/AuthProvider';
+import { useAuth } from './Auth/useAuth';
 
 interface VerticalNavbarProps {
   isOpen: boolean;
@@ -12,7 +12,7 @@ interface VerticalNavbarProps {
 
 const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
   const location = useLocation();
-  const { user, profile } = useAuth();
+  const { user, isAdmin } = useAuth();
   
   const navItems = [
     { icon: Home, label: 'Home', href: '/', color: 'text-blue-400' },
@@ -26,9 +26,9 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
 
   // Enhanced admin section with infographics
   const getAdminItems = () => {
-    console.log('VerticalNavbar - User:', user?.id);
-    console.log('VerticalNavbar - Profile:', profile);
-    console.log('VerticalNavbar - Role:', profile?.role);
+    console.log('VerticalNavbar - User:', user?._id);
+    console.log('VerticalNavbar - Role:', user?.role);
+    console.log('VerticalNavbar - isAdmin:', isAdmin);
     
     if (!user) {
       return [{ icon: Shield, label: 'Admin Login', href: '/auth', color: 'text-red-400', isAdminLogin: true }];
@@ -36,8 +36,8 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
     
     
     // Show admin items for admin roles
-    if (profile?.role && ['super_admin', 'admin'].includes(profile.role)) {
-      console.log('✅ Admin access granted for role:', profile.role);
+    if (isAdmin || (user?.role && ['super_admin', 'admin'].includes(user.role))) {
+      console.log('✅ Admin access granted for role:', user?.role);
       return [
         { icon: Settings, label: 'Admin Dashboard', href: '/admin', color: 'text-red-400', isAdmin: true },
         { icon: BarChart3, label: 'Analytics', href: '/admin#analytics', color: 'text-indigo-400', isAdmin: true },

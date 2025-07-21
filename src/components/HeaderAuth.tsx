@@ -1,20 +1,19 @@
 
 import React from 'react';
-import { useAuth } from './Auth/AuthProvider';
+import { useAuth } from './Auth/useAuth';
 import { Button } from '@/components/ui/button';
 import { LogOut, User, Settings, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeaderAuth = () => {
-  const { user, profile, signOut, isAdmin } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   
-  // Check if user is admin by email or profile role
+  // Check if user is admin by email or role
   const isUserAdmin = isAdmin || user?.email === 'admin@yatraelevators.com';
   
   // Debug logging
-  console.log('HeaderAuth - User:', user?.id);
-  console.log('HeaderAuth - Profile:', profile);
-  console.log('HeaderAuth - Role:', profile?.role);
+  console.log('HeaderAuth - User:', user?._id);
+  console.log('HeaderAuth - Role:', user?.role);
   console.log('HeaderAuth - isAdmin:', isAdmin);
   console.log('HeaderAuth - User Email:', user?.email);
   console.log('HeaderAuth - isUserAdmin:', isUserAdmin);
@@ -40,23 +39,23 @@ const HeaderAuth = () => {
         <div className="flex items-center space-x-2 bg-white/10 rounded-full px-3 py-2">
           <div className="relative">
             <User className="h-6 w-6 text-white" />
-            {profile?.role && ['admin', 'super_admin'].includes(profile.role) && (
+            {user?.role && ['admin', 'super_admin'].includes(user.role) && (
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border border-white">
                 <Settings className="h-2 w-2 text-slate-900 absolute top-0.5 left-0.5" />
               </div>
             )}
           </div>
           <span className="text-sm text-white font-medium">
-            {profile?.first_name || 'User'} 
-            {profile?.role && (
-              <span className="text-xs text-blue-200 ml-1">({profile.role})</span>
+            {user?.firstName || user?.email || 'User'} 
+            {user?.role && (
+              <span className="text-xs text-blue-200 ml-1">({user.role})</span>
             )}
           </span>
         </div>
         
         {/* Sign Out Button */}
         <Button
-          onClick={signOut}
+          onClick={logout}
           variant="ghost"
           size="sm"
           className="text-white hover:bg-white/20 hover:text-white h-10 px-3"

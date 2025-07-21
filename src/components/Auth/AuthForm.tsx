@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/components/Auth/useAuth';
 
 interface AuthFormProps {
   mode: 'signin' | 'signup';
@@ -22,6 +22,7 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login, register, isAdmin } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,48 +30,33 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
 
     try {
       if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({
+        await register({
+          firstName,
+          lastName,
           email,
           password,
-          options: {
-            data: {
-              first_name: firstName,
-              last_name: lastName,
-              phone: phone
-            }
-          }
+          phone
         });
-        
-        if (error) throw error;
-        toast.success('Account created! Please check your email to verify your account.');
+        toast.success('Account created successfully! You can now sign in.');
+        onToggleMode();
       } else {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        await login({
           email,
           password
         });
         
-        if (error) throw error;
-        
         // Check if user is admin and redirect accordingly
-        if (data.user) {
-          // Fetch user profile to check role
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', data.user.id)
-            .single();
-          
-          if (profile?.role === 'admin' || profile?.role === 'super_admin') {
-            toast.success('Admin login successful! Redirecting to admin panel...');
-            setTimeout(() => navigate('/admin'), 1000);
-          } else {
-            toast.success('Signed in successfully!');
-            setTimeout(() => navigate('/'), 1000);
-          }
+        if (isAdmin) {
+          toast.success('Admin login successful! Redirecting to admin panel...');
+          setTimeout(() => navigate('/admin'), 1000);
+        } else {
+          toast.success('Signed in successfully!');
+          setTimeout(() => navigate('/'), 1000);
         }
       }
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

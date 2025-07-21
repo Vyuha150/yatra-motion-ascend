@@ -2,14 +2,14 @@
 // TODO: Replace all admin components with proper backend API calls
 
 const mockSupabase = {
-  from: () => ({
-    select: () => ({
+  from: (p0: string) => ({
+    select: (p0: string) => ({
       eq: () => ({
         order: () => Promise.resolve({ data: [], error: null }),
         maybeSingle: () => Promise.resolve({ data: null, error: null }),
         single: () => Promise.resolve({ data: null, error: null })
       }),
-      order: () => Promise.resolve({ data: [], error: null })
+      order: (p0: string, p1: { ascending: boolean; }) => Promise.resolve({ data: [], error: null })
     }),
     insert: () => ({
       select: () => ({

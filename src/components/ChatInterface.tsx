@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2 } from 'lucide-react';
+import { Send, X, Bot, User as UserIcon, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { supabase } from '@/lib/mockSupabase';
 import { useToast } from '@/hooks/use-toast';
 
 interface Message {
@@ -60,31 +59,23 @@ const ChatInterface = ({ onClose }: ChatInterfaceProps) => {
     setIsLoading(true);
 
     try {
-      // Prepare chat history for context (last 10 messages)
-      const chatHistory = messages.slice(-10).map(msg => ({
-        role: msg.role,
-        content: msg.content
-      }));
+      // Mock chat response - in a real implementation, this would call your backend chat API
+      const mockResponses = [
+        "Hello! I'm Yatra Elevators' assistant. How can I help you today?",
+        "Thank you for your inquiry. Our team specializes in elevator installation and maintenance.",
+        "For specific technical questions, please contact our support team at support@yatraelevators.com",
+        "I'd be happy to help you learn more about our elevator products and services.",
+        "Our maintenance contracts ensure your elevators run smoothly year-round."
+      ];
 
-      const { data, error } = await supabase.functions.invoke('chat-bot', {
-        body: {
-          message: userMessage.content,
-          chatHistory: chatHistory
-        }
-      });
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (error) {
-        console.error('Supabase function error:', error);
-        throw new Error(error.message || 'Failed to get response');
-      }
-
-      if (!data.success) {
-        throw new Error(data.error || 'Failed to get response');
-      }
+      const randomResponse = mockResponses[Math.floor(Math.random() * mockResponses.length)];
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.response,
+        content: randomResponse,
         role: 'assistant',
         timestamp: new Date()
       };
@@ -143,7 +134,7 @@ const ChatInterface = ({ onClose }: ChatInterfaceProps) => {
                 }`}
               >
                 {message.role === 'user' ? (
-                  <User className="w-4 h-4" />
+                  <UserIcon className="w-4 h-4" />
                 ) : (
                   <Bot className="w-4 h-4" />
                 )}

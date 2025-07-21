@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useAuth } from '../components/Auth/AuthProvider';
+import { useAuth } from '../components/Auth/useAuth';
 import AdminLayout from '../components/Admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 

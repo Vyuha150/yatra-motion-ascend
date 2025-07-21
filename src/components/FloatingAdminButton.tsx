@@ -2,7 +2,7 @@ import React from 'react';
 import { Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { useAuth } from './Auth/AuthProvider';
+import { useAuth } from './Auth/useAuth';
 
 const FloatingAdminButton = () => {
   // Handle auth safely - check if AuthProvider is available

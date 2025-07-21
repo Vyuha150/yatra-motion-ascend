@@ -4,7 +4,7 @@ import { ChevronDown, Phone, Download, Calendar, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CommonHeader from './CommonHeader';
 import ContactModal from './ContactModal';
-import { useAuth } from './Auth/AuthProvider';
+import { useAuth } from './Auth/useAuth';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
@@ -12,13 +12,11 @@ const Hero = () => {
   
   // Handle auth safely - check if AuthProvider is available
   let user = null;
-  let profile = null;
   let isAdmin = false;
   
   try {
     const authContext = useAuth();
     user = authContext.user;
-    profile = authContext.profile;
     isAdmin = authContext.isAdmin;
   } catch (error) {
     // AuthProvider not available yet, use defaults
@@ -40,7 +38,7 @@ const Hero = () => {
     return () => {
       clearInterval(slideInterval);
     };
-  }, []);
+  }, [heroImages.length]);
 
   const handleDownloadBrochure = () => {
     // Create a dummy PDF download

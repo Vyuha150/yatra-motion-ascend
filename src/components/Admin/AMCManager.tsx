@@ -5,8 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/components/Auth/AuthProvider';
+import { useAuth } from '@/components/Auth/useAuth';
 import { Search, Plus, Eye, Edit, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -38,13 +37,38 @@ const AMCManager = () => {
 
   const fetchContracts = async () => {
     try {
-      const { data, error } = await supabase
-        .from('amc_contracts')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setContracts(data || []);
+      // TODO: Implement AMC API service
+      // For now, showing placeholder data
+      setContracts([
+        {
+          id: '1',
+          contract_number: 'AMC-2024-001',
+          customer_name: 'ABC Corporation',
+          customer_email: 'contact@abccorp.com',
+          customer_phone: '+91-9876543210',
+          property_address: '123 Business District, Mumbai',
+          elevator_model: 'YE-Passenger 1000',
+          annual_amount: 250000,
+          status: 'active',
+          contract_start_date: '2024-01-01',
+          contract_end_date: '2024-12-31',
+          created_at: '2024-01-01'
+        },
+        {
+          id: '2',
+          contract_number: 'AMC-2024-002',
+          customer_name: 'XYZ Residency',
+          customer_email: 'admin@xyzresidency.com',
+          customer_phone: '+91-8765432109',
+          property_address: '456 Residential Complex, Delhi',
+          elevator_model: 'YE-Home 500',
+          annual_amount: 150000,
+          status: 'pending_renewal',
+          contract_start_date: '2024-02-01',
+          contract_end_date: '2025-01-31',
+          created_at: '2024-02-01'
+        }
+      ]);
     } catch (error) {
       console.error('Error fetching AMC contracts:', error);
     } finally {
@@ -54,12 +78,8 @@ const AMCManager = () => {
 
   const updateContractStatus = async (contractId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
-        .from('amc_contracts')
-        .update({ status: newStatus })
-        .eq('id', contractId);
-
-      if (error) throw error;
+      // TODO: Implement AMC status update API
+      console.log(`Updating contract ${contractId} to status: ${newStatus}`);
       
       setContracts(contracts.map(contract => 
         contract.id === contractId ? { ...contract, status: newStatus } : contract

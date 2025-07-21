@@ -6,13 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/components/Auth/AuthProvider';
+import { useAuth } from '@/components/Auth/useAuth';
 import { Loader2 } from 'lucide-react';
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, login, register } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -34,16 +33,12 @@ const Auth = () => {
     const password = formData.get('password') as string;
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) throw error;
-      
+      await login({ email, password });
+      setMessage('Login successful! Redirecting...');
       // Redirect will happen automatically via useEffect
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -60,25 +55,21 @@ const Auth = () => {
     const password = formData.get('password') as string;
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
+    const phone = formData.get('phone') as string || '';
 
     try {
-      const { error } = await supabase.auth.signUp({
+      await register({
         email,
         password,
-        options: {
-          data: {
-            first_name: firstName,
-            last_name: lastName,
-          },
-          emailRedirectTo: `${window.location.origin}/`,
-        },
+        firstName,
+        lastName,
+        phone
       });
-
-      if (error) throw error;
       
-      setMessage('Check your email for the confirmation link!');
-    } catch (error: any) {
-      setError(error.message);
+      setMessage('Registration successful! You are now logged in.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -197,43 +188,16 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
 
-          {/* Quick Admin Account Creation for Testing */}
+          {/* Admin Login Info */}
           <div className="mt-6 p-4 bg-muted rounded-lg">
-            <h3 className="font-medium mb-2">Quick Test Account</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              Click below to create a test admin account instantly (for demo purposes):
+            <h3 className="font-medium mb-2">Admin Account</h3>
+            <p className="text-sm text-muted-foreground mb-2">
+              Use these credentials to access admin features:
             </p>
-            <Button 
-              variant="outline" 
-              className="w-full"
-              onClick={async () => {
-                setLoading(true);
-                try {
-                  const { error } = await supabase.auth.signUp({
-                    email: 'admin@yatraelevators.com',
-                    password: 'Admin@123',
-                    options: {
-                      data: {
-                        first_name: 'Admin',
-                        last_name: 'User',
-                        role: 'admin'
-                      },
-                      emailRedirectTo: `${window.location.origin}/`,
-                    },
-                  });
-                  
-                  if (error) throw error;
-                  setMessage('Admin account created! Email: admin@yatraelevators.com, Password: Admin@123');
-                } catch (error: any) {
-                  setError(error.message);
-                } finally {
-                  setLoading(false);
-                }
-              }}
-              disabled={loading}
-            >
-              Create Test Admin Account
-            </Button>
+            <div className="text-sm font-mono">
+              <p>Email: admin@yatraelevators.com</p>
+              <p>Password: Admin@123</p>
+            </div>
           </div>
 
           {error && (

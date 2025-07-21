@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { supabase } from '@/integrations/supabase/client';
+import { contactService } from '@/services';
 import { toast } from 'sonner';
 import { MessageCircle } from 'lucide-react';
 
@@ -29,17 +29,29 @@ const ContactModal = ({ children, buttonText = 'Contact Us' }: ContactModalProps
     setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('contacts')
-        .insert([formData]);
+      const contactData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        subject: 'Website Contact Form',
+        message: formData.message,
+        type: 'inquiry' as const,
+        source: 'website' as const
+      };
 
-      if (error) throw error;
+      const response = await contactService.createContact(contactData);
 
-      toast.success('Your message has been sent successfully!');
-      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
-      setOpen(false);
-    } catch (error: any) {
-      toast.error('Error sending message: ' + error.message);
+      if (response.success) {
+        toast.success('Your message has been sent successfully!');
+        setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+        setOpen(false);
+      } else {
+        throw new Error(response.message || 'Failed to send message');
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      toast.error('Error sending message: ' + errorMessage);
     } finally {
       setLoading(false);
     }

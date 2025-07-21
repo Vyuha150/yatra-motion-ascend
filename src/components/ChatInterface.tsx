@@ -3,7 +3,7 @@ import { Send, User, Bot, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/mockSupabase';
 import { useToast } from '@/hooks/use-toast';
 
 interface Message {

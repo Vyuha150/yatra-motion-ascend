@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/mockSupabase';
 import { Users, ShoppingCart, AlertTriangle, DollarSign, TrendingUp, Building2 } from 'lucide-react';
 
 interface DashboardStats {

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { productService, Product } from '@/services/productService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,18 +13,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 
-interface Product {
-  id: string;
-  name: string;
-  description: string | null;
-  category: string | null;
-  specifications: any;
-  price_range: string | null;
-  image_url: string | null;
-  is_featured: boolean;
-  created_at: string;
-}
-
 const ProductsManager = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,10 +22,11 @@ const ProductsManager = () => {
     name: '',
     description: '',
     category: '',
-    specifications: '',
-    price_range: '',
+    specifications: '{}',
+    price: 0,
     image_url: '',
-    is_featured: false
+    features: [] as string[],
+    brochure_url: ''
   });
 
   useEffect(() => {
@@ -46,15 +35,11 @@ const ProductsManager = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setProducts(data || []);
-    } catch (error: any) {
-      toast.error('Error fetching products: ' + error.message);
+      const data = await productService.getProducts();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      toast.error('Error fetching products');
     } finally {
       setLoading(false);
     }
@@ -64,32 +49,38 @@ const ProductsManager = () => {
     e.preventDefault();
     
     try {
+      let specifications = {};
+      try {
+        specifications = formData.specifications ? JSON.parse(formData.specifications) : {};
+      } catch {
+        toast.error('Invalid JSON in specifications');
+        return;
+      }
+
       const productData = {
-        ...formData,
-        specifications: formData.specifications ? JSON.parse(formData.specifications) : null
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        specifications,
+        price: formData.price,
+        image_url: formData.image_url,
+        features: formData.features,
+        brochure_url: formData.brochure_url
       };
 
       if (editingProduct) {
-        const { error } = await supabase
-          .from('products')
-          .update(productData)
-          .eq('id', editingProduct.id);
-        
-        if (error) throw error;
+        await productService.updateProduct(editingProduct.id!, productData);
         toast.success('Product updated successfully');
       } else {
-        const { error } = await supabase
-          .from('products')
-          .insert([productData]);
-        
-        if (error) throw error;
+        await productService.createProduct(productData);
         toast.success('Product created successfully');
       }
       
       resetForm();
       fetchProducts();
-    } catch (error: any) {
-      toast.error('Error saving product: ' + error.message);
+    } catch (error) {
+      console.error('Error saving product:', error);
+      toast.error('Error saving product');
     }
   };
 
@@ -99,27 +90,24 @@ const ProductsManager = () => {
       name: product.name,
       description: product.description || '',
       category: product.category || '',
-      specifications: product.specifications ? JSON.stringify(product.specifications, null, 2) : '',
-      price_range: product.price_range || '',
+      specifications: product.specifications ? JSON.stringify(product.specifications, null, 2) : '{}',
+      price: product.price || 0,
       image_url: product.image_url || '',
-      is_featured: product.is_featured
+      features: product.features || [],
+      brochure_url: product.brochure_url || ''
     });
     setIsDialogOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this product?')) {
       try {
-        const { error } = await supabase
-          .from('products')
-          .delete()
-          .eq('id', id);
-        
-        if (error) throw error;
+        await productService.deleteProduct(id);
         toast.success('Product deleted successfully');
         fetchProducts();
-      } catch (error: any) {
-        toast.error('Error deleting product: ' + error.message);
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        toast.error('Error deleting product');
       }
     }
   };
@@ -129,10 +117,11 @@ const ProductsManager = () => {
       name: '',
       description: '',
       category: '',
-      specifications: '',
-      price_range: '',
+      specifications: '{}',
+      price: 0,
       image_url: '',
-      is_featured: false
+      features: [],
+      brochure_url: ''
     });
     setEditingProduct(null);
     setIsDialogOpen(false);
@@ -199,11 +188,12 @@ const ProductsManager = () => {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium">Price Range</label>
+                  <label className="text-sm font-medium">Price</label>
                   <Input
-                    value={formData.price_range}
-                    onChange={(e) => setFormData({...formData, price_range: e.target.value})}
-                    placeholder="₹5-8 Lakhs"
+                    type="number"
+                    value={formData.price}
+                    onChange={(e) => setFormData({...formData, price: parseFloat(e.target.value) || 0})}
+                    placeholder="500000"
                   />
                 </div>
                 <div>
@@ -217,6 +207,15 @@ const ProductsManager = () => {
               </div>
               
               <div>
+                <label className="text-sm font-medium">Brochure URL</label>
+                <Input
+                  value={formData.brochure_url}
+                  onChange={(e) => setFormData({...formData, brochure_url: e.target.value})}
+                  placeholder="https://example.com/brochure.pdf"
+                />
+              </div>
+              
+              <div>
                 <label className="text-sm font-medium">Specifications (JSON)</label>
                 <Textarea
                   value={formData.specifications}
@@ -224,17 +223,6 @@ const ProductsManager = () => {
                   placeholder='{"capacity": "8-10 persons", "speed": "1.5 m/s"}'
                   rows={4}
                 />
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="featured"
-                  checked={formData.is_featured}
-                  onCheckedChange={(checked) => setFormData({...formData, is_featured: checked as boolean})}
-                />
-                <label htmlFor="featured" className="text-sm font-medium">
-                  Featured Product
-                </label>
               </div>
               
               <div className="flex justify-end space-x-2">
@@ -256,8 +244,7 @@ const ProductsManager = () => {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Category</TableHead>
-                <TableHead>Price Range</TableHead>
-                <TableHead>Featured</TableHead>
+                <TableHead>Price</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -272,14 +259,7 @@ const ProductsManager = () => {
                       </Badge>
                     ) : '-'}
                   </TableCell>
-                  <TableCell>{product.price_range || '-'}</TableCell>
-                  <TableCell>
-                    {product.is_featured ? (
-                      <Badge className="bg-green-100 text-green-800">Featured</Badge>
-                    ) : (
-                      <Badge variant="outline">Regular</Badge>
-                    )}
-                  </TableCell>
+                  <TableCell>₹{product.price?.toLocaleString() || 0}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <Button
@@ -292,7 +272,7 @@ const ProductsManager = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleDelete(product.id)}
+                        onClick={() => handleDelete(product.id!)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

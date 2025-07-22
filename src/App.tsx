@@ -13,6 +13,8 @@ import ContactUs from "./pages/ContactUs";
 import Careers from "./pages/Careers";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
+import Profile from "./pages/Profile";
+import InnovationTech from "./pages/InnovationTech";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,7 +33,9 @@ const App = () => (
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/innovation" element={<InnovationTech />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<Admin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

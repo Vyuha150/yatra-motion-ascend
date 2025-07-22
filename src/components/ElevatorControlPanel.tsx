@@ -15,9 +15,9 @@ const ElevatorControlPanel = ({ currentFloor, totalFloors, onFloorChange }: Elev
   return (
     <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40">
       {/* Control Panel Background */}
-      <div className="steel-texture glass-reflection rounded-2xl border border-border p-4 shadow-2xl">
+      <div className="steel-texture glass-reflection rounded-2xl border border-border p-4 shadow-2xl flex flex-col items-center">
         {/* Floor Display */}
-        <div className="mb-6 text-center">
+        <div className="mb-6 text-center flex flex-col items-center">
           <div className="glass-reflection rounded-lg border border-border p-3 mb-2">
             <div className="text-primary font-mono text-2xl font-bold">
               {currentFloor}
@@ -29,7 +29,7 @@ const ElevatorControlPanel = ({ currentFloor, totalFloors, onFloorChange }: Elev
         </div>
 
         {/* Control Buttons */}
-        <div className="space-y-3">
+        <div className="space-y-3 flex flex-col items-center">
           {/* Up Button */}
           <button
             onClick={() => handleFloorChange('up')}
@@ -58,7 +58,7 @@ const ElevatorControlPanel = ({ currentFloor, totalFloors, onFloorChange }: Elev
         </div>
 
         {/* Floor Indicator Lights */}
-        <div className="mt-6 space-y-2">
+        <div className="mt-6 space-y-2 flex flex-col items-center">
           {Array.from({ length: totalFloors }, (_, i) => totalFloors - i).map((floor) => (
             <div
               key={floor}

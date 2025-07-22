@@ -6,11 +6,28 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
-  role: 'user' | 'admin' | 'super_admin';
-  profilePicture?: string;
-  isActive: boolean;
+  phone?: string;
+  role: 'user' | 'admin' | 'super_admin' | 'showroom_employee' | 'bulk_buyer';
+  isEmailVerified: boolean;
+  profile?: {
+    avatar?: string;
+    company?: string;
+    designation?: string;
+    address?: {
+      street?: string;
+      city?: string;
+      state?: string;
+      pincode?: string;
+      country?: string;
+    };
+  };
+  preferences?: {
+    notifications: boolean;
+    newsletter: boolean;
+  };
+  isActive?: boolean;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface LoginCredentials {
@@ -23,7 +40,8 @@ export interface RegisterData {
   lastName: string;
   email: string;
   password: string;
-  phone: string;
+  phone?: string;
+  role?: 'user' | 'admin' | 'super_admin' | 'showroom_employee' | 'bulk_buyer';
 }
 
 export interface LoginResponse {
@@ -34,9 +52,23 @@ export interface LoginResponse {
 export interface ProfileUpdateData {
   firstName?: string;
   lastName?: string;
-  email?: string;
   phone?: string;
-  profilePicture?: string;
+  profile?: {
+    avatar?: string;
+    company?: string;
+    designation?: string;
+    address?: {
+      street?: string;
+      city?: string;
+      state?: string;
+      pincode?: string;
+      country?: string;
+    };
+  };
+  preferences?: {
+    notifications?: boolean;
+    newsletter?: boolean;
+  };
 }
 
 export interface ChangePasswordData {

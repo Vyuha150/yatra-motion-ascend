@@ -30,11 +30,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (credentials: LoginCredentials) => {
     setLoading(true);
     try {
+      console.log('Attempting login with:', credentials.email);
       const response = await authService.login(credentials);
+      console.log('Login response:', response);
+      
       if (response && response.success && response.data) {
         // The authService already handles token storage
+        console.log('Setting user:', response.data.user);
         setUser(response.data.user);
       } else {
+        console.error('Invalid response structure:', response);
         throw new Error('Invalid response from server');
       }
     } catch (error) {

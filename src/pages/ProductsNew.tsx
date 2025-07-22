@@ -420,10 +420,10 @@ const Products = () => {
               {products.map((product) => {
                 const IconComponent = getCategoryIcon(product.category);
                 return (
-                  <div key={product._id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div key={product.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                     {product.images && product.images[0] && (
                       <img 
-                        src={product.images[0].url} 
+                        src={product.images[0]} 
                         alt={product.name}
                         className="w-full h-48 object-cover"
                       />
@@ -440,7 +440,7 @@ const Products = () => {
                       
                       <div className="flex justify-between items-center mb-4">
                         <span className="text-2xl font-bold text-blue-600">
-                          {product.pricing ? formatPrice(product.pricing.basePrice, 'INR') : 'Contact for Price'}
+                          {formatPrice(product.price, product.currency)}
                         </span>
                         {product.availability && (
                           <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded">

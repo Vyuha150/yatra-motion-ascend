@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench, LogOut } from 'lucide-react';
+import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench, LogOut, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './Auth/useAuth';
@@ -17,6 +17,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
     { icon: Home, label: 'Home', href: '/', color: 'text-blue-400' },
     { icon: User, label: 'About Us', href: '/about', color: 'text-green-400' },
     { icon: Package, label: 'Products & Services', href: '/products', color: 'text-purple-400' },
+    { icon: Zap, label: 'Innovation & Tech', href: '/innovation', color: 'text-indigo-400' },
     { icon: Briefcase, label: 'Projects', href: '/projects', color: 'text-orange-400' },
     { icon: Phone, label: 'Contact Us', href: '/contact', color: 'text-pink-400' },
     { icon: Users, label: 'Careers', href: '/careers', color: 'text-cyan-400' },
@@ -52,13 +53,13 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
 
       {/* Vertical Navbar */}
       <div
-        className={`fixed right-0 top-0 h-full w-80 bg-steel-dark shadow-2xl z-50 transform transition-transform duration-500 ease-in-out ${
+        className={`fixed right-0 top-0 h-full w-80 bg-steel-dark shadow-2xl z-50 transform transition-transform duration-500 ease-in-out overflow-y-auto ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full">
+        <div className="min-h-full flex flex-col">
           {/* Header */}
-          <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-steel-accent">
+          <div className="flex items-center justify-between p-6 border-b border-steel-accent">
             <h2 className="text-xl font-bold text-white">Menu</h2>
             <Button
               variant="ghost"
@@ -70,8 +71,8 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
             </Button>
           </div>
 
-          {/* Scrollable Navigation Content */}
-          <div className="flex-1 overflow-y-auto py-6">
+          {/* Navigation Content */}
+          <div className="py-6">
             <nav className="space-y-3 px-4">
               {/* Main Navigation */}
               <div className="space-y-2">
@@ -97,7 +98,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex-shrink-0 p-6 border-t border-steel-accent">
+          <div className="p-6 border-t border-steel-accent">
             <h3 className="text-sm font-semibold text-white mb-4">Follow Us</h3>
             <div className="flex space-x-4">
               {socialIcons.map((social, index) => (
@@ -119,7 +120,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
 
           {/* User Actions Section */}
           {user && (
-            <div className="flex-shrink-0 p-6 border-t border-steel-accent">
+            <div className="p-6 border-t border-steel-accent">
               <h3 className="text-sm font-semibold text-white mb-4">Account</h3>
               <div className="space-y-3">
                 {/* User Profile Button */}
@@ -143,6 +144,19 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
                     )}
                   </div>
                 </div>
+
+                {/* Profile Button */}
+                <Link
+                  to="/profile"
+                  onClick={handleItemClick}
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-400/20"
+                >
+                  <Settings className="h-5 w-5 text-blue-400 group-hover:scale-110 transition-transform duration-200" />
+                  <div className="flex flex-col">
+                    <span className="font-medium">My Profile</span>
+                    <span className="text-xs text-steel-light">Manage Account</span>
+                  </div>
+                </Link>
 
                 {/* Admin Panel Button - Only for admin users */}
                 {(isAdmin || user?.email === 'admin@yatraelevators.com') && (
@@ -182,7 +196,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
 
           {/* Login Button for Non-authenticated Users */}
           {!user && (
-            <div className="flex-shrink-0 p-6 border-t border-steel-accent">
+            <div className="p-6 border-t border-steel-accent">
               <h3 className="text-sm font-semibold text-white mb-4">Account</h3>
               <Link
                 to="/auth"

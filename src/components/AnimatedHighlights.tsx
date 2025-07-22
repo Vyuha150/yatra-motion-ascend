@@ -4,9 +4,12 @@ import React, { useState, useEffect } from 'react';
 const AnimatedHighlights = () => {
   const highlights = [
     "50+ Lift Installations Across South India",
-    "MRL Lifts Available - Space Saving Technology",
+    "MRL Lifts Available - Space Saving Technology", 
     "ISI Certified & Energy Efficient Solutions",
-    "24/7 Customer Support & Lifetime Service"
+    "24/7 Customer Support & Lifetime Service",
+    "Innovation, Safety, and Customer-Focused Solutions",
+    "Tailor-Made Designs with Global Standards",
+    "Efficient Post-Sales Service & Real-Time Monitoring"
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);

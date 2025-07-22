@@ -117,7 +117,7 @@ class AuthService {
   }
 
   async changePassword(data: ChangePasswordData): Promise<ApiResponse<{ message: string }>> {
-    return await httpClient.post<{ message: string }>(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, data);
+    return await httpClient.put<{ message: string }>(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, data);
   }
 
   logout(): void {

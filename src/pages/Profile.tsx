@@ -24,11 +24,10 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import PageLayout from '@/components/PageLayout';
-import { authService } from '@/services/authService';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, updateProfile, changePassword, refreshProfile } = useAuth();
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -129,29 +128,46 @@ const Profile = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Validation
+    if (!formData.firstName.trim()) {
+      toast.error('First name is required');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.lastName.trim()) {
+      toast.error('Last name is required');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await authService.updateProfile({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone,
+      await updateProfile({
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        phone: formData.phone.trim(),
         profile: {
-          company: formData.company,
-          designation: formData.designation,
-          address: formData.address
+          company: formData.company.trim(),
+          designation: formData.designation.trim(),
+          address: {
+            street: formData.address.street.trim(),
+            city: formData.address.city.trim(),
+            state: formData.address.state.trim(),
+            pincode: formData.address.pincode.trim(),
+            country: formData.address.country.trim() || 'India'
+          }
         },
         preferences: formData.preferences
       });
 
-      if (response.success) {
-        toast.success('Profile updated successfully!');
-        setIsEditing(false);
-        // You might want to refresh the user context here
-      } else {
-        toast.error(response.message || 'Failed to update profile');
-      }
-    } catch (error) {
+      toast.success('Profile updated successfully!');
+      setIsEditing(false);
+      // Refresh the profile to get the latest data
+      await refreshProfile();
+    } catch (error: unknown) {
       console.error('Profile update error:', error);
-      toast.error('Failed to update profile. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update profile. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -184,24 +200,21 @@ const Profile = () => {
     setLoading(true);
 
     try {
-      const response = await authService.changePassword({
+      await changePassword({
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword
       });
 
-      if (response.success) {
-        toast.success('Password changed successfully!');
-        setPasswordData({
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: ''
-        });
-      } else {
-        toast.error(response.message || 'Failed to change password');
-      }
-    } catch (error) {
+      toast.success('Password changed successfully!');
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+    } catch (error: unknown) {
       console.error('Password change error:', error);
-      toast.error('Failed to change password. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to change password. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -340,7 +353,7 @@ const Profile = () => {
                     {/* Basic Information */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="firstName">First Name</Label>
+                        <Label htmlFor="firstName">First Name *</Label>
                         <Input
                           id="firstName"
                           name="firstName"
@@ -348,10 +361,11 @@ const Profile = () => {
                           onChange={handleInputChange}
                           disabled={!isEditing}
                           placeholder="Enter your first name"
+                          required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="lastName">Last Name</Label>
+                        <Label htmlFor="lastName">Last Name *</Label>
                         <Input
                           id="lastName"
                           name="lastName"
@@ -359,6 +373,7 @@ const Profile = () => {
                           onChange={handleInputChange}
                           disabled={!isEditing}
                           placeholder="Enter your last name"
+                          required
                         />
                       </div>
                     </div>

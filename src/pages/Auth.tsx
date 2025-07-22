@@ -165,13 +165,7 @@ const Auth = () => {
             </TabsList>
             
             <TabsContent value="signin">
-              <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
-                <h3 className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">Demo Credentials:</h3>
-                <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                  <p><strong>Admin:</strong> admin@yatraelevators.com / admin123</p>
-                  <p><strong>User:</strong> user@yatraelevators.com / user123</p>
-                </div>
-              </div>
+             
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>

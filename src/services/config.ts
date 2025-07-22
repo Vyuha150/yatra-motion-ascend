@@ -3,7 +3,7 @@ export const API_CONFIG = {
   baseURL: process.env.NODE_ENV === 'production' 
     ? process.env.REACT_APP_API_URL || 'http://localhost:5000'
     : 'http://localhost:5000',
-  timeout: 10000,
+  timeout: 30000, // Increased timeout to 30 seconds for debugging
   headers: {
     'Content-Type': 'application/json',
   }

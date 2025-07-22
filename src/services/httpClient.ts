@@ -123,8 +123,25 @@ class HttpClient {
   private handleError<T = unknown>(error: unknown): ApiResponse<T> {
     console.error('API Error:', error);
     
-    if (axios.isAxiosError(error) && error.response?.data) {
-      return error.response.data;
+    if (axios.isAxiosError(error)) {
+      if (error.response?.data) {
+        console.error('Response data:', error.response.data);
+        return error.response.data;
+      } else if (error.request) {
+        console.error('Request made but no response received:', error.request);
+        return {
+          success: false,
+          message: 'Network error - no response from server',
+          error: 'Network error'
+        } as ApiResponse<T>;
+      } else {
+        console.error('Error setting up request:', error.message);
+        return {
+          success: false,
+          message: error.message,
+          error: error.message
+        } as ApiResponse<T>;
+      }
     }
     
     const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';

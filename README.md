@@ -1,73 +1,79 @@
-# Welcome to your Lovable project
+# Yatra Motion Ascend - Frontend
 
-## Project info
+A modern React.js frontend application for Yatra Elevators built with Vite, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/1695d22a-94d1-46ec-a87f-4c5b7dbbe2cf
+## 🚀 Features
 
-## How can I edit this code?
+- **Modern UI/UX** - Clean, responsive design with Tailwind CSS
+- **TypeScript** - Type-safe development experience
+- **Component Library** - shadcn/ui components for consistent design
+- **Fast Development** - Vite for lightning-fast build and development
+- **Industry Pages** - Specialized pages for different industry sectors
 
-There are several ways of editing your application.
+## 🛠️ Tech Stack
 
-**Use Lovable**
+- **React 18** with TypeScript
+- **Vite** - Build tool and development server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Modern component library
+- **Lucide React** - Beautiful icons
+- **React Router** - Client-side routing
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1695d22a-94d1-46ec-a87f-4c5b7dbbe2cf) and start prompting.
+## 📦 Installation
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Navigate to the frontend directory:
+   ```bash
+   cd yatra-motion-ascend
+   ```
 
-**Use your preferred IDE**
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+4. Build for production:
+   ```bash
+   npm run build
+   ```
 
-Follow these steps:
+## 📁 Project Structure
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```
+src/
+├── components/       # Reusable UI components
+├── pages/           # Page components
+├── services/        # API service functions
+├── hooks/           # Custom React hooks
+├── lib/             # Utility functions
+└── ...
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🔗 Integration
 
-# Step 3: Install the necessary dependencies.
-npm i
+This frontend connects to the Yatra Elevators backend API for:
+- User authentication and authorization
+- Product catalog management
+- Contact form submissions
+- Admin dashboard functionality
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## 🎨 Styling
+
+The application uses a consistent blue and white color theme throughout all pages, with:
+- Primary blue colors for branding
+- Clean white backgrounds
+- Consistent typography and spacing
+- Responsive design for all screen sizes
+
+## 🚀 Development
+
+Run the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/1695d22a-94d1-46ec-a87f-4c5b7dbbe2cf) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+The application will be available at `http://localhost:5173`

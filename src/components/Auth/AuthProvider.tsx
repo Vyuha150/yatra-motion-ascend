@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { authService, User, LoginCredentials, RegisterData } from '@/services/authService';
+import { authService, User, LoginCredentials, RegisterData, ProfileUpdateData, ChangePasswordData } from '@/services/authService';
 import { AuthContext, AuthContextType } from './useAuth';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -73,6 +73,61 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const updateProfile = async (data: ProfileUpdateData) => {
+    setLoading(true);
+    console.log('Updating profile with data:', data);
+    try {
+      const response = await authService.updateProfile(data);
+      console.log('Profile update response:', response);
+      if (response && response.success && response.data) {
+        setUser(response.data);
+      } else {
+        throw new Error(response?.message || 'Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Profile update error:', error);
+      // Re-throw the original error to preserve the message
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('An unexpected error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const changePassword = async (data: ChangePasswordData) => {
+    setLoading(true);
+    try {
+      const response = await authService.changePassword(data);
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to change password');
+      }
+    } catch (error) {
+      console.error('Password change error:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const refreshProfile = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    try {
+      const response = await authService.getProfile();
+      if (response && response.success && response.data) {
+        setUser(response.data);
+        localStorage.setItem('yatra_user', JSON.stringify(response.data));
+      }
+    } catch (error) {
+      console.error('Profile refresh error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const isAuthenticated = !!user;
   const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
   const isSuperAdmin = user?.role === 'super_admin';
@@ -84,6 +139,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     register,
     logout,
+    updateProfile,
+    changePassword,
+    refreshProfile,
     isAdmin,
     isSuperAdmin,
     isAuthenticated,

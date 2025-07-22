@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { User, LoginCredentials, RegisterData } from '@/services/authService';
+import { User, LoginCredentials, RegisterData, ProfileUpdateData, ChangePasswordData } from '@/services/authService';
 
 export interface AuthContextType {
   profile: User;
@@ -8,6 +8,9 @@ export interface AuthContextType {
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (userData: RegisterData) => Promise<void>;
   logout: () => void;
+  updateProfile: (data: ProfileUpdateData) => Promise<void>;
+  changePassword: (data: ChangePasswordData) => Promise<void>;
+  refreshProfile: () => Promise<void>;
   isAdmin: boolean;
   isSuperAdmin: boolean;
   isAuthenticated: boolean;

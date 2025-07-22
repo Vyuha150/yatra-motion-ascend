@@ -1,5 +1,6 @@
 import React from 'react';
 import PageLayout from '@/components/PageLayout';
+import AnimatedHighlights from '@/components/AnimatedHighlights';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -143,13 +144,13 @@ const Products = () => {
 
   return (
     <PageLayout>
+      <AnimatedHighlights />
       <div className="min-h-screen bg-gradient-to-br from-background to-muted">
         {/* Hero Section */}
-        <section className="relative py-20 px-4 text-center bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600">
-          <div className="absolute inset-0 bg-black/20" />
+        <section className="relative py-20 px-4 text-center bg-gradient-to-r from-primary via-blue-600 to-primary">
           <div className="relative z-10 max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Our <span className="text-yellow-400">Products</span>
+              Our <span className="text-white">Products</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 leading-relaxed mb-8">
               Comprehensive range of elevators and escalators for every vertical transportation need
@@ -168,7 +169,7 @@ const Products = () => {
                 Energy Efficient
               </Badge>
             </div>
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+            <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
               Explore Products <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -179,10 +180,9 @@ const Products = () => {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                <Building2 className="h-10 w-10 inline-block mr-3 text-blue-500" />
+                <Building2 className="h-10 w-10 inline-block mr-3 text-primary" />
                 Elevator Solutions
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8" />
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 From residential homes to industrial facilities, our comprehensive elevator range provides safe, efficient, and reliable vertical transportation solutions
               </p>
@@ -193,7 +193,7 @@ const Products = () => {
                 <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <CardHeader>
                     <CardTitle className="flex items-center text-xl">
-                      <elevator.icon className="w-8 h-8 text-blue-500 mr-3" />
+                      <elevator.icon className="w-8 h-8 text-primary mr-3" />
                       {elevator.title}
                     </CardTitle>
                   </CardHeader>
@@ -243,14 +243,13 @@ const Products = () => {
         </section>
 
         {/* Escalators Section */}
-        <section className="py-16 px-4 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-950/20 dark:to-blue-950/20">
+        <section className="py-16 px-4 bg-muted/30">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                <ArrowRight className="h-10 w-10 inline-block mr-3 text-purple-500 rotate-45" />
+                <ArrowRight className="h-10 w-10 inline-block mr-3 text-primary rotate-45" />
                 Escalator & Moving Walkway Solutions
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-8" />
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 Efficient horizontal and inclined transportation systems designed for high-traffic environments with superior safety and reliability
               </p>
@@ -261,7 +260,7 @@ const Products = () => {
                 <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <CardHeader>
                     <CardTitle className="flex items-center text-xl">
-                      <escalator.icon className="w-8 h-8 text-purple-500 mr-3" />
+                      <escalator.icon className="w-8 h-8 text-primary mr-3" />
                       {escalator.title}
                     </CardTitle>
                   </CardHeader>
@@ -317,7 +316,6 @@ const Products = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Technical Excellence
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto mb-8" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -342,17 +340,16 @@ const Products = () => {
         </section>
 
         {/* Why Choose Section */}
-        <section className="py-16 px-4 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950/20 dark:to-blue-950/20">
+        <section className="py-16 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Why Choose Yatra Elevators?</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto mb-8" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
-                  <Shield className="w-16 h-16 text-blue-500 mx-auto mb-6" />
+                  <Shield className="w-16 h-16 text-primary mx-auto mb-6" />
                   <h3 className="text-2xl font-semibold mb-4 text-foreground">Safety First</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Advanced safety systems including emergency brakes, overspeed governors, and comprehensive safety circuits ensure maximum passenger protection with multiple backup systems.
@@ -362,7 +359,7 @@ const Products = () => {
 
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
-                  <Zap className="w-16 h-16 text-green-500 mx-auto mb-6" />
+                  <Zap className="w-16 h-16 text-primary mx-auto mb-6" />
                   <h3 className="text-2xl font-semibold mb-4 text-foreground">Energy Efficient</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     State-of-the-art regenerative drives and LED lighting systems reduce energy consumption by up to 40% while maintaining optimal performance and reliability.
@@ -372,7 +369,7 @@ const Products = () => {
 
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
-                  <Clock className="w-16 h-16 text-purple-500 mx-auto mb-6" />
+                  <Clock className="w-16 h-16 text-primary mx-auto mb-6" />
                   <h3 className="text-2xl font-semibold mb-4 text-foreground">24/7 Support</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     Round-the-clock maintenance and support services with remote monitoring, predictive maintenance, and emergency response teams ensure maximum uptime.
@@ -384,7 +381,7 @@ const Products = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="py-16 px-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white">
+        <section className="py-16 px-4 bg-primary text-white">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Elevate Your Building?
@@ -393,7 +390,7 @@ const Products = () => {
               Contact us today for a customized vertical transportation solution that meets your specific requirements
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
                 Get Quote <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">

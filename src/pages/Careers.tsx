@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import PageLayout from '@/components/PageLayout';
+import AnimatedHighlights from '@/components/AnimatedHighlights';
 
 const Careers = () => {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
@@ -147,8 +148,9 @@ const Careers = () => {
 
   return (
     <PageLayout>
+      <AnimatedHighlights />
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Careers at Yatra</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -162,7 +164,7 @@ const Careers = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Life at Yatra</h2>
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Life at Yatra</h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
               Experience a collaborative, innovative work culture with purpose-driven growth opportunities 
               in a company that's shaping the future of vertical mobility.
@@ -175,7 +177,7 @@ const Careers = () => {
               return (
                 <div key={index} className="text-center bg-white p-8 rounded-2xl shadow-lg">
                   <Icon className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-                  <h3 className="text-xl font-bold mb-4">{culture.title}</h3>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{culture.title}</h3>
                   <p className="text-gray-700 leading-relaxed">
                     {culture.description}
                   </p>
@@ -190,7 +192,7 @@ const Careers = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Current Openings</h2>
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Current Openings</h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
               Discover exciting career opportunities across various departments and locations. 
               Find the perfect role that matches your skills and aspirations.
@@ -227,7 +229,7 @@ const Careers = () => {
                 </p>
                 
                 <div className="mb-6">
-                  <h4 className="font-semibold mb-2">Key Requirements:</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">Key Requirements:</h4>
                   <ul className="text-sm text-gray-600 space-y-1">
                     {job.requirements.map((req, idx) => (
                       <li key={idx} className="flex items-center">
@@ -251,7 +253,7 @@ const Careers = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Internships & Training</h2>
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Internships & Training</h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
               Hands-on industry exposure for students and young professionals. Start your career 
               journey with comprehensive training and mentorship programs.
@@ -264,7 +266,7 @@ const Careers = () => {
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Users className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{program.title}</h3>
+                <h3 className="text-xl font-bold mb-2 text-gray-900">{program.title}</h3>
                 <p className="text-blue-600 font-medium mb-4">{program.duration}</p>
                 <p className="text-gray-700 leading-relaxed">
                   {program.description}
@@ -279,7 +281,7 @@ const Careers = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Employee Benefits</h2>
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Employee Benefits</h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
               We believe in taking care of our team members with comprehensive benefits 
               that support both professional growth and personal well-being.
@@ -300,98 +302,120 @@ const Careers = () => {
       </section>
 
       {/* Application Form */}
-      <section id="application-form" className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+      <section id="application-form" className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-6">Submit Your Resume</h2>
-              <p className="text-lg text-gray-700">
-                Upload your resume and let our team review your qualifications. 
-                We'll respond quickly with relevant opportunities.
+              <h2 className="text-4xl font-bold mb-6 text-white">Submit Your Resume</h2>
+              <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+                Take the first step towards an exciting career with Yatra Elevators. 
+                Upload your resume and let our team discover your potential.
               </p>
             </div>
             
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="name">Full Name *</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="mt-2"
-                    />
+            <div className="bg-white/10 backdrop-blur-lg p-10 rounded-3xl shadow-2xl border border-white/20">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <div>
+                      <Label htmlFor="name" className="text-white font-medium text-lg mb-3 block">Full Name *</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
+                        placeholder="Enter your full name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email" className="text-white font-medium text-lg mb-3 block">Email Address *</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
+                        placeholder="your.email@example.com"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone" className="text-white font-medium text-lg mb-3 block">Phone Number *</Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        required
+                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
+                        placeholder="+91 98765 43210"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Label htmlFor="email">Email Address *</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="mt-2"
-                    />
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <Label htmlFor="position" className="text-white font-medium text-lg mb-3 block">Interested Position</Label>
+                      <select
+                        id="position"
+                        name="position"
+                        value={formData.position}
+                        onChange={handleInputChange}
+                        className="h-12 w-full px-4 py-3 bg-white/10 border border-white/30 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 appearance-none cursor-pointer"
+                      >
+                        <option value="" className="text-gray-800">Select a position</option>
+                        {jobOpenings.map((job, index) => (
+                          <option key={index} value={job.title} className="text-gray-800">{job.title}</option>
+                        ))}
+                        <option value="general" className="text-gray-800">General Application</option>
+                      </select>
+                    </div>
+                    <div>
+                      <Label htmlFor="experience" className="text-white font-medium text-lg mb-3 block">Years of Experience</Label>
+                      <Input
+                        id="experience"
+                        name="experience"
+                        value={formData.experience}
+                        onChange={handleInputChange}
+                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
+                        placeholder="e.g., 3 years"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="coverLetter" className="text-white font-medium text-lg mb-3 block">Cover Letter (Optional)</Label>
+                      <Textarea
+                        id="coverLetter"
+                        name="coverLetter"
+                        value={formData.coverLetter}
+                        onChange={handleInputChange}
+                        rows={4}
+                        className="bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl resize-none"
+                        placeholder="Tell us why you'd be a great fit for Yatra Elevators..."
+                      />
+                    </div>
                   </div>
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="phone">Phone Number *</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="position">Interested Position</Label>
-                    <select
-                      id="position"
-                      name="position"
-                      value={formData.position}
-                      onChange={handleInputChange}
-                      className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="">Select a position</option>
-                      {jobOpenings.map((job, index) => (
-                        <option key={index} value={job.title}>{job.title}</option>
-                      ))}
-                      <option value="general">General Application</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div>
-                  <Label htmlFor="experience">Years of Experience</Label>
-                  <Input
-                    id="experience"
-                    name="experience"
-                    value={formData.experience}
-                    onChange={handleInputChange}
-                    className="mt-2"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="resume">Upload Resume *</Label>
-                  <div className="mt-2 flex items-center justify-center w-full">
-                    <label htmlFor="resume" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <Upload className="w-8 h-8 mb-4 text-gray-500" />
-                        <p className="mb-2 text-sm text-gray-500">
-                          <span className="font-semibold">Click to upload</span> or drag and drop
+                <div className="mt-8">
+                  <Label htmlFor="resume" className="text-white font-medium text-lg mb-4 block">Upload Resume *</Label>
+                  <div className="relative">
+                    <label htmlFor="resume" className="group flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-white/40 rounded-2xl cursor-pointer bg-white/5 hover:bg-white/10 transition-all duration-300">
+                      <div className="flex flex-col items-center justify-center pt-7 pb-6">
+                        <div className="p-4 bg-blue-500/20 rounded-full mb-4 group-hover:bg-blue-500/30 transition-all duration-300">
+                          <Upload className="w-8 h-8 text-blue-300" />
+                        </div>
+                        <p className="mb-2 text-lg font-semibold text-white">
+                          <span className="text-blue-300">Click to upload</span> or drag and drop
                         </p>
-                        <p className="text-xs text-gray-500">PDF, DOC, DOCX (MAX. 5MB)</p>
+                        <p className="text-sm text-white/70">PDF, DOC, DOCX (MAX. 5MB)</p>
                         {resumeFile && (
-                          <p className="mt-2 text-sm text-blue-600">{resumeFile.name}</p>
+                          <div className="mt-4 flex items-center space-x-2 px-4 py-2 bg-green-500/20 rounded-lg">
+                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <p className="text-sm text-green-300 font-medium">{resumeFile.name}</p>
+                          </div>
                         )}
                       </div>
                       <input id="resume" type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.doc,.docx" required />
@@ -399,23 +423,19 @@ const Careers = () => {
                   </div>
                 </div>
                 
-                <div>
-                  <Label htmlFor="coverLetter">Cover Letter (Optional)</Label>
-                  <Textarea
-                    id="coverLetter"
-                    name="coverLetter"
-                    value={formData.coverLetter}
-                    onChange={handleInputChange}
-                    rows={4}
-                    className="mt-2"
-                    placeholder="Tell us why you'd be a great fit for Yatra Elevators..."
-                  />
+                <div className="mt-10 pt-8 border-t border-white/20">
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="w-full h-14 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <Send className="h-6 w-6 mr-3" />
+                    Submit Application
+                  </Button>
+                  <p className="text-center text-white/60 text-sm mt-4">
+                    We'll review your application and get back to you within 48 hours
+                  </p>
                 </div>
-                
-                <Button type="submit" size="lg" className="w-full">
-                  <Send className="h-5 w-5 mr-2" />
-                  Submit Application
-                </Button>
               </form>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/components/Auth/useAuth';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import AnimatedHighlights from '@/components/AnimatedHighlights';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -148,7 +149,9 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <>
+      <AnimatedHighlights />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Yatra Elevators</CardTitle>
@@ -269,7 +272,8 @@ const Auth = () => {
           </Tabs>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -41,15 +41,14 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
             {/* Glow effect */}
             <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl scale-150 animate-pulse" />
             
-            {/* Logo with smooth animation */}
-            <img 
-              src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-              alt="Yatra Elevators Logo" 
-              className="w-32 h-auto mx-auto relative z-10 animate-[logo-spin_3s_ease-in-out_infinite]"
-              style={{
+            {/* Text-based logo with smooth animation */}
+            <div className="w-32 h-32 mx-auto relative z-10 flex items-center justify-center animate-[logo-spin_3s_ease-in-out_infinite]">
+              <span className="text-6xl font-bold text-primary" style={{
                 filter: 'drop-shadow(0 0 20px hsl(var(--primary) / 0.5))'
-              }}
-            />
+              }}>
+                Yatra
+              </span>
+            </div>
             
             {/* Loading dots */}
             <div className="flex justify-center space-x-2 mt-4">

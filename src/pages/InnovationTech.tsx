@@ -78,7 +78,7 @@ const InnovationTech = () => {
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-600 to-blue-800 text-white py-20 mt-16">
+      <section className="bg-primary text-white py-20 ">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Innovation & Technology</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
@@ -89,11 +89,11 @@ const InnovationTech = () => {
       </section>
 
       {/* Innovation Grid */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Technological Innovations</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold mb-6 text-foreground">Technological Innovations</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Discover how our advanced technologies are revolutionizing vertical transportation 
               with smart, efficient, and sustainable solutions.
             </p>
@@ -103,34 +103,34 @@ const InnovationTech = () => {
             {innovations.map((innovation, index) => {
               const Icon = innovation.icon;
               return (
-                <div key={index} className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300">
+                <div key={index} className="bg-card rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-border">
                   <div className="flex items-start space-x-6">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-xl flex items-center justify-center">
                         <Icon className="h-8 w-8 text-white" />
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-3">{innovation.title}</h3>
-                      <p className="text-gray-700 mb-4 leading-relaxed">
+                      <h3 className="text-2xl font-bold mb-3 text-card-foreground">{innovation.title}</h3>
+                      <p className="text-muted-foreground mb-4 leading-relaxed">
                         {innovation.description}
                       </p>
                       
                       <div className="mb-4">
-                        <h4 className="font-semibold mb-2">Key Features:</h4>
+                        <h4 className="font-semibold mb-2 text-card-foreground">Key Features:</h4>
                         <div className="grid grid-cols-2 gap-2">
                           {innovation.features.map((feature, idx) => (
                             <div key={idx} className="flex items-center text-sm">
-                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                              {feature}
+                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                              <span className="text-muted-foreground">{feature}</span>
                             </div>
                           ))}
                         </div>
                       </div>
                       
-                      <div className="bg-blue-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-blue-800 mb-2">Impact:</h4>
-                        <p className="text-blue-700 text-sm">{innovation.benefits}</p>
+                      <div className="bg-primary/10 p-4 rounded-lg border border-primary/20">
+                        <h4 className="font-semibold text-primary mb-2">Impact:</h4>
+                        <p className="text-muted-foreground text-sm">{innovation.benefits}</p>
                       </div>
                     </div>
                   </div>
@@ -142,11 +142,11 @@ const InnovationTech = () => {
       </section>
 
       {/* Safety & Compliance */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Safety & Compliance</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold mb-6 text-foreground">Safety & Compliance</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Safety is our top priority. Every Yatra product meets the highest international 
               standards and incorporates multiple layers of protection.
             </p>
@@ -156,10 +156,10 @@ const InnovationTech = () => {
             {safetyFeatures.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <div key={index} className="text-center bg-gradient-to-br from-red-50 to-orange-50 p-8 rounded-2xl">
-                  <Icon className="h-16 w-16 text-red-600 mx-auto mb-6" />
-                  <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                  <p className="text-gray-700 leading-relaxed">
+                <div key={index} className="text-center bg-card p-8 rounded-2xl shadow-lg border border-border">
+                  <Icon className="h-16 w-16 text-primary mx-auto mb-6" />
+                  <h3 className="text-2xl font-bold mb-4 text-card-foreground">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -170,11 +170,11 @@ const InnovationTech = () => {
       </section>
 
       {/* Technology Stats */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+      <section className="py-20 bg-primary text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6">Innovation by Numbers</h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-white/90 max-w-3xl mx-auto">
               Our technological advancements deliver measurable improvements in performance, 
               efficiency, and user experience.
             </p>
@@ -183,35 +183,35 @@ const InnovationTech = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">50%</div>
-              <div className="text-blue-200">Energy Savings</div>
+              <div className="text-white/80">Energy Savings</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">35%</div>
-              <div className="text-blue-200">Reduced Wait Times</div>
+              <div className="text-white/80">Reduced Wait Times</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">99.9%</div>
-              <div className="text-blue-200">Reliability Rate</div>
+              <div className="text-white/80">Reliability Rate</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-blue-200">Smart Monitoring</div>
+              <div className="text-white/80">Smart Monitoring</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Experience the Future Today</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-700">
+          <h2 className="text-4xl font-bold mb-6 text-primary">Experience the Future Today</h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto text-muted-foreground">
             Ready to implement cutting-edge vertical mobility solutions? Let our experts help you 
             choose the right technology for your project.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <Button size="lg" className="bg-primary hover:bg-primary/90">
                 Schedule Consultation
               </Button>
             </Link>

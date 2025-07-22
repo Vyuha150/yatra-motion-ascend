@@ -22,14 +22,13 @@ const Admin = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="mb-4">
-            <img 
-              src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-              alt="Yatra Elevators Logo" 
-              className="w-16 h-auto mx-auto animate-[logo-spin_2s_ease-in-out_infinite]"
-              style={{
+            <div className="w-16 h-16 mx-auto flex items-center justify-center">
+              <span className="text-2xl font-bold text-primary animate-[logo-spin_2s_ease-in-out_infinite]" style={{
                 filter: 'drop-shadow(0 0 10px hsl(var(--primary) / 0.3))'
-              }}
-            />
+              }}>
+                Y
+              </span>
+            </div>
           </div>
           <p className="text-muted-foreground">Loading admin panel...</p>
         </div>

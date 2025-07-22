@@ -1,5 +1,6 @@
 import React from 'react';
 import PageLayout from '@/components/PageLayout';
+import AnimatedHighlights from '@/components/AnimatedHighlights';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -255,6 +256,7 @@ const Industries = () => {
 
   return (
     <PageLayout>
+      <AnimatedHighlights />
       <div className="min-h-screen bg-gradient-to-br from-background to-muted">
         {/* Hero Section */}
         <section className="relative py-20 px-4 text-center bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">

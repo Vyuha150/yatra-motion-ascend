@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/PageLayout';
+import AnimatedHighlights from '@/components/AnimatedHighlights';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -27,8 +28,9 @@ const ContactUs = () => {
 
   return (
     <PageLayout>
+      <AnimatedHighlights />
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 mt-16">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6 animate-fade-in">Contact Us</h1>
           <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">

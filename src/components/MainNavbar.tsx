@@ -28,11 +28,9 @@ const MainNavbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img 
-              src="/lovable-uploads/22858e12-9774-4bce-a712-396515a649a7.png" 
-              alt="Yatra Elevators" 
-              className="h-10 w-auto"
-            />
+            <span className="text-2xl font-bold text-white">
+              Yatra Elevators
+            </span>
           </Link>
 
           {/* Navigation Links */}

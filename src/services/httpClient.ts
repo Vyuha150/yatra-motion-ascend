@@ -111,6 +111,15 @@ class HttpClient {
     }
   }
 
+  async patch<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    try {
+      const response = await this.client.patch<ApiResponse<T>>(url, data, config);
+      return response.data;
+    } catch (error: unknown) {
+      return this.handleError(error);
+    }
+  }
+
   async delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
       const response = await this.client.delete<ApiResponse<T>>(url, config);

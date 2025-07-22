@@ -15,7 +15,9 @@ import {
   FileText, 
   Wrench, 
   Shield,
-  Settings
+  Settings,
+  FileCheck,
+  Star
 } from 'lucide-react';
 import ContactsManager from './ContactsManager';
 import ProjectsManager from './ProjectsManager';
@@ -27,6 +29,8 @@ import InvoicesManager from './InvoicesManager';
 import LeadsManager from './LeadsManager';
 import ServiceTicketsManager from './ServiceTicketsManager';
 import AMCManager from './AMCManager';
+import RequirementsManager from './RequirementsManager';
+import FeedbackManager from './FeedbackManager';
 
 const AdminLayout = () => {
   const auth = useAuth();
@@ -147,6 +151,20 @@ const AdminLayout = () => {
                 <Settings className="h-5 w-5" />
                 <span className="text-xs font-medium">Users</span>
               </TabsTrigger>
+              <TabsTrigger 
+                value="requirements" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-purple-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <FileCheck className="h-5 w-5" />
+                <span className="text-xs font-medium">Requirements</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="feedback" 
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-yellow-500 data-[state=active]:text-white rounded-xl transition-all"
+              >
+                <Star className="h-5 w-5" />
+                <span className="text-xs font-medium">Feedback</span>
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -190,6 +208,14 @@ const AdminLayout = () => {
 
             <TabsContent value="users" className="p-6 m-0">
               <UsersManager />
+            </TabsContent>
+
+            <TabsContent value="requirements" className="p-6 m-0">
+              <RequirementsManager />
+            </TabsContent>
+
+            <TabsContent value="feedback" className="p-6 m-0">
+              <FeedbackManager />
             </TabsContent>
           </div>
         </Tabs>

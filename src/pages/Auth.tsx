@@ -1,273 +1,302 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAuth } from '@/components/Auth/useAuth';
-import { Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
-import AnimatedHighlights from '@/components/AnimatedHighlights';
+import { AlertCircle, Eye, EyeOff, Lock, Mail, User, LogIn, UserPlus } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { authService } from '@/services/authService';
 
 const Auth = () => {
-  const navigate = useNavigate();
-  const { user, loading: authLoading, login, register } = useAuth();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (user && !authLoading) {
-      navigate('/');
+  const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (error) setError('');
+  };
+
+  const validateForm = () => {
+    if (!formData.email || !formData.password) {
+      setError('Email and password are required');
+      return false;
     }
-  }, [user, authLoading, navigate]);
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    return emailRegex.test(email);
+    if (isSignUp && (!formData.firstName || !formData.lastName)) {
+      setError('First name and last name are required for registration');
+      return false;
+    }
+
+    if (isSignUp && formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+
+    return true;
   };
 
-  const validatePassword = (password: string) => {
-    return password.length >= 6;
-  };
-
-  const validateName = (name: string) => {
-    return name.trim().length > 0;
-  };
-
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+
     setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    // Client-side validation
-    if (!email.trim()) {
-      toast.error('Please enter your email address');
-      setLoading(false);
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      toast.error('Please enter a valid email address');
-      setLoading(false);
-      return;
-    }
-
-    if (!password.trim()) {
-      toast.error('Please enter your password');
-      setLoading(false);
-      return;
-    }
+    setError('');
 
     try {
-      await login({ email, password });
-      toast.success('Login successful! Redirecting...');
-      // Redirect will happen automatically via useEffect
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Login failed';
-      toast.error(errorMessage);
+      if (isSignUp) {
+        await authService.register({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password
+        });
+        navigate('/admin');
+      } else {
+        await authService.login({
+          email: formData.email,
+          password: formData.password
+        });
+        navigate('/admin');
+      }
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Authentication failed. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const firstName = formData.get('firstName') as string;
-    const lastName = formData.get('lastName') as string;
-    const phone = formData.get('phone') as string || '';
-
-    // Client-side validation
-    if (!validateName(firstName)) {
-      toast.error('Please enter your first name');
-      setLoading(false);
-      return;
-    }
-
-    if (!validateName(lastName)) {
-      toast.error('Please enter your last name');
-      setLoading(false);
-      return;
-    }
-
-    if (!email.trim()) {
-      toast.error('Please enter your email address');
-      setLoading(false);
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      toast.error('Please enter a valid email address');
-      setLoading(false);
-      return;
-    }
-
-    if (!password.trim()) {
-      toast.error('Please enter your password');
-      setLoading(false);
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      toast.error('Password must be at least 6 characters long');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      await register({
-        email,
-        password,
-        firstName,
-        lastName,
-        phone
-      });
-      
-      toast.success('Registration successful! You are now logged in.');
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
-      toast.error(errorMessage);
-    } finally {
-      setLoading(false);
-    }
+  const toggleMode = () => {
+    setIsSignUp(!isSignUp);
+    setError('');
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
   };
-
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
 
   return (
-    <>
-      <AnimatedHighlights />
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Yatra Elevators</CardTitle>
-          <p className="text-muted-foreground">Access your account</p>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">Sign In</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="signin">
-             
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-blue-50 to-primary/10 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+          <CardHeader className="text-center pb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mx-auto mb-6">
+              {isSignUp ? (
+                <UserPlus className="h-8 w-8 text-white" />
+              ) : (
+                <LogIn className="h-8 w-8 text-white" />
+              )}
+            </div>
+            <CardTitle className="text-2xl font-bold text-gray-800">
+              {isSignUp ? 'Create Account' : 'Welcome Back'}
+            </CardTitle>
+            <p className="text-gray-600 mt-2">
+              {isSignUp 
+                ? 'Join ICONIC Group and start your journey' 
+                : 'Sign in to access your account'
+              }
+            </p>
+          </CardHeader>
+
+          <CardContent className="px-8 pb-8">
+            {error && (
+              <Alert className="mb-6 border-red-200 bg-red-50">
+                <AlertCircle className="h-4 w-4 text-red-500" />
+                <AlertDescription className="text-red-700">
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {isSignUp && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+                      First Name
+                    </Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        placeholder="Enter your first name"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        className="pl-10 h-12 border-gray-300 focus:border-primary focus:ring-primary"
+                        required={isSignUp}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                      Last Name
+                    </Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        type="text"
+                        placeholder="Enter your last name"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        className="pl-10 h-12 border-gray-300 focus:border-primary focus:ring-primary"
+                        required={isSignUp}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  Email Address
+                </Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <Input
                     id="email"
                     name="email"
                     type="email"
                     placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="pl-10 h-12 border-gray-300 focus:border-primary focus:ring-primary"
                     required
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                  Password
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <Input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="pl-10 pr-10 h-12 border-gray-300 focus:border-primary focus:ring-primary"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing In...
-                    </>
-                  ) : (
-                    'Sign In'
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="signup">
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+              </div>
+
+              {isSignUp && (
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+                    Confirm Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <Input
-                      id="firstName"
-                      name="firstName"
-                      placeholder="Enter your first name"
-                      required
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Confirm your password"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      className="pl-10 h-12 border-gray-300 focus:border-primary focus:ring-primary"
+                      required={isSignUp}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      placeholder="Enter your last name"
-                      required
-                    />
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white font-medium transition-all duration-300 transform hover:scale-[1.02]"
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>{isSignUp ? 'Creating Account...' : 'Signing In...'}</span>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Create a password (min. 6 characters)"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone (optional)</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating Account...
-                    </>
-                  ) : (
-                    'Create Account'
-                  )}
-                </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+                ) : (
+                  <div className="flex items-center justify-center space-x-2">
+                    {isSignUp ? (
+                      <UserPlus className="h-5 w-5" />
+                    ) : (
+                      <LogIn className="h-5 w-5" />
+                    )}
+                    <span>{isSignUp ? 'Create Account' : 'Sign In'}</span>
+                  </div>
+                )}
+              </Button>
+            </form>
+
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-600">
+                {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+                <button
+                  type="button"
+                  onClick={toggleMode}
+                  className="ml-2 text-primary hover:text-primary/80 font-medium transition-colors duration-200"
+                >
+                  {isSignUp ? 'Sign In' : 'Sign Up'}
+                </button>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">
+            By continuing, you agree to our Terms of Service and Privacy Policy
+          </p>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

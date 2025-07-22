@@ -76,6 +76,17 @@ export interface ChangePasswordData {
   newPassword: string;
 }
 
+export interface OTPVerificationData {
+  email: string;
+  otp: string;
+}
+
+export interface ResetPasswordData {
+  email: string;
+  otp: string;
+  newPassword: string;
+}
+
 class AuthService {
   async login(credentials: LoginCredentials): Promise<ApiResponse<LoginResponse>> {
     const response = await httpClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, credentials);
@@ -118,6 +129,22 @@ class AuthService {
 
   async changePassword(data: ChangePasswordData): Promise<ApiResponse<{ message: string }>> {
     return await httpClient.put<{ message: string }>(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, data);
+  }
+
+  async sendVerificationOTP(email: string): Promise<ApiResponse<{ message: string; otp?: string }>> {
+    return await httpClient.post<{ message: string; otp?: string }>(API_ENDPOINTS.AUTH.SEND_VERIFICATION_OTP, { email });
+  }
+
+  async verifyEmailOTP(data: OTPVerificationData): Promise<ApiResponse<{ message: string }>> {
+    return await httpClient.post<{ message: string }>(API_ENDPOINTS.AUTH.VERIFY_EMAIL_OTP, data);
+  }
+
+  async forgotPassword(email: string): Promise<ApiResponse<{ message: string; otp?: string }>> {
+    return await httpClient.post<{ message: string; otp?: string }>(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, { email });
+  }
+
+  async resetPassword(data: ResetPasswordData): Promise<ApiResponse<{ message: string }>> {
+    return await httpClient.post<{ message: string }>(API_ENDPOINTS.AUTH.RESET_PASSWORD, data);
   }
 
   logout(): void {

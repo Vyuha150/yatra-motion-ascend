@@ -20,6 +20,8 @@ const MainNavbar = () => {
     { label: 'Projects', href: '/projects' },
     { label: 'Contact', href: '/contact' },
     { label: 'Careers', href: '/careers' },
+    { label: 'Get Quote', href: '/client-requirement' },
+    { label: 'Feedback', href: '/feedback' },
   ];
 
   return (

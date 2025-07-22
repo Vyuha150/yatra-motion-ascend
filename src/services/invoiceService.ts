@@ -65,75 +65,119 @@ export interface UpdateInvoiceData {
 }
 
 class InvoiceService {
+  // Private method to get mock invoices for fallback
+  private getMockInvoices(): Invoice[] {
+    return [
+      {
+        _id: '1',
+        invoiceNumber: 'INV-001',
+        customerName: 'ABC Corporation',
+        customerAddress: '123 Business Park, Mumbai',
+        customerEmail: 'billing@abc-corp.com',
+        customerPhone: '+91-9876543210',
+        invoiceDate: new Date().toISOString(),
+        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        items: [
+          {
+            description: 'Elevator Installation - Model XYZ',
+            quantity: 1,
+            unitPrice: 500000,
+            total: 500000
+          },
+          {
+            description: 'Annual Maintenance Contract',
+            quantity: 1,
+            unitPrice: 25000,
+            total: 25000
+          }
+        ],
+        subtotal: 525000,
+        taxAmount: 94500, // 18% GST
+        totalAmount: 619500,
+        status: 'sent',
+        notes: 'Standard installation with AMC package',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        _id: '2',
+        invoiceNumber: 'INV-002',
+        customerName: 'XYZ Builders',
+        customerAddress: '456 Construction Ave, Delhi',
+        customerEmail: 'accounts@xyz-builders.com',
+        customerPhone: '+91-9876543211',
+        invoiceDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+        dueDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+        items: [
+          {
+            description: 'Elevator Maintenance Service',
+            quantity: 3,
+            unitPrice: 8000,
+            total: 24000
+          }
+        ],
+        subtotal: 24000,
+        taxAmount: 4320,
+        totalAmount: 28320,
+        status: 'paid',
+        paymentMethod: 'Bank Transfer',
+        paidDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+        notes: 'Monthly maintenance for 3 elevators',
+        createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        _id: '3',
+        invoiceNumber: 'INV-003',
+        customerName: 'PQR Industries',
+        customerAddress: '789 Industrial Zone, Bangalore',
+        customerEmail: 'finance@pqr-industries.com',
+        customerPhone: '+91-9876543212',
+        invoiceDate: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
+        dueDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+        items: [
+          {
+            description: 'Emergency Repair Service',
+            quantity: 1,
+            unitPrice: 15000,
+            total: 15000
+          }
+        ],
+        subtotal: 15000,
+        taxAmount: 2700,
+        totalAmount: 17700,
+        status: 'overdue',
+        notes: 'Emergency repair for main elevator',
+        createdAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
+        updatedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ];
+  }
+
   // Get all invoices
   async getInvoices(): Promise<Invoice[]> {
     try {
       const response = await httpClient.get<ApiResponse<Invoice[]>>(API_ENDPOINTS.INVOICES.BASE);
-      return response.data.data || [];
+      
+      // Check if response exists and has the expected structure
+      if (!response) {
+        console.warn('No response received from invoices API');
+        return this.getMockInvoices();
+      }
+      
+      // Check if response has data property
+      if (!response.data) {
+        console.warn('Response does not contain data property:', response);
+        return this.getMockInvoices();
+      }
+      
+      // Return the data array, fallback to empty array if not found
+      return Array.isArray(response.data) ? response.data : [];
     } catch (error) {
       console.error('Failed to fetch invoices:', error);
       
       // Return mock data for fallback
-      return [
-        {
-          _id: '1',
-          invoiceNumber: 'INV-001',
-          customerName: 'ABC Corporation',
-          customerAddress: '123 Business Park, Mumbai',
-          customerEmail: 'billing@abc-corp.com',
-          customerPhone: '+91-9876543210',
-          invoiceDate: new Date().toISOString(),
-          dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-          items: [
-            {
-              description: 'Elevator Installation - Model XYZ',
-              quantity: 1,
-              unitPrice: 500000,
-              total: 500000
-            },
-            {
-              description: 'Annual Maintenance Contract',
-              quantity: 1,
-              unitPrice: 25000,
-              total: 25000
-            }
-          ],
-          subtotal: 525000,
-          taxAmount: 94500, // 18% GST
-          totalAmount: 619500,
-          status: 'sent',
-          notes: 'Standard installation with AMC package',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        },
-        {
-          _id: '2',
-          invoiceNumber: 'INV-002',
-          customerName: 'XYZ Builders',
-          customerAddress: '456 Construction Ave, Delhi',
-          customerEmail: 'accounts@xyz-builders.com',
-          customerPhone: '+91-9876543211',
-          invoiceDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
-          dueDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
-          items: [
-            {
-              description: 'Elevator Maintenance Service',
-              quantity: 3,
-              unitPrice: 8000,
-              total: 24000
-            }
-          ],
-          subtotal: 24000,
-          taxAmount: 4320,
-          totalAmount: 28320,
-          status: 'paid',
-          paymentMethod: 'Bank Transfer',
-          paidDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-          notes: 'Monthly maintenance for 3 elevators',
-          createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
-        }
-      ];
+      return this.getMockInvoices();
     }
   }
 

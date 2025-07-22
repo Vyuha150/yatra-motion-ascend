@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { invoiceService, Invoice } from '@/services/invoiceService';
 import { useAuth } from '@/components/Auth/useAuth';
-import { Search, Plus, Eye, Edit, Download } from 'lucide-react';
+import { Search, Plus, Eye, Edit, Download, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 const InvoicesManager = () => {
@@ -73,7 +73,24 @@ const InvoicesManager = () => {
   };
 
   const isOverdue = (dueDate: string, status: string) => {
-    return status === 'pending' && new Date(dueDate) < new Date();
+    if (!dueDate || status !== 'pending') return false;
+    try {
+      const date = new Date(dueDate);
+      return !isNaN(date.getTime()) && date < new Date();
+    } catch {
+      return false;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return 'No date';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'Invalid date';
+      return format(date, 'MMM dd, yyyy');
+    } catch {
+      return 'Invalid date';
+    }
   };
 
   const filteredInvoices = invoices.filter(invoice => {
@@ -92,11 +109,24 @@ const InvoicesManager = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">Invoices Management</h2>
         </div>
-        <div className="animate-pulse space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 bg-muted rounded"></div>
-          ))}
-        </div>
+        <Card>
+          <CardContent className="flex justify-center items-center p-12">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                <div className="absolute inset-0 h-8 w-8 border-2 border-blue-200 rounded-full animate-pulse"></div>
+              </div>
+              <div className="space-y-2">
+                <span className="text-lg font-medium text-gray-800">Loading Invoices...</span>
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                  <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -136,7 +166,8 @@ const InvoicesManager = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
                 <SelectItem value="paid">Paid</SelectItem>
                 <SelectItem value="overdue">Overdue</SelectItem>
                 <SelectItem value="cancelled">Cancelled</SelectItem>
@@ -179,34 +210,34 @@ const InvoicesManager = () => {
               </TableHeader>
               <TableBody>
                 {filteredInvoices.map((invoice) => (
-                  <TableRow key={invoice.id} className={isOverdue(invoice.due_date, invoice.status) ? 'bg-red-50' : ''}>
-                    <TableCell className="font-medium">{invoice.invoice_number}</TableCell>
+                  <TableRow key={invoice._id} className={isOverdue(invoice.dueDate, invoice.status) ? 'bg-red-50' : ''}>
+                    <TableCell className="font-medium">{invoice.invoiceNumber}</TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        <div className="font-medium">{invoice.customer_name}</div>
+                        <div className="font-medium">{invoice.customerName}</div>
                         <div className="text-muted-foreground max-w-xs truncate">
-                          {invoice.customer_address}
+                          {invoice.customerAddress}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell className="font-medium">
-                      ₹{(invoice.total_amount / 100000).toFixed(1)}L
+                      ₹{(invoice.totalAmount / 100000).toFixed(1)}L
                     </TableCell>
                     <TableCell>
-                      ₹{(invoice.paid_amount / 100000).toFixed(1)}L
+                      ₹{((invoice.totalAmount - (invoice.totalAmount - invoice.subtotal)) / 100000).toFixed(1)}L
                     </TableCell>
-                    <TableCell className={invoice.balance_amount > 0 ? 'text-red-600 font-medium' : 'text-green-600'}>
-                      ₹{(invoice.balance_amount / 100000).toFixed(1)}L
+                    <TableCell className={(invoice.totalAmount - (invoice.totalAmount - invoice.subtotal)) > 0 ? 'text-red-600 font-medium' : 'text-green-600'}>
+                      ₹{((invoice.totalAmount - (invoice.totalAmount - invoice.subtotal)) / 100000).toFixed(1)}L
                     </TableCell>
                     <TableCell>
-                      <Badge variant={getTypeBadgeVariant(invoice.invoice_type)}>
-                        {invoice.invoice_type}
+                      <Badge variant="default">
+                        Invoice
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <Select 
                         value={invoice.status} 
-                        onValueChange={(value) => updateInvoiceStatus(invoice.id, value)}
+                        onValueChange={(value) => updateInvoiceStatus(invoice._id, value)}
                         disabled={!isAdmin && !isSuperAdmin}
                       >
                         <SelectTrigger className="w-32">
@@ -215,7 +246,8 @@ const InvoicesManager = () => {
                           </Badge>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
+                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="sent">Sent</SelectItem>
                           <SelectItem value="paid">Paid</SelectItem>
                           <SelectItem value="overdue">Overdue</SelectItem>
                           <SelectItem value="cancelled">Cancelled</SelectItem>
@@ -224,8 +256,8 @@ const InvoicesManager = () => {
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        {format(new Date(invoice.due_date), 'MMM dd, yyyy')}
-                        {isOverdue(invoice.due_date, invoice.status) && (
+                        {formatDate(invoice.dueDate)}
+                        {isOverdue(invoice.dueDate, invoice.status) && (
                           <div className="text-red-600 text-xs">Overdue</div>
                         )}
                       </div>

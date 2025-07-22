@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -96,20 +97,36 @@ const ContactCTA = () => {
         {/* Main CTA */}
         <div className="text-center">
           <div className="inline-flex flex-col sm:flex-row gap-4">
-            <Button 
-              size="lg"
-              className="bg-white text-blue-600 hover:bg-blue-50 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              Get Free Quote
-            </Button>
+            <Link to="/client-requirement">
+              <Button 
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-blue-50 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                Get Free Quote
+              </Button>
+            </Link>
             
-            <Button 
-              size="lg"
-              variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
-            >
-              Schedule Consultation
-            </Button>
+            <Link to="/contact">
+              <Button 
+                size="lg"
+                variant="outline"
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
+              >
+                Schedule Consultation
+              </Button>
+            </Link>
+          </div>
+          
+          <div className="mt-8">
+            <Link to="/feedback">
+              <Button 
+                size="sm"
+                variant="ghost"
+                className="text-blue-200 hover:text-white hover:bg-white/10 underline"
+              >
+                Share Your Experience & Feedback
+              </Button>
+            </Link>
           </div>
           
           <p className="text-blue-200 mt-6 text-sm">

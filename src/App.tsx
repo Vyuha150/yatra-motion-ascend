@@ -15,6 +15,8 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import InnovationTech from "./pages/InnovationTech";
+import ClientRequirement from "./pages/ClientRequirement";
+import CustomerFeedback from "./pages/CustomerFeedback";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ const App = () => (
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/innovation" element={<InnovationTech />} />
+            <Route path="/client-requirement" element={<ClientRequirement />} />
+            <Route path="/feedback" element={<CustomerFeedback />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<Admin />} />

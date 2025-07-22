@@ -16,6 +16,10 @@ export const API_ENDPOINTS = {
     REGISTER: '/api/auth/register',
     PROFILE: '/api/auth/profile',
     CHANGE_PASSWORD: '/api/auth/change-password',
+    SEND_VERIFICATION_OTP: '/api/auth/send-verification-otp',
+    VERIFY_EMAIL_OTP: '/api/auth/verify-email-otp',
+    FORGOT_PASSWORD: '/api/auth/forgot-password',
+    RESET_PASSWORD: '/api/auth/reset-password',
   },
   
   // Products
@@ -95,6 +99,26 @@ export const API_ENDPOINTS = {
     BY_ID: (id: string) => `/api/invoices/${id}`,
     PAYMENT: (id: string) => `/api/invoices/${id}/payment`,
     STATS: '/api/invoices/stats',
+  },
+
+  // Client Requirements
+  CLIENT_REQUIREMENTS: {
+    BASE: '/api/client-requirements',
+    BY_ID: (id: string) => `/api/client-requirements/${id}`,
+    STATUS: (id: string) => `/api/client-requirements/${id}/status`,
+    ASSIGN: (id: string) => `/api/client-requirements/${id}/assign`,
+    NOTES: (id: string) => `/api/client-requirements/${id}/notes`,
+    STATS: '/api/client-requirements/stats',
+  },
+
+  // Customer Feedback
+  CUSTOMER_FEEDBACK: {
+    BASE: '/api/customer-feedback',
+    BY_ID: (id: string) => `/api/customer-feedback/${id}`,
+    STATUS: (id: string) => `/api/customer-feedback/${id}/status`,
+    RESPONSE: (id: string) => `/api/customer-feedback/${id}/response`,
+    TAGS: (id: string) => `/api/customer-feedback/${id}/tags`,
+    STATS: '/api/customer-feedback/stats',
   },
   
   // Careers

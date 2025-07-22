@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Phone, Download, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ChevronDown, Phone, Download, Calendar, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CommonHeader from './CommonHeader';
 import ContactModal from './ContactModal';
@@ -94,15 +95,15 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in delay-700">
-            <ContactModal buttonText="Book your elevator now">
+            <Link to="/client-requirement">
               <Button 
                 size="lg" 
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
-                <Phone className="mr-2 h-5 w-5" />
-                Book your elevator now
+                <FileText className="mr-2 h-5 w-5" />
+                Get Free Quote
               </Button>
-            </ContactModal>
+            </Link>
             
             <Button 
               variant="outline" 
@@ -114,15 +115,29 @@ const Hero = () => {
               Download Brochure
             </Button>
             
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-steel-accent text-steel-accent hover:bg-steel-accent hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
-              onClick={handleCallRequest}
-            >
-              <Calendar className="mr-2 h-5 w-5" />
-              Book Yatra Elevator Service
-            </Button>
+            <ContactModal buttonText="Book Service">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-2 border-steel-accent text-steel-accent hover:bg-steel-accent hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
+              >
+                <Calendar className="mr-2 h-5 w-5" />
+                Book Service
+              </Button>
+            </ContactModal>
+          </div>
+          
+          {/* Secondary CTA for feedback */}
+          <div className="mt-6 animate-fade-in delay-1000">
+            <Link to="/feedback">
+              <Button 
+                variant="ghost"
+                size="sm"
+                className="text-white/80 hover:text-white hover:bg-white/10 underline"
+              >
+                Share Your Experience & Feedback
+              </Button>
+            </Link>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,8 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/components/Auth/useAuth';
-import { Search, Plus, Eye, Edit, MessageSquare, Loader2, FileText, Phone, Mail, Building, Calendar } from 'lucide-react';
+import { Search, Plus, Eye, Edit, MessageSquare, Loader2, FileText, Phone, Mail, Building, Calendar, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { clientRequirementService } from '@/services/clientRequirementService';
+import { useToast } from '@/hooks/use-toast';
 
 interface ClientRequirement {
   _id: string;
@@ -30,92 +32,72 @@ interface ClientRequirement {
 
 const RequirementsManager = () => {
   const { isAdmin, isSuperAdmin } = useAuth();
+  const { toast } = useToast();
   const [requirements, setRequirements] = useState<ClientRequirement[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchRequirements();
-  }, []);
-
-  const fetchRequirements = async () => {
+  const fetchRequirements = useCallback(async () => {
     try {
-      // Mock data for now - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      setLoading(true);
+      setError(null);
       
-      const mockRequirements: ClientRequirement[] = [
-        {
-          _id: '1',
-          fullName: 'Rajesh Kumar',
-          companyName: 'ABC Builders',
-          email: 'rajesh@abcbuilders.com',
-          phone: '+91-9876543210',
-          location: 'Bangalore, Karnataka',
-          buildingType: ['Commercial', 'Mall/Retail'],
-          numberOfFloors: '15',
-          timeline: '3months',
-          serviceType: ['New Installation'],
-          budgetRange: '50L-1Cr',
-          status: 'new',
-          priority: 'high',
-          createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-        },
-        {
-          _id: '2',
-          fullName: 'Priya Sharma',
-          email: 'priya.sharma@email.com',
-          phone: '+91-9876543211',
-          location: 'Mumbai, Maharashtra',
-          buildingType: ['Residential'],
-          numberOfFloors: '8',
-          timeline: '6+months',
-          serviceType: ['Modernization/Upgrade'],
-          budgetRange: '25L-50L',
-          status: 'contacted',
-          priority: 'medium',
-          createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-        },
-        {
-          _id: '3',
-          fullName: 'Dr. Suresh Reddy',
-          companyName: 'City Hospital',
-          email: 'admin@cityhospital.com',
-          phone: '+91-9876543212',
-          location: 'Hyderabad, Telangana',
-          buildingType: ['Hospital/Healthcare'],
-          numberOfFloors: '12',
-          timeline: 'immediate',
-          serviceType: ['New Installation', 'Smart Elevator Integration (AI, IoT)'],
-          budgetRange: 'above-1Cr',
-          status: 'quoted',
-          priority: 'urgent',
-          createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()
-        }
-      ];
+      const filters = {
+        search: searchTerm || undefined,
+        status: statusFilter === 'all' ? undefined : statusFilter,
+        priority: priorityFilter === 'all' ? undefined : priorityFilter,
+        page: 1,
+        limit: 50
+      };
+
+      const response = await clientRequirementService.getClientRequirements(filters);
       
-      setRequirements(mockRequirements);
+      if (response.data) {
+        setRequirements(Array.isArray(response.data) ? response.data : []);
+      } else {
+        setRequirements([]);
+      }
     } catch (error) {
-      console.error('Error fetching requirements:', error);
+      console.error('Failed to fetch requirements:', error);
+      setError('Failed to load requirements');
+      setRequirements([]);
+      toast({
+        title: "Error",
+        description: "Failed to load client requirements",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm, statusFilter, priorityFilter, toast]);
+
+  useEffect(() => {
+    fetchRequirements();
+  }, [fetchRequirements]);
 
   const updateRequirementStatus = async (requirementId: string, newStatus: string) => {
     try {
+      await clientRequirementService.updateRequirementStatus(requirementId, newStatus);
       setRequirements(requirements.map(req => 
         req._id === requirementId ? { 
           ...req, 
           status: newStatus as 'new' | 'in-progress' | 'contacted' | 'quoted' | 'converted' | 'closed' 
         } : req
       ));
+      toast({
+        title: "Status Updated",
+        description: "Requirement status has been updated successfully",
+      });
     } catch (error) {
       console.error('Error updating requirement status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update requirement status",
+        variant: "destructive",
+      });
     }
   };
 
@@ -270,7 +252,25 @@ const RequirementsManager = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredRequirements.map((requirement) => (
+                {filteredRequirements.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center py-12">
+                      <div className="flex flex-col items-center space-y-4">
+                        <AlertCircle className="h-12 w-12 text-muted-foreground" />
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-medium">No Requirements Found</h3>
+                          <p className="text-muted-foreground">
+                            {error ? error : (searchTerm || statusFilter !== 'all' || priorityFilter !== 'all') 
+                              ? "No requirements match your current filters." 
+                              : "No client requirements have been submitted yet."
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredRequirements.map((requirement) => (
                   <TableRow key={requirement._id}>
                     <TableCell>
                       <div className="space-y-1">
@@ -359,7 +359,8 @@ const RequirementsManager = () => {
                       </div>
                     </TableCell>
                   </TableRow>
-                ))}
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>

@@ -1,139 +1,117 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/components/Auth/useAuth';
-import { Search, Star, Eye, MessageSquare, Loader2, Calendar, User, Mail } from 'lucide-react';
+import { Search, Star, Eye, MessageSquare, Loader2, Calendar, User, Mail, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { customerFeedbackService, CustomerFeedback } from '@/services/customerFeedbackService';
+import { useToast } from '@/hooks/use-toast';
 
-interface CustomerFeedback {
-  _id: string;
-  name: string;
-  email: string;
-  projectName: string;
-  serviceType: string;
-  ratings: {
-    productQuality: number;
-    installationExecution: number;
-    teamProfessionalism: number;
-    communicationSupport: number;
-    safetyStandards: number;
-  };
+interface FeedbackWithAverage extends CustomerFeedback {
   averageRating: number;
-  wouldRecommend: string;
-  likedMost: string;
-  improvements: string;
-  status: 'new' | 'reviewed' | 'responded' | 'archived';
-  createdAt: string;
-  updatedAt: string;
 }
 
 const FeedbackManager = () => {
   const { isAdmin, isSuperAdmin } = useAuth();
-  const [feedback, setFeedback] = useState<CustomerFeedback[]>([]);
+  const { toast } = useToast();
+  const [feedback, setFeedback] = useState<FeedbackWithAverage[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [ratingFilter, setRatingFilter] = useState('all');
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchFeedback();
-  }, []);
-
-  const fetchFeedback = async () => {
+  const fetchFeedback = useCallback(async () => {
     try {
-      // Mock data for now - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      setLoading(true);
+      setError(null);
       
-      const mockFeedback: CustomerFeedback[] = [
-        {
-          _id: '1',
-          name: 'Amit Patel',
-          email: 'amit.patel@email.com',
-          projectName: 'Residential Complex - Phase 2',
-          serviceType: 'new-installation',
-          ratings: {
-            productQuality: 5,
-            installationExecution: 5,
-            teamProfessionalism: 4,
-            communicationSupport: 5,
-            safetyStandards: 5
-          },
-          averageRating: 4.8,
-          wouldRecommend: 'yes',
-          likedMost: 'Excellent service quality and professional team. Installation was completed on time.',
-          improvements: 'Could improve communication during weekends.',
-          status: 'new',
-          createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-        },
-        {
-          _id: '2',
-          name: 'Sneha Reddy',
-          email: 'sneha.reddy@company.com',
-          projectName: 'Office Building Modernization',
-          serviceType: 'modernization',
-          ratings: {
-            productQuality: 4,
-            installationExecution: 4,
-            teamProfessionalism: 5,
-            communicationSupport: 4,
-            safetyStandards: 4
-          },
-          averageRating: 4.2,
-          wouldRecommend: 'yes',
-          likedMost: 'Professional approach and quality work.',
-          improvements: 'Installation took slightly longer than expected.',
-          status: 'reviewed',
-          createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-        },
-        {
-          _id: '3',
-          name: 'Rahul Kumar',
-          email: 'rahul.k@email.com',
-          projectName: 'Shopping Mall Elevator Service',
-          serviceType: 'amc-maintenance',
-          ratings: {
-            productQuality: 3,
-            installationExecution: 3,
-            teamProfessionalism: 4,
-            communicationSupport: 3,
-            safetyStandards: 4
-          },
-          averageRating: 3.4,
-          wouldRecommend: 'maybe',
-          likedMost: 'Regular maintenance schedule.',
-          improvements: 'Response time for emergency calls could be faster.',
-          status: 'responded',
-          createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-        }
-      ];
+      const filters = {
+        search: searchTerm || undefined,
+        status: statusFilter === 'all' ? undefined : statusFilter,
+        rating: ratingFilter === 'all' ? undefined : ratingFilter,
+        page: 1,
+        limit: 50
+      };
+
+      const response = await customerFeedbackService.getCustomerFeedback(filters);
       
-      setFeedback(mockFeedback);
+      if (response.data) {
+        // Calculate average rating for each feedback
+        const feedbackWithAverage = (Array.isArray(response.data) ? response.data : []).map((item: CustomerFeedback) => {
+          const ratings = item.ratings || {};
+          const validRatings = Object.values(ratings).filter((rating): rating is number => 
+            typeof rating === 'number' && rating > 0
+          );
+          const averageRating = validRatings.length > 0 
+            ? validRatings.reduce((sum, rating) => sum + rating, 0) / validRatings.length 
+            : 0;
+          
+          return {
+            ...item,
+            averageRating
+          };
+        });
+        setFeedback(feedbackWithAverage);
+      } else {
+        setFeedback([]);
+      }
     } catch (error) {
-      console.error('Error fetching feedback:', error);
+      console.error('Failed to fetch feedback:', error);
+      setError('Failed to load customer feedback');
+      setFeedback([]);
+      toast({
+        title: "Error",
+        description: "Failed to load customer feedback",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm, statusFilter, ratingFilter, toast]);
+
+  useEffect(() => {
+    fetchFeedback();
+  }, [fetchFeedback]);
 
   const updateFeedbackStatus = async (feedbackId: string, newStatus: string) => {
     try {
+      await customerFeedbackService.updateFeedbackStatus(feedbackId, newStatus);
       setFeedback(feedback.map(fb => 
         fb._id === feedbackId ? { 
           ...fb, 
-          status: newStatus as 'new' | 'reviewed' | 'responded' | 'archived' 
+          status: newStatus as CustomerFeedback['status']
         } : fb
       ));
+      toast({
+        title: "Status Updated",
+        description: "Feedback status has been updated successfully",
+      });
     } catch (error) {
       console.error('Error updating feedback status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update feedback status",
+        variant: "destructive",
+      });
     }
+  };
+
+  const renderStarRating = (rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <Star
+        key={index}
+        className={`h-4 w-4 ${
+          index < rating 
+            ? 'fill-yellow-400 text-yellow-400' 
+            : 'text-gray-300'
+        }`}
+      />
+    ));
   };
 
   const getStatusBadgeVariant = (status: string) => {
@@ -141,33 +119,9 @@ const FeedbackManager = () => {
       case 'new': return 'default';
       case 'reviewed': return 'secondary';
       case 'responded': return 'outline';
-      case 'archived': return 'destructive';
+      case 'closed': return 'destructive';
       default: return 'default';
     }
-  };
-
-  const getRatingColor = (rating: number) => {
-    if (rating >= 4.5) return 'text-green-600';
-    if (rating >= 3.5) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex items-center space-x-1">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`h-4 w-4 ${
-              star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-            }`}
-          />
-        ))}
-        <span className={`ml-2 font-medium ${getRatingColor(rating)}`}>
-          {rating.toFixed(1)}
-        </span>
-      </div>
-    );
   };
 
   const formatDate = (dateString: string) => {
@@ -186,7 +140,7 @@ const FeedbackManager = () => {
                          fb.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          fb.projectName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || fb.status === statusFilter;
-    const matchesRating = ratingFilter === 'all' || 
+    const matchesRating = ratingFilter === 'all' ||
                          (ratingFilter === 'high' && fb.averageRating >= 4) ||
                          (ratingFilter === 'medium' && fb.averageRating >= 3 && fb.averageRating < 4) ||
                          (ratingFilter === 'low' && fb.averageRating < 3);
@@ -201,20 +155,10 @@ const FeedbackManager = () => {
           <h2 className="text-2xl font-bold">Customer Feedback</h2>
         </div>
         <Card>
-          <CardContent className="flex justify-center items-center p-12">
+          <CardContent className="flex items-center justify-center py-12">
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Loader2 className="h-8 w-8 animate-spin text-green-600" />
-                <div className="absolute inset-0 h-8 w-8 border-2 border-green-200 rounded-full animate-pulse"></div>
-              </div>
-              <div className="space-y-2">
-                <span className="text-lg font-medium text-gray-800">Loading Feedback...</span>
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                  <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                </div>
-              </div>
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <p>Loading feedback...</p>
             </div>
           </CardContent>
         </Card>
@@ -222,73 +166,79 @@ const FeedbackManager = () => {
     );
   }
 
-  const averageRating = feedback.length > 0 
-    ? feedback.reduce((sum, fb) => sum + fb.averageRating, 0) / feedback.length 
+  const averageRating = feedback.length > 0
+    ? feedback.reduce((sum, fb) => sum + fb.averageRating, 0) / feedback.length
     : 0;
 
   return (
     <div className="space-y-6">
+      {/* Header with Statistics */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Customer Feedback</h2>
-        <div className="flex items-center space-x-4">
+        <div className="flex space-x-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{averageRating.toFixed(1)}</div>
-            <div className="text-sm text-muted-foreground">Average Rating</div>
+            <div className="text-2xl font-bold text-blue-600">{feedback.length}</div>
+            <div className="text-sm text-muted-foreground">Total Reviews</div>
           </div>
-          <Badge variant="secondary" className="px-3 py-1">
-            <MessageSquare className="h-4 w-4 mr-1" />
-            {filteredFeedback.length} Feedback
-          </Badge>
+          <div className="text-center">
+            <div className="flex items-center space-x-1">
+              <div className="text-2xl font-bold text-yellow-600">{averageRating.toFixed(1)}</div>
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+            </div>
+            <div className="text-sm text-muted-foreground">Avg Rating</div>
+          </div>
         </div>
       </div>
 
+      {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filters</CardTitle>
+          <CardTitle className="flex items-center space-x-2">
+            <Search className="h-5 w-5" />
+            <span>Search & Filter</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search feedback..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+              <Input
+                placeholder="Search by customer name, email, or project..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full"
+              />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-40">
-                <SelectValue placeholder="Status" />
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="new">New</SelectItem>
                 <SelectItem value="reviewed">Reviewed</SelectItem>
                 <SelectItem value="responded">Responded</SelectItem>
-                <SelectItem value="archived">Archived</SelectItem>
+                <SelectItem value="closed">Closed</SelectItem>
               </SelectContent>
             </Select>
             <Select value={ratingFilter} onValueChange={setRatingFilter}>
-              <SelectTrigger className="w-full md:w-40">
-                <SelectValue placeholder="Rating" />
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Filter by rating" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Ratings</SelectItem>
                 <SelectItem value="high">High (4+ stars)</SelectItem>
                 <SelectItem value="medium">Medium (3-4 stars)</SelectItem>
-                <SelectItem value="low">Low (&lt; 3 stars)</SelectItem>
+                <SelectItem value="low">Low (&lt;3 stars)</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </CardContent>
       </Card>
 
+      {/* Feedback Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Feedback ({filteredFeedback.length})</CardTitle>
+          <CardTitle>Customer Reviews</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -296,9 +246,8 @@ const FeedbackManager = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Customer</TableHead>
-                  <TableHead>Project</TableHead>
-                  <TableHead>Service Type</TableHead>
-                  <TableHead>Overall Rating</TableHead>
+                  <TableHead>Project & Service</TableHead>
+                  <TableHead>Ratings</TableHead>
                   <TableHead>Recommendation</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Date</TableHead>
@@ -306,80 +255,108 @@ const FeedbackManager = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredFeedback.map((feedbackItem) => (
-                  <TableRow key={feedbackItem._id}>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <div className="font-medium flex items-center">
-                          <User className="h-4 w-4 mr-1" />
-                          {feedbackItem.name}
+                {filteredFeedback.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-12">
+                      <div className="flex flex-col items-center space-y-4">
+                        <AlertCircle className="h-12 w-12 text-muted-foreground" />
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-medium">No Feedback Found</h3>
+                          <p className="text-muted-foreground">
+                            {error ? error : (searchTerm || statusFilter !== 'all' || ratingFilter !== 'all') 
+                              ? "No feedback matches your current filters." 
+                              : "No customer feedback has been submitted yet."
+                            }
+                          </p>
                         </div>
-                        <div className="text-sm text-muted-foreground flex items-center">
-                          <Mail className="h-3 w-3 mr-1" />
-                          {feedbackItem.email}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="font-medium">{feedbackItem.projectName}</div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">
-                        {feedbackItem.serviceType.replace('-', ' ')}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {renderStars(feedbackItem.averageRating)}
-                    </TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant={
-                          feedbackItem.wouldRecommend === 'yes' ? 'default' :
-                          feedbackItem.wouldRecommend === 'maybe' ? 'secondary' : 'destructive'
-                        }
-                      >
-                        {feedbackItem.wouldRecommend}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Select 
-                        value={feedbackItem.status} 
-                        onValueChange={(value) => updateFeedbackStatus(feedbackItem._id, value)}
-                        disabled={!isAdmin && !isSuperAdmin}
-                      >
-                        <SelectTrigger className="w-32">
-                          <Badge variant={getStatusBadgeVariant(feedbackItem.status)}>
-                            {feedbackItem.status}
-                          </Badge>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="new">New</SelectItem>
-                          <SelectItem value="reviewed">Reviewed</SelectItem>
-                          <SelectItem value="responded">Responded</SelectItem>
-                          <SelectItem value="archived">Archived</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm flex items-center">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        {formatDate(feedbackItem.createdAt)}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        {(isAdmin || isSuperAdmin) && (
-                          <Button variant="outline" size="sm">
-                            <MessageSquare className="h-4 w-4" />
-                          </Button>
-                        )}
                       </div>
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  filteredFeedback.map((fb) => (
+                    <TableRow key={fb._id}>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <div className="font-medium flex items-center">
+                            <User className="h-4 w-4 mr-2" />
+                            {fb.name}
+                          </div>
+                          <div className="text-sm text-muted-foreground flex items-center">
+                            <Mail className="h-3 w-3 mr-1" />
+                            {fb.email}
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <div className="font-medium">{fb.projectName}</div>
+                          <Badge variant="outline" className="text-xs">
+                            {fb.serviceType}
+                          </Badge>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-2">
+                          <div className="flex items-center space-x-1">
+                            {renderStarRating(Math.round(fb.averageRating))}
+                            <span className="text-sm font-medium ml-2">
+                              {fb.averageRating.toFixed(1)}
+                            </span>
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Quality: {fb.ratings?.productQuality || 'N/A'}/5 | 
+                            Service: {fb.ratings?.teamProfessionalism || 'N/A'}/5
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge 
+                          variant={fb.wouldRecommend === 'yes' ? 'default' : 
+                                  fb.wouldRecommend === 'maybe' ? 'secondary' : 'destructive'}
+                        >
+                          {fb.wouldRecommend || 'Not specified'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Select 
+                          value={fb.status} 
+                          onValueChange={(value) => updateFeedbackStatus(fb._id, value)}
+                          disabled={!isAdmin && !isSuperAdmin}
+                        >
+                          <SelectTrigger className="w-32">
+                            <Badge variant={getStatusBadgeVariant(fb.status)}>
+                              {fb.status}
+                            </Badge>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="new">New</SelectItem>
+                            <SelectItem value="reviewed">Reviewed</SelectItem>
+                            <SelectItem value="responded">Responded</SelectItem>
+                            <SelectItem value="closed">Closed</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm flex items-center">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {formatDate(fb.createdAt)}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex space-x-2">
+                          <Button variant="outline" size="sm">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          {(isAdmin || isSuperAdmin) && (
+                            <Button variant="outline" size="sm">
+                              <MessageSquare className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>

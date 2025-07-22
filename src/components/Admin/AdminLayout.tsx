@@ -31,9 +31,9 @@ import AMCManager from './AMCManager';
 const AdminLayout = () => {
   const auth = useAuth();
   const profile = auth.user || auth.profile; // Use the correct property from your Auth context
-  // TODO: Replace with the correct sign out method from your Auth context
+  
   const handleSignOut = async () => {
-    await signOut();
+    auth.logout();
   };
 
   return (
@@ -199,7 +199,4 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-function signOut() {
-  throw new Error('Function not implemented.');
-}
 

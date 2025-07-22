@@ -1,6 +1,5 @@
-
-import React from 'react';
-import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench } from 'lucide-react';
+﻿import React from 'react';
+import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './Auth/useAuth';
@@ -12,7 +11,7 @@ interface VerticalNavbarProps {
 
 const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
   const location = useLocation();
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   
   const navItems = [
     { icon: Home, label: 'Home', href: '/', color: 'text-blue-400' },
@@ -23,34 +22,6 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
     { icon: Users, label: 'Careers', href: '/careers', color: 'text-cyan-400' },
     { icon: ShoppingCart, label: 'Cart', href: '#cart', color: 'text-yellow-400' },
   ];
-
-  // Enhanced admin section with infographics
-  const getAdminItems = () => {
-    console.log('VerticalNavbar - User:', user?._id);
-    console.log('VerticalNavbar - Role:', user?.role);
-    console.log('VerticalNavbar - isAdmin:', isAdmin);
-    
-    if (!user) {
-      return [{ icon: Shield, label: 'Admin Login', href: '/auth', color: 'text-red-400', isAdminLogin: true }];
-    }
-    
-    
-    // Show admin items for admin roles
-    if (isAdmin || (user?.role && ['super_admin', 'admin'].includes(user.role))) {
-      console.log('✅ Admin access granted for role:', user?.role);
-      return [
-        { icon: Settings, label: 'Admin Dashboard', href: '/admin', color: 'text-red-400', isAdmin: true },
-        { icon: BarChart3, label: 'Analytics', href: '/admin#analytics', color: 'text-indigo-400', isAdmin: true },
-        { icon: FileText, label: 'Reports', href: '/admin#reports', color: 'text-emerald-400', isAdmin: true },
-        { icon: Wrench, label: 'System Tools', href: '/admin#tools', color: 'text-amber-400', isAdmin: true },
-      ];
-    }
-    
-    return [];
-  };
-
-  const adminItems = getAdminItems();
-  const allNavItems = [...navItems, ...adminItems];
 
   const socialIcons = [
     { name: 'Facebook', href: '#', color: 'hover:text-blue-600' },
@@ -87,7 +58,7 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-steel-accent">
+          <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-steel-accent">
             <h2 className="text-xl font-bold text-white">Menu</h2>
             <Button
               variant="ghost"
@@ -99,8 +70,8 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
             </Button>
           </div>
 
-          {/* Navigation Items */}
-          <div className="flex-1 py-6">
+          {/* Scrollable Navigation Content */}
+          <div className="flex-1 overflow-y-auto py-6">
             <nav className="space-y-3 px-4">
               {/* Main Navigation */}
               <div className="space-y-2">
@@ -122,48 +93,11 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
                   </Link>
                 ))}
               </div>
-
-              {/* Admin Section */}
-              {adminItems.length > 0 && (
-                <div className="space-y-2 pt-4 border-t border-steel-accent">
-                  <h3 className="text-xs font-semibold text-steel-light uppercase tracking-wide mb-3">
-                    {user ? 'Admin Tools' : 'Authentication'}
-                  </h3>
-                  {adminItems.map((item, index) => (
-                    <Link
-                      key={item.label}
-                      to={item.href}
-                      onClick={handleItemClick}
-                      className={`flex items-center space-x-4 p-3 rounded-lg hover:bg-steel-dark/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white ${
-                        isOpen ? 'animate-fade-in' : ''
-                      } ${location.pathname === item.href ? 'bg-steel-dark/30 text-white border-l-4 border-yellow-400' : ''} ${
-                        item.isAdmin ? 'bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-400/20' : ''
-                      }`}
-                      style={{
-                        animationDelay: isOpen ? `${(navItems.length + index) * 100}ms` : '0ms',
-                      }}
-                    >
-                      <item.icon className={`h-5 w-5 group-hover:scale-110 transition-transform duration-200 ${item.color}`} />
-                      <div className="flex flex-col">
-                        <span className="font-medium">{item.label}</span>
-                        {item.isAdmin && (
-                          <span className="text-xs text-steel-light">Manager Access</span>
-                        )}
-                      </div>
-                      {item.isAdmin && (
-                        <div className="ml-auto">
-                          <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                        </div>
-                      )}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </nav>
           </div>
 
           {/* Social Media Icons */}
-          <div className="p-6 border-t border-steel-accent">
+          <div className="flex-shrink-0 p-6 border-t border-steel-accent">
             <h3 className="text-sm font-semibold text-white mb-4">Follow Us</h3>
             <div className="flex space-x-4">
               {socialIcons.map((social, index) => (
@@ -182,6 +116,87 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
               ))}
             </div>
           </div>
+
+          {/* User Actions Section */}
+          {user && (
+            <div className="flex-shrink-0 p-6 border-t border-steel-accent">
+              <h3 className="text-sm font-semibold text-white mb-4">Account</h3>
+              <div className="space-y-3">
+                {/* User Profile Button */}
+                <div className="flex items-center space-x-3 p-3 rounded-lg bg-steel-dark/20 text-white">
+                  <div className="relative">
+                    <User className="h-5 w-5 text-blue-400" />
+                    {user?.role && ['admin', 'super_admin'].includes(user.role) && (
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border border-white">
+                        <Settings className="h-2 w-2 text-slate-900 absolute top-0.5 left-0.5" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-sm">
+                      {user?.firstName || user?.email || 'User'}
+                    </span>
+                    {user?.role && (
+                      <span className="text-xs text-steel-light capitalize">
+                        {user.role} Access
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Admin Panel Button - Only for admin users */}
+                {(isAdmin || user?.email === 'admin@yatraelevators.com') && (
+                  <Link
+                    to="/admin"
+                    onClick={handleItemClick}
+                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-400/20"
+                  >
+                    <Shield className="h-5 w-5 text-red-400 group-hover:scale-110 transition-transform duration-200" />
+                    <div className="flex flex-col">
+                      <span className="font-medium">Admin Panel</span>
+                      <span className="text-xs text-steel-light">Control Center</span>
+                    </div>
+                    <div className="ml-auto">
+                      <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Logout Button */}
+                <button
+                  onClick={() => {
+                    logout();
+                    onClose();
+                  }}
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white w-full text-left"
+                >
+                  <LogOut className="h-5 w-5 text-orange-400 group-hover:scale-110 transition-transform duration-200" />
+                  <div className="flex flex-col">
+                    <span className="font-medium">Sign Out</span>
+                    <span className="text-xs text-steel-light">Logout Account</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Login Button for Non-authenticated Users */}
+          {!user && (
+            <div className="flex-shrink-0 p-6 border-t border-steel-accent">
+              <h3 className="text-sm font-semibold text-white mb-4">Account</h3>
+              <Link
+                to="/auth"
+                onClick={handleItemClick}
+                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500/20 hover:text-white transition-all duration-300 transform hover:translate-x-2 group text-white bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-400/20"
+              >
+                <Shield className="h-5 w-5 text-blue-400 group-hover:scale-110 transition-transform duration-200" />
+                <div className="flex flex-col">
+                  <span className="font-medium">Sign In</span>
+                  <span className="text-xs text-steel-light">Access Account</span>
+                </div>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>

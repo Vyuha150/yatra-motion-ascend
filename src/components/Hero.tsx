@@ -1,11 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Phone, Download, Calendar, Shield } from 'lucide-react';
+import { ChevronDown, Phone, Download, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CommonHeader from './CommonHeader';
 import ContactModal from './ContactModal';
 import { useAuth } from './Auth/useAuth';
-import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -124,19 +123,6 @@ const Hero = () => {
               <Calendar className="mr-2 h-5 w-5" />
               Book Yatra Elevator Service
             </Button>
-            
-            {/* Admin Panel Button for Admin Users */}
-            {isAdmin && (
-              <Link to="/admin">
-                <Button 
-                  size="lg"
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl border-2 border-yellow-400"
-                >
-                  <Shield className="mr-2 h-5 w-5" />
-                  Admin Panel
-                </Button>
-              </Link>
-            )}
           </div>
         </div>
 

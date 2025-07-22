@@ -31,10 +31,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       const response = await authService.login(credentials);
-      if (response && response.data) {
-        // Store the token first
-        localStorage.setItem('token', response.data.token);
-        // Then set the user
+      if (response && response.success && response.data) {
+        // The authService already handles token storage
         setUser(response.data.user);
       } else {
         throw new Error('Invalid response from server');
@@ -51,7 +49,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       const response = await authService.register(userData);
-      setUser(response.data.user);
+      if (response && response.success && response.data) {
+        // The authService already handles token storage
+        setUser(response.data.user);
+      } else {
+        throw new Error('Invalid response from server');
+      }
     } catch (error) {
       console.error('Registration error:', error);
       throw error;
@@ -70,6 +73,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isSuperAdmin = user?.role === 'super_admin';
 
   const value: AuthContextType = {
+    profile: user as User, // profile is the same as user for compatibility
     user,
     loading,
     login,

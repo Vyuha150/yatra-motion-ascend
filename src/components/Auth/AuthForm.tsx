@@ -24,8 +24,79 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
   const navigate = useNavigate();
   const { login, register, isAdmin } = useAuth();
 
+  const getPasswordStrength = (password: string) => {
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    return strength;
+  };
+
+  const getPasswordStrengthText = (strength: number) => {
+    if (strength < 2) return { text: 'Weak', color: 'text-red-500' };
+    if (strength < 4) return { text: 'Fair', color: 'text-yellow-500' };
+    if (strength < 5) return { text: 'Good', color: 'text-blue-500' };
+    return { text: 'Strong', color: 'text-green-500' };
+  };
+
+  const validateForm = () => {
+    if (mode === 'signup') {
+      if (!firstName.trim()) {
+        toast.error('Please enter your first name');
+        return false;
+      }
+      if (!lastName.trim()) {
+        toast.error('Please enter your last name');
+        return false;
+      }
+      if (!phone.trim()) {
+        toast.error('Please enter your phone number');
+        return false;
+      }
+      // Phone number validation (basic check)
+      const phoneRegex = /^[+]?[1-9]\d{0,15}$/;
+      if (!phoneRegex.test(phone.replace(/[\s\-()]/g, ''))) {
+        toast.error('Please enter a valid phone number');
+        return false;
+      }
+    }
+    
+    if (!email.trim()) {
+      toast.error('Please enter your email address');
+      return false;
+    }
+    
+    // Email format validation
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address');
+      return false;
+    }
+    
+    if (!password.trim()) {
+      toast.error('Please enter your password');
+      return false;
+    }
+    
+    if (mode === 'signup' && password.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Client-side validation
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -84,6 +155,7 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="Enter your first name"
                     required
                   />
                 </div>
@@ -93,6 +165,7 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Enter your last name"
                     required
                   />
                 </div>
@@ -103,7 +176,9 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter your phone number"
                 />
+                <p className="text-xs text-gray-500 mt-1">Enter a valid phone number (e.g., +91-9876543210)</p>
               </div>
             </>
           )}
@@ -114,6 +189,7 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
               required
             />
           </div>
@@ -137,6 +213,35 @@ const AuthForm = ({ mode, onToggleMode }: AuthFormProps) => {
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </Button>
             </div>
+            {mode === 'signup' && password && (
+              <div className="mt-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span>Password strength:</span>
+                  <span className={`font-medium ${getPasswordStrengthText(getPasswordStrength(password)).color}`}>
+                    {getPasswordStrengthText(getPasswordStrength(password)).text}
+                  </span>
+                </div>
+                <div className="mt-1 flex space-x-1">
+                  {[1, 2, 3, 4, 5].map((level) => (
+                    <div
+                      key={level}
+                      className={`h-1 flex-1 rounded ${
+                        level <= getPasswordStrength(password)
+                          ? level <= 2 
+                            ? 'bg-red-500' 
+                            : level <= 4 
+                            ? 'bg-yellow-500' 
+                            : 'bg-green-500'
+                          : 'bg-gray-200'
+                      }`}
+                    />
+                  ))}
+                </div>
+                {password.length > 0 && password.length < 6 && (
+                  <p className="text-xs text-red-500 mt-1">Password must be at least 6 characters long</p>
+                )}
+              </div>
+            )}
           </div>
           
           <Button type="submit" className="w-full" disabled={loading}>

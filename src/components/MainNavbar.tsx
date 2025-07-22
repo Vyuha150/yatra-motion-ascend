@@ -69,21 +69,6 @@ const MainNavbar = () => {
                   </span>
                 </div>
 
-                {/* Admin Panel Button - Show for ALL logged in users for debugging */}
-                <Link to="/admin">
-                  <Button
-                    size="sm"
-                    className={`${
-                      isAdmin || user // Show for all users temporarily for debugging
-                        ? 'bg-red-600 hover:bg-red-700 border border-yellow-400'
-                        : 'bg-gray-600 hover:bg-gray-700'
-                    } text-white`}
-                  >
-                    <Shield className="h-4 w-4 mr-1" />
-                    Admin Panel
-                  </Button>
-                </Link>
-
                 {/* Settings */}
                 <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white">
                   <Settings className="h-4 w-4" />

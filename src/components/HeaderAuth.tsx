@@ -21,20 +21,6 @@ const HeaderAuth = () => {
   if (user) {
     return (
       <div className="flex items-center space-x-2 h-12">
-        {/* Admin Panel Button - Always visible for admin users */}
-        {isUserAdmin && (
-          <Link to="/admin">
-            <Button
-              size="sm"
-              className="bg-red-600 hover:bg-red-700 text-white border-2 border-yellow-400 shadow-lg font-bold px-4 py-2"
-              title="Admin Panel"
-            >
-              <Shield className="h-4 w-4 mr-2" />
-              ADMIN PANEL
-            </Button>
-          </Link>
-        )}
-        
         {/* User Icon with Role Badge */}
         <div className="flex items-center space-x-2 bg-white/10 rounded-full px-3 py-2">
           <div className="relative">

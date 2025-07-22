@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/lib/mockSupabase';
+import { dashboardService, DashboardStats, RecentActivity } from '@/services/dashboardService';
 import { Users, ShoppingCart, AlertTriangle, DollarSign, TrendingUp, Building2 } from 'lucide-react';
-
-interface DashboardStats {
-  totalInstallations: number;
-  activeAMCContracts: number;
-  pendingServiceTickets: number;
-  totalRevenue: number;
-  newLeadsThisMonth: number;
-  showrooms: number;
-}
+import { useToast } from '@/hooks/use-toast';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState<DashboardStats>({
@@ -21,44 +13,92 @@ const AdminDashboard = () => {
     newLeadsThisMonth: 0,
     showrooms: 0
   });
+  const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
-  useEffect(() => {
-    fetchDashboardStats();
-  }, []);
-
-  const fetchDashboardStats = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
-      const [
-        installationsResult,
-        amcResult,
-        ticketsResult,
-        revenueResult,
-        leadsResult,
-        showroomsResult
-      ] = await Promise.all([
-        supabase.from('orders').select('*', { count: 'exact' }).eq('status', 'installed'),
-        supabase.from('amc_contracts').select('*', { count: 'exact' }).eq('status', 'active'),
-        supabase.from('service_tickets').select('*', { count: 'exact' }).in('status', ['open', 'in_progress']),
-        supabase.from('invoices').select('total_amount').eq('status', 'paid'),
-        supabase.from('leads').select('*', { count: 'exact' }).gte('created_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
-        supabase.from('showrooms').select('*', { count: 'exact' })
+      const [statsResponse, activitiesResponse] = await Promise.all([
+        dashboardService.getDashboardStats(),
+        dashboardService.getRecentActivities()
       ]);
 
-      const totalRevenue = revenueResult.data?.reduce((sum, invoice) => sum + (invoice.total_amount || 0), 0) || 0;
+      if (statsResponse.success && statsResponse.data) {
+        setStats(statsResponse.data);
+      }
 
-      setStats({
-        totalInstallations: installationsResult.count || 0,
-        activeAMCContracts: amcResult.count || 0,
-        pendingServiceTickets: ticketsResult.count || 0,
-        totalRevenue,
-        newLeadsThisMonth: leadsResult.count || 0,
-        showrooms: showroomsResult.count || 0
-      });
+      if (activitiesResponse.success && activitiesResponse.data) {
+        setRecentActivities(activitiesResponse.data);
+      }
     } catch (error) {
-      console.error('Error fetching dashboard stats:', error);
+      console.error('Error fetching dashboard data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load dashboard data. Using fallback data.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
+
+  const handleGenerateReport = async () => {
+    try {
+      const response = await dashboardService.generateMonthlyReport();
+      if (response.success && response.data) {
+        toast({
+          title: "Report Generated",
+          description: "Monthly report has been generated successfully.",
+        });
+        // You could open the report URL here: window.open(response.data.reportUrl)
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to generate monthly report.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSendAMCNotifications = async () => {
+    try {
+      const response = await dashboardService.sendAMCRenewalNotifications();
+      if (response.success && response.data) {
+        toast({
+          title: "Notifications Sent",
+          description: `AMC renewal notifications sent to ${response.data.sent} customers.`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send AMC renewal notifications.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleBackupDatabase = async () => {
+    try {
+      const response = await dashboardService.backupDatabase();
+      if (response.success && response.data) {
+        toast({
+          title: "Backup Created",
+          description: `Database backup created with ID: ${response.data.backupId}`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create database backup.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -170,27 +210,28 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">New AMC contract signed</p>
-                  <p className="text-xs text-muted-foreground">Tech Tower Ltd - ₹2,00,000</p>
+              {recentActivities.length > 0 ? (
+                recentActivities.map((activity) => (
+                  <div key={activity.id} className="flex items-center space-x-4">
+                    <div className={`w-2 h-2 rounded-full ${
+                      activity.status === 'completed' ? 'bg-green-500' :
+                      activity.status === 'pending' ? 'bg-orange-500' : 'bg-blue-500'
+                    }`}></div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{activity.title}</p>
+                      <p className="text-xs text-muted-foreground">{activity.description}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">New AMC contract signed</p>
+                    <p className="text-xs text-muted-foreground">Tech Tower Ltd - ₹2,00,000</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Service ticket resolved</p>
-                  <p className="text-xs text-muted-foreground">Raj Apartments - Elevator maintenance</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">New lead received</p>
-                  <p className="text-xs text-muted-foreground">Commercial complex in Mumbai</p>
-                </div>
-              </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -201,15 +242,24 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <button className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors">
+              <button 
+                onClick={handleGenerateReport}
+                className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors"
+              >
                 <div className="font-medium">Generate Monthly Report</div>
                 <div className="text-sm text-muted-foreground">Download comprehensive business report</div>
               </button>
-              <button className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors">
+              <button 
+                onClick={handleSendAMCNotifications}
+                className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors"
+              >
                 <div className="font-medium">Send AMC Renewal Notifications</div>
                 <div className="text-sm text-muted-foreground">Notify customers about upcoming renewals</div>
               </button>
-              <button className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors">
+              <button 
+                onClick={handleBackupDatabase}
+                className="w-full text-left p-3 rounded-lg border hover:bg-muted transition-colors"
+              >
                 <div className="font-medium">Backup Database</div>
                 <div className="text-sm text-muted-foreground">Create system backup</div>
               </button>

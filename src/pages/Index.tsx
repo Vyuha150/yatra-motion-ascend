@@ -7,7 +7,6 @@ import AboutPreview from '../components/AboutPreview';
 import ContactCTA from '../components/ContactCTA';
 import FloatingChat from '../components/FloatingChat';
 import FloatingNavButton from '../components/FloatingNavButton';
-import FloatingAdminButton from '../components/FloatingAdminButton';
 import VerticalNavbar from '../components/VerticalNavbar';
 import PreLoader from '../components/PreLoader';
 import AnimatedHighlights from '../components/AnimatedHighlights';
@@ -130,7 +129,6 @@ const Index = () => {
       {/* Floating Elements */}
       <FloatingChat />
       <FloatingNavButton onToggle={handleNavToggle} isNavOpen={isNavOpen} />
-      <FloatingAdminButton />
       <VerticalNavbar isOpen={isNavOpen} onClose={handleNavClose} />
     </div>
   );

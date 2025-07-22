@@ -109,6 +109,15 @@ export const API_ENDPOINTS = {
     ASSIGN: (id: string) => `/api/careers/applications/${id}/assign`,
     NOTES: (id: string) => `/api/careers/applications/${id}/notes`,
     STATS: '/api/careers/stats',
+  },
+
+  // Dashboard
+  DASHBOARD: {
+    STATS: '/api/dashboard/stats',
+    RECENT_ACTIVITIES: '/api/dashboard/recent-activities',
+    GENERATE_REPORT: '/api/dashboard/reports/monthly',
+    SEND_AMC_NOTIFICATIONS: '/api/dashboard/amc-notifications',
+    BACKUP_DATABASE: '/api/dashboard/backup',
   }
 };
 

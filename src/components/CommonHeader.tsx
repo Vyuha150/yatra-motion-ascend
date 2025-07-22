@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import HeaderAuth from './HeaderAuth';
 
 const CommonHeader = () => {
   return (
@@ -9,10 +8,7 @@ const CommonHeader = () => {
       <div className="flex items-center">
       </div>
       
-      {/* Auth component in top right */}
-      <div>
-        <HeaderAuth />
-      </div>
+      {/* Auth buttons removed - now in side menu */}
     </div>
   );
 };

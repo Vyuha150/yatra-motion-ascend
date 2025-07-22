@@ -5,16 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/components/Auth/useAuth';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Auth = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, login, register } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -23,22 +21,53 @@ const Auth = () => {
     }
   }, [user, authLoading, navigate]);
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 6;
+  };
+
+  const validateName = (name: string) => {
+    return name.trim().length > 0;
+  };
+
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
+    // Client-side validation
+    if (!email.trim()) {
+      toast.error('Please enter your email address');
+      setLoading(false);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    if (!password.trim()) {
+      toast.error('Please enter your password');
+      setLoading(false);
+      return;
+    }
+
     try {
       await login({ email, password });
-      setMessage('Login successful! Redirecting...');
+      toast.success('Login successful! Redirecting...');
       // Redirect will happen automatically via useEffect
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Login failed';
-      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -47,8 +76,6 @@ const Auth = () => {
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setMessage('');
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
@@ -56,6 +83,43 @@ const Auth = () => {
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
     const phone = formData.get('phone') as string || '';
+
+    // Client-side validation
+    if (!validateName(firstName)) {
+      toast.error('Please enter your first name');
+      setLoading(false);
+      return;
+    }
+
+    if (!validateName(lastName)) {
+      toast.error('Please enter your last name');
+      setLoading(false);
+      return;
+    }
+
+    if (!email.trim()) {
+      toast.error('Please enter your email address');
+      setLoading(false);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    if (!password.trim()) {
+      toast.error('Please enter your password');
+      setLoading(false);
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      toast.error('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
 
     try {
       await register({
@@ -66,10 +130,10 @@ const Auth = () => {
         phone
       });
       
-      setMessage('Registration successful! You are now logged in.');
+      toast.success('Registration successful! You are now logged in.');
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Registration failed';
-      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -140,7 +204,7 @@ const Auth = () => {
                     <Input
                       id="firstName"
                       name="firstName"
-                      placeholder="First name"
+                      placeholder="Enter your first name"
                       required
                     />
                   </div>
@@ -149,7 +213,7 @@ const Auth = () => {
                     <Input
                       id="lastName"
                       name="lastName"
-                      placeholder="Last name"
+                      placeholder="Enter your last name"
                       required
                     />
                   </div>
@@ -170,8 +234,17 @@ const Auth = () => {
                     id="password"
                     name="password"
                     type="password"
-                    placeholder="Create a password"
+                    placeholder="Create a password (min. 6 characters)"
                     required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone (optional)</Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="Enter your phone number"
                   />
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
@@ -187,30 +260,6 @@ const Auth = () => {
               </form>
             </TabsContent>
           </Tabs>
-
-          {/* Admin Login Info */}
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <h3 className="font-medium mb-2">Admin Account</h3>
-            <p className="text-sm text-muted-foreground mb-2">
-              Use these credentials to access admin features:
-            </p>
-            <div className="text-sm font-mono">
-              <p>Email: admin@yatraelevators.com</p>
-              <p>Password: Admin@123</p>
-            </div>
-          </div>
-
-          {error && (
-            <Alert className="mt-4" variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          
-          {message && (
-            <Alert className="mt-4">
-              <AlertDescription>{message}</AlertDescription>
-            </Alert>
-          )}
         </CardContent>
       </Card>
     </div>

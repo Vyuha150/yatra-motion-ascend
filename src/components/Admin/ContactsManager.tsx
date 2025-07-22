@@ -31,8 +31,8 @@ const ContactsManager = () => {
   const fetchContacts = async () => {
     try {
       const response = await contactService.getContacts();
-      const contacts = response.data || [];
-      setContacts(contacts);
+      const contactsArray: Contact[] = Array.isArray(response.data) ? response.data : [];
+      setContacts(contactsArray);
     } catch (error) {
       console.error('Error fetching contacts:', error);
       toast.error('Error fetching contacts');

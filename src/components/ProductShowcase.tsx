@@ -99,7 +99,7 @@ const ProductShowcase = () => {
                   {/* Learn More Button */}
                   <Button 
                     variant="ghost" 
-                    className="w-full group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 border border-blue-200 group-hover:border-blue-600"
+                    className="w-full  group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 border border-blue-200 group-hover:border-blue-600"
                   >
                     Learn More
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

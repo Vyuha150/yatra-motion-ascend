@@ -22,9 +22,12 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
       });
     }, 50);
 
-    // Floor counter animation
+    // Floor counter animation - counts up as elevator moves down
     const floorInterval = setInterval(() => {
-      setCurrentFloor((prev) => (prev % 10) + 1);
+      setCurrentFloor((prev) => {
+        const nextFloor = (prev % 8) + 1; // Cycles through floors 1-8
+        return nextFloor;
+      });
     }, 300);
 
     // Complete loading when progress reaches 100%
@@ -76,7 +79,7 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
               {[...Array(8)].map((_, i) => (
                 <div key={i} className="absolute left-0 right-0 h-8 border-b border-slate-600" style={{ top: `${i * 32}px` }}>
                   <div className="absolute right-2 top-1 text-xs text-slate-400 font-mono">
-                    {8 - i}
+                    {i + 1}
                   </div>
                 </div>
               ))}
@@ -85,7 +88,7 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
               <div 
                 className="absolute left-2 right-2 h-6 bg-gradient-to-r from-blue-500 to-indigo-500 rounded shadow-lg transition-all duration-300 ease-in-out"
                 style={{ 
-                  top: `${240 - (progress * 2.2)}px`,
+                  top: `${8 + (progress * 2.2)}px`,
                   boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)'
                 }}
               >
@@ -135,7 +138,7 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce delay-100"></div>
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce delay-200"></div>
                 </div>
-                <span className="text-xs tracking-wider uppercase">Initializing System</span>
+                <span className="text-xs tracking-wider uppercase">Starting your YATRA Journey</span>
               </div>
             </div>
           </div>

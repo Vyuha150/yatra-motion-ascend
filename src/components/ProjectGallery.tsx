@@ -12,7 +12,7 @@ const ProjectGallery = () => {
       title: "Luxury Residential Complex",
       location: "Bangalore",
       type: "Passenger Lift",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center",
       description: "Premium passenger lifts for a 25-story residential tower with advanced safety features."
     },
     {
@@ -20,7 +20,7 @@ const ProjectGallery = () => {
       title: "Corporate Office Building",
       location: "Chennai",
       type: "High-Speed Lift",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center",
       description: "High-speed elevators for efficient vertical transportation in commercial complex."
     },
     {
@@ -28,7 +28,7 @@ const ProjectGallery = () => {
       title: "Shopping Mall Complex",
       location: "Hyderabad",
       type: "Freight & Passenger",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center",
       description: "Multiple elevator systems for large-scale retail and entertainment complex."
     },
     {
@@ -36,7 +36,7 @@ const ProjectGallery = () => {
       title: "Hospital Facility",
       location: "Coimbatore",
       type: "Hospital Lift",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center",
       description: "Specialized hospital elevators with stretcher compatibility and emergency features."
     },
     {
@@ -44,7 +44,7 @@ const ProjectGallery = () => {
       title: "Industrial Warehouse",
       location: "Mysore",
       type: "Freight Lift",
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center",
       description: "Heavy-duty freight elevators for efficient material handling in industrial facility."
     },
     {
@@ -52,7 +52,7 @@ const ProjectGallery = () => {
       title: "Premium Villa",
       location: "Kochi",
       type: "Home Lift",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop&crop=center",
       description: "Elegant home elevator with glass cabin design for luxury residential property."
     }
   ];
@@ -76,7 +76,7 @@ const ProjectGallery = () => {
           {projects.map((project, index) => (
             <div 
               key={project.id}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:scale-105"
+              className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:scale-105 bg-slate-800 shadow-xl"
             >
               {/* Project Image */}
               <div className="relative h-80 overflow-hidden">
@@ -89,21 +89,21 @@ const ProjectGallery = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
                 
                 {/* Hover Actions */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <div className="flex space-x-4">
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="flex space-x-3">
                     <Button
                       size="sm"
-                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 transform scale-90 group-hover:scale-100 transition-transform duration-300"
+                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 p-0 transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-lg"
                     >
-                      <Eye className="h-5 w-5" />
+                      <Eye className="h-4 w-4" />
                     </Button>
                     
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-white text-white hover:bg-white hover:text-slate-900 rounded-full p-3 transform scale-90 group-hover:scale-100 transition-transform duration-300"
+                      className="border-2 border-white text-white hover:bg-white hover:text-slate-900 rounded-full w-10 h-10 p-0 transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-lg"
                     >
-                      <ExternalLink className="h-5 w-5" />
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -112,20 +112,20 @@ const ProjectGallery = () => {
               {/* Project Info */}
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                 <div className="mb-2">
-                  <span className="inline-block px-3 py-1 bg-blue-600 text-sm font-medium rounded-full mb-3">
+                  <span className="inline-block px-3 py-1 bg-blue-600 text-sm font-medium rounded-full mb-3 min-w-fit">
                     {project.type}
                   </span>
                 </div>
                 
-                <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors duration-300">
+                <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors duration-300 line-clamp-2 min-h-[3.5rem]">
                   {project.title}
                 </h3>
                 
-                <p className="text-slate-300 text-sm mb-2">
+                <p className="text-slate-300 text-sm mb-2 min-h-[1.25rem]">
                   📍 {project.location}
                 </p>
                 
-                <p className="text-slate-400 text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                <p className="text-slate-400 text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 line-clamp-3 min-h-[4rem]">
                   {project.description}
                 </p>
               </div>

@@ -96,7 +96,10 @@ const ContactUs = () => {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold mb-8">Get in Touch</h2>
+              <h2 className="text-3xl font-bold mb-8">Head Office & Branch Locations</h2>
+              <p className="text-gray-600 mb-6">
+                Kindly Find out with Sai Sir and fill up these details
+              </p>
               
               {/* Office Image */}
               <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
@@ -135,10 +138,10 @@ const ContactUs = () => {
                     <MapPin className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1 leading-tight">Address</h3>
+                    <h3 className="font-bold text-lg mb-1 leading-tight">Head Office Address</h3>
                     <p className="text-gray-700 leading-relaxed">
-                      123 Business District,<br />
-                      Bangalore, Karnataka 560001<br />
+                      (To be filled by Sai Sir)<br />
+                      Bangalore, Karnataka<br />
                       India
                     </p>
                   </div>
@@ -157,9 +160,15 @@ const ContactUs = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Emergency Help Line */}
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <h3 className="font-bold text-lg text-red-800 mb-2">Emergency Help Line</h3>
+                <p className="text-red-700">For any kind of emergencies, please call on <strong>__________________</strong></p>
+              </div>
             </div>
 
-            {/* Contact Form */}
+            {/* Contact Form (Sales & Support) */}
             <div className="relative bg-white p-8 rounded-lg shadow-lg">
               {/* Loading Overlay */}
               {isLoading && (
@@ -186,44 +195,24 @@ const ContactUs = () => {
                 </div>
               )}
               
-              <h2 className="text-3xl font-bold mb-6">Send us a Message</h2>
+              <h2 className="text-3xl font-bold mb-6">Contact Form (Sales & Support)</h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your phone number"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="_______________________________"
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">E-Mail:</label>
                   <input
                     type="email"
                     name="email"
@@ -231,14 +220,45 @@ const ContactUs = () => {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter your email address"
+                    placeholder="_______________________________"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Contact:</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="______________________________"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Location:</label>
+                  <input
+                    type="text"
+                    name="location"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="______________________________"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Suitable Time to Call:</label>
+                  <input
+                    type="text"
+                    name="callTime"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="____________________"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Subject:</label>
                   <select
                     name="subject"
                     value={formData.subject}
@@ -251,14 +271,13 @@ const ContactUs = () => {
                     <option value="installation">Installation Service</option>
                     <option value="maintenance">Maintenance Service</option>
                     <option value="support">Technical Support</option>
+                    <option value="sales">Sales Inquiry</option>
                     <option value="other">Other</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Message:</label>
                   <textarea
                     name="message"
                     value={formData.message}
@@ -310,10 +329,104 @@ const ContactUs = () => {
         </div>
       </section>
 
+      {/* Additional Contact Forms */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Dealer/Distributor Enquiry */}
+            <div className="bg-white p-8 rounded-lg shadow-lg">
+              <h2 className="text-3xl font-bold mb-6">Dealer Distributor Enquiry</h2>
+              <p className="text-gray-600 mb-6">
+                Yatra Elevators & Escalators is actively looking for positive and growth oriented dealers and distributors to join our huge network. If you are powered by excellence and are looking to join a trusted brand in vertical transportation, we would surely invite you to partner with us.
+              </p>
+              <p className="text-gray-600 mb-8">
+                As a Yatra dealer or distributor, you will gain entry to high quality products, sophisticated support, competitive pricing, and marketing resources to help increase your business.
+              </p>
+              
+              <form className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Name:</label>
+                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">E-Mail:</label>
+                  <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Contact:</label>
+                  <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Location:</label>
+                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Suitable Time to Call:</label>
+                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3">
+                  Submit Enquiry
+                </Button>
+              </form>
+            </div>
+
+            {/* Partnership Form */}
+            <div className="bg-white p-8 rounded-lg shadow-lg">
+              <h2 className="text-3xl font-bold mb-6">Become a Partner</h2>
+              <p className="text-gray-600 mb-6">
+                At Yatra Elevators & Escalators, we trust in developing together through strong, systematic partnerships. If you are into business or a contractor, architect, or industry professional looking to associate with a trustworthy and innovative elevator and escalator company, we welcome you to join hands with us.
+              </p>
+              <p className="text-gray-600 mb-8">
+                As a Yatra partner, you'll benefit from our technical expertise, quality products, timely support, and a shared promise to customer satisfaction.
+              </p>
+              
+              <form className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Name:</label>
+                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Profession:</label>
+                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option value="">Select Profession</option>
+                    <option value="architect">Architect</option>
+                    <option value="contractor">Contractor</option>
+                    <option value="builder">Builder</option>
+                    <option value="developer">Developer</option>
+                    <option value="consultant">Consultant</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">E-Mail:</label>
+                  <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Contact:</label>
+                  <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Location:</label>
+                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Suitable Time to Call:</label>
+                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3">
+                  Submit Partnership Request
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Map Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Find Us</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">Find Us</h2>
+          <p className="text-center text-gray-600 mb-8">Tell the technical team to tag the location and integrate the map</p>
           <div className="bg-gray-300 h-96 rounded-lg flex items-center justify-center">
             <p className="text-gray-600">Interactive Map will be integrated here</p>
           </div>

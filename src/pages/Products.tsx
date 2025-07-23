@@ -10,8 +10,8 @@ const Products = () => {
   const elevatorTypes = [
     {
       title: "Passenger Elevators",
-      description: "Smooth, quiet, and reliable vertical transportation for buildings of all sizes. Engineered for comfort and efficiency.",
-      features: ["Energy efficient drives", "Smart destination control", "Emergency communication", "Premium cabin finishes", "Anti-vandal buttons", "LED lighting systems"],
+      description: "Yatra's Passenger Elevators are contemplatively designed to provide serene, calm and most significant vertical mobility in a diverse architectural environment to deliver smooth, safe, and energy efficient vertical mobility for residential and commercial buildings alike. Established with user attractive design, stylistic appeal, appearance standards and we envisioned the long term journey carried in our minds.",
+      features: ["Advanced technology", "Noise-optimized control systems", "Customizable cabin finishes", "Safety protocols", "Hygiene scintillating interiors", "Stellar lifestyle driving"],
       icon: Building2,
       capacity: "5-30 persons",
       speed: "0.5-4.0 m/s",
@@ -19,19 +19,9 @@ const Products = () => {
       applications: ["Office buildings", "Residential complexes", "Hotels", "Shopping centers"]
     },
     {
-      title: "Freight Elevators",
-      description: "Heavy-duty elevators designed for transporting goods, materials, and equipment with maximum reliability.",
-      features: ["High load capacity", "Reinforced car construction", "Industrial-grade controls", "Bi-parting doors", "Manual loading doors", "Overload protection"],
-      icon: Truck,
-      capacity: "Up to 5000 kg",
-      speed: "0.25-1.0 m/s",
-      load: "1000-5000 kg",
-      applications: ["Warehouses", "Manufacturing plants", "Logistics centers", "Industrial facilities"]
-    },
-    {
-      title: "Home Elevators",
-      description: "Compact and elegant elevators perfect for residential applications, combining luxury with space efficiency.",
-      features: ["Space-saving design", "Whisper-quiet operation", "Easy installation", "Premium finishes", "Personalized controls", "Battery backup"],
+      title: "Home/Residential Elevators",
+      description: "Yatra's Elevators promote jubilant, elegant and enhancing incredible environments into your residence. These are fabricated with cutting-edge technology and modern stylish appearance versatility, these elevators smoothly get adjusted into villas, duplexes and multi story residences.",
+      features: ["Capacity monitoring", "High tech mobility solutions", "Backup system", "Pathogen resistance", "Customizable finishes", "Compact dynamic shafts"],
       icon: Home,
       capacity: "3-8 persons",
       speed: "0.15-0.6 m/s",
@@ -39,9 +29,9 @@ const Products = () => {
       applications: ["Private homes", "Villas", "Apartments", "Duplex houses"]
     },
     {
-      title: "Hospital Elevators",
-      description: "Specialized elevators designed for medical facilities with enhanced hygiene and emergency features.",
-      features: ["Anti-bacterial surfaces", "Stretcher compatibility", "Independent service", "Emergency power supply", "Smooth leveling", "Wide door openings"],
+      title: "Hospital/Bed Elevators",
+      description: "Yatra's Hospital/Bed Elevators instituted with quiet, controlled acoustic environments, structural integrity, and advanced medical equipment and accommodations that prioritizes patient convenience and safety and security. Designed with meticulous determination to patient needs, these elevators provide whisper-quiet operation and exceptional stability.",
+      features: ["Emergency power bank", "Safety practices", "Physically untouched control systems", "Hygiene and cleanliness", "Critical operations enhancement", "Stretcher compatibility"],
       icon: Hospital,
       capacity: "13-21 persons",
       speed: "1.0-1.75 m/s",
@@ -49,57 +39,77 @@ const Products = () => {
       applications: ["Hospitals", "Medical centers", "Nursing homes", "Rehabilitation centers"]
     },
     {
-      title: "Service Elevators",
-      description: "Dedicated service elevators for staff and maintenance operations in commercial buildings.",
-      features: ["Durable construction", "Simple controls", "Easy maintenance", "Fire service operation", "Key switch controls", "Load weighing device"],
-      icon: Wrench,
-      capacity: "8-16 persons",
-      speed: "0.5-1.75 m/s",
-      load: "630-1275 kg",
-      applications: ["Hotels", "Restaurants", "Office buildings", "Hospitals"]
+      title: "Freight/Service Elevators",
+      description: "Yatra's Freight and Service Elevators are designed for maximum potential, solidity and firmness, and flawless performance in rigorous environments. Specifically engineered for heavy-duty commercial use, these elevators cope with substantial loads, bulky advanced equipment, and meticulously prolonged operation.",
+      features: ["Fortified cabins", "Maximum capability motors", "Customizable interiors", "Energy effective drives", "Safety and secured functions", "Long-term proactiveness"],
+      icon: Truck,
+      capacity: "Up to 5000 kg",
+      speed: "0.25-1.0 m/s",
+      load: "1000-5000 kg",
+      applications: ["Hotels", "Warehouses", "Hospitals", "Shopping centres", "Professional buildings"]
     },
     {
-      title: "Panoramic Elevators",
-      description: "Glass-walled elevators offering scenic views and architectural elegance for premium installations.",
-      features: ["Glass cabin walls", "LED mood lighting", "Weather resistant", "Scenic ride experience", "Architectural integration", "Custom glass options"],
+      title: "Capsule Elevators (Panoramic)",
+      description: "Yatra's Capsule Elevators are a meritorious blend of scintillating and elegance, constructed to elevate both momentum and across all architectural beauty. Significant for advanced residential high-towers, premiere hotels, malls, and commercial areas, these comprehensive elevators put forward a 360-degree angle bird-eye view.",
+      features: ["360-degree panoramic view", "Advanced safety operations", "Energy effective capability", "Architectural beauty enhancement", "Futuristic feel", "Glass cabin design"],
       icon: Star,
       capacity: "6-20 persons",
       speed: "0.5-2.5 m/s",
       load: "450-1600 kg",
       applications: ["Shopping malls", "Hotels", "Office towers", "Tourist attractions"]
+    },
+    {
+      title: "Machine-Room Less (MRL) Elevators",
+      description: "Yatra's Machine-Room Less (MRL) Elevators are developed with advanced, sophisticated infrastructure where the space consumption is minimized. Designed in such a way that without the necessity of a traditional mechanical room, these elevators provide strong installation, reduced consumption, and enhanced architectural flexibility.",
+      features: ["No machine room required", "Space optimization", "Advanced technology", "Durability and versatility", "Superior striking interiors", "Architectural flexibility"],
+      icon: Wrench,
+      capacity: "8-16 persons",
+      speed: "0.5-1.75 m/s",
+      load: "630-1275 kg",
+      applications: ["Hotels", "Restaurants", "Office buildings", "Residential complexes"]
+    },
+    {
+      title: "Hydraulic Elevators",
+      description: "Yatra's Hydraulic Elevators are developed for positioning them as the perfect choice of residence with uncluttered and expansive optimisation. These are engineered with perfect energy optimisation and compact home space area with safety and impenetrable security, tamper-proof protection.",
+      features: ["Energy optimization", "Compact space design", "Safety and security", "Tamper-proof protection", "Uncompromisable protection", "Perfect for low-rise buildings"],
+      icon: Zap,
+      capacity: "5-15 persons",
+      speed: "0.15-0.5 m/s",
+      load: "375-1200 kg",
+      applications: ["Residential complexes", "Low-rise buildings", "Business properties", "Small commercial spaces"]
     }
   ];
 
   const escalatorTypes = [
     {
       title: "Commercial Escalators",
-      description: "High-traffic escalators for shopping centers, airports, and public buildings with superior passenger flow.",
-      features: ["High passenger capacity", "Energy-efficient drive", "Safety brush borders", "LED step lighting", "Automatic lubrication", "Glass balustrades"],
+      description: "Yatra's Commercial Escalators designed for people and users where those deal with high Standards visuals and uncompromisable Security Systems. Developed for malls, office complexes, convention centres, and public spaces, our elevators and escalators are equipped with durability and lift mobility, Advanced Sensors, and Safety Features.",
+      features: ["High Standards visuals", "Uncompromisable Security Systems", "Durability and lift mobility", "Advanced Sensors", "Safety Features", "Optional Customizations"],
       icon: ShoppingCart,
       capacity: "6,750-10,000 persons/hour",
       angle: "30° or 35°",
       speed: "0.5-0.65 m/s",
-      applications: ["Shopping malls", "Department stores", "Commercial complexes", "Exhibition halls"]
+      applications: ["Shopping malls", "Office complexes", "Convention centres", "Public spaces"]
     },
     {
-      title: "Heavy Duty Escalators",
-      description: "Robust escalators designed for extreme high-traffic environments and continuous operation.",
-      features: ["Reinforced truss structure", "Weather resistant design", "24/7 operation capability", "Advanced monitoring system", "High-grade materials", "Emergency stop systems"],
+      title: "Public Transport Escalators",
+      description: "Yatra's public transport Escalators are reliable, moreover, It has high energy efficient resources to strive for innovation, with customizable speed ranges (up to 2.5 m/s), intelligent door operation, and superior leveling accuracy developed for malls, office complexes, convention centres, and public spaces.",
+      features: ["High energy efficient resources", "Customizable speed ranges", "Intelligent door operation", "Superior leveling accuracy", "Advanced Sensors", "Cozy walkways and transport system"],
       icon: Plane,
       capacity: "9,000-13,500 persons/hour",
       angle: "30° or 35°",
-      speed: "0.5-0.75 m/s",
+      speed: "0.5-2.5 m/s",
       applications: ["Airports", "Metro stations", "Railway terminals", "Large public venues"]
     },
     {
-      title: "Moving Walkways",
-      description: "Horizontal and inclined moving walkways for convenient pedestrian transportation over long distances.",
-      features: ["Smooth horizontal movement", "Anti-slip surfaces", "Variable speed control", "Safety sensors", "Weather protection", "Low maintenance design"],
+      title: "Travelators / Moving Walkways",
+      description: "Yatra's Travelators, which are also known as moving walkways, are created to provide perfect horizontal transportation across large spaces such as airports, malls, transit hubs, and exhibition centers. Designed with user friendly and safety in mind, these systems offer smooth and energy-efficient movement for pedestrians, luggage carts, and trolleys.",
+      features: ["Perfect horizontal transportation", "User friendly and safety focused", "Smooth and energy-efficient movement", "Anti-slip surfaces", "Tailored speed controls", "Superior travel experience"],
       icon: Users,
       capacity: "4,500-9,000 persons/hour",
       angle: "0° to 12°",
       speed: "0.5-0.75 m/s",
-      applications: ["Airports", "Large shopping centers", "Convention centers", "Long corridors"]
+      applications: ["Airports", "Large shopping centers", "Transit hubs", "Exhibition centers"]
     }
   ];
 
@@ -350,9 +360,9 @@ const Products = () => {
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
                   <Shield className="w-16 h-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold mb-4 text-foreground">Safety First</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-foreground">Safety First Approach</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Advanced safety systems including emergency brakes, overspeed governors, and comprehensive safety circuits ensure maximum passenger protection with multiple backup systems.
+                    At Yatra Elevators, safety is non-negotiable and a strong foundational thing. Our First approach towards Safety precautions and guidelines energized to bring up the mindset of protection. We strongly endeavored to follow up the national and international safety standards, making sure each one of the elevators and escalators are reliable, safely designed with advanced technology.
                   </p>
                 </CardContent>
               </Card>
@@ -360,9 +370,9 @@ const Products = () => {
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
                   <Zap className="w-16 h-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold mb-4 text-foreground">Energy Efficient</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-foreground">Energy Efficiency & Regenerative Drives</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    State-of-the-art regenerative drives and LED lighting systems reduce energy consumption by up to 40% while maintaining optimal performance and reliability.
+                    At Yatra Elevators, energy is not just a source, it is the most crucial thing for every home. By integrating LED power, specifically engineered for heavy-duty commercial use, these elevators cope with substantial electrical bills and energy, enabling magnanimous vertical transport of goods without compromising safety or adaptability.
                   </p>
                 </CardContent>
               </Card>
@@ -370,9 +380,9 @@ const Products = () => {
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
                   <Clock className="w-16 h-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold mb-4 text-foreground">24/7 Support</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-foreground">24/7 Customer Support</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Round-the-clock maintenance and support services with remote monitoring, predictive maintenance, and emergency response teams ensure maximum uptime.
+                    At Yatra Escalators and Elevators, our commitment to customer satisfaction is quite promising. Our well trained professional customer support team is available around the clock to take the service requests, emergencies, and all technical issues with jet speed and proficiency. Whether it's a general query or an urgent breakdown, we deliver accurate assistance to reduce downtime.
                   </p>
                 </CardContent>
               </Card>

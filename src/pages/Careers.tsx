@@ -1,25 +1,16 @@
 import React, { useState } from 'react';
-import { Briefcase, MapPin, Clock, Users, Target, Heart, Award, Upload, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Briefcase, MapPin, Clock, Users, Target, Heart, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import PageLayout from '@/components/PageLayout';
 import AnimatedHighlights from '@/components/AnimatedHighlights';
 
 const Careers = () => {
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    position: '',
-    experience: '',
-    coverLetter: ''
-  });
+  const navigate = useNavigate();
 
   const jobOpenings = [
     {
+      id: "senior-elevator-technician",
       title: "Senior Elevator Technician",
       department: "Technical",
       location: "Bangalore",
@@ -29,6 +20,7 @@ const Careers = () => {
       requirements: ["5+ years in elevator/lift technology", "Electrical engineering background", "Safety certifications", "Problem-solving skills"]
     },
     {
+      id: "sales-manager",
       title: "Sales Manager",
       department: "Sales", 
       location: "Chennai",
@@ -38,6 +30,7 @@ const Careers = () => {
       requirements: ["3+ years B2B sales experience", "Construction industry knowledge", "Strong communication skills", "Results-driven approach"]
     },
     {
+      id: "project-manager",
       title: "Project Manager",
       department: "Operations",
       location: "Hyderabad", 
@@ -47,6 +40,7 @@ const Careers = () => {
       requirements: ["PMP certification preferred", "Construction project management", "Team leadership experience", "Quality assurance knowledge"]
     },
     {
+      id: "customer-support-executive",
       title: "Customer Support Executive",
       department: "Support",
       location: "Kochi",
@@ -56,6 +50,7 @@ const Careers = () => {
       requirements: ["Technical communication skills", "Customer service experience", "Multi-language proficiency", "Problem resolution abilities"]
     },
     {
+      id: "rd-engineer",
       title: "R&D Engineer",
       department: "Engineering",
       location: "Bangalore",
@@ -65,6 +60,7 @@ const Careers = () => {
       requirements: ["Engineering degree", "IoT/AI knowledge", "Innovation mindset", "Research experience"]
     },
     {
+      id: "quality-control-specialist",
       title: "Quality Control Specialist",
       department: "Quality",
       location: "Chennai",
@@ -78,73 +74,68 @@ const Careers = () => {
   const workCulture = [
     {
       icon: Target,
-      title: "Purpose-Driven Work",
-      description: "Contribute to urban mobility solutions that enhance quality of life for communities across India."
+      title: "Innovation & Excellence",
+      description: "Work on cutting-edge projects involving AI, IoT, and smart elevator technologies. Lead industry innovation with R&D initiatives that shape the future of vertical mobility."
     },
     {
       icon: Users,
-      title: "Collaborative Environment",
-      description: "Work with diverse, talented teams in an inclusive environment that values every perspective."
+      title: "Collaborative Culture",
+      description: "Join cross-functional teams where engineering meets creativity. Experience inclusive leadership, knowledge sharing, and mentorship programs that foster professional growth."
     },
     {
       icon: Award,
-      title: "Professional Growth",
-      description: "Access continuous learning opportunities, certifications, and career advancement paths."
+      title: "Professional Development",
+      description: "Access international certifications, technical training programs, and leadership development. Participate in industry conferences and continuous skill enhancement initiatives."
     },
     {
       icon: Heart,
-      title: "Work-Life Balance",
-      description: "Flexible working arrangements and comprehensive benefits that support your personal well-being."
+      title: "Employee Well-being",
+      description: "Comprehensive health insurance, performance bonuses, flexible working hours, and work-life balance initiatives that prioritize your personal and professional satisfaction."
     }
   ];
 
   const benefits = [
-    "Competitive salary packages",
-    "Performance-based incentives", 
-    "Health insurance for family",
-    "Professional development programs",
-    "Flexible working hours",
-    "Annual performance bonuses",
-    "Travel allowances",
-    "Skill enhancement training"
+    "Competitive salary packages with industry-leading compensation structures",
+    "Performance-based incentives and annual bonus programs", 
+    "Comprehensive health insurance coverage for employee and family members",
+    "Professional development programs including international certifications and training",
+    "Flexible working hours and hybrid work arrangements for better work-life balance",
+    "Annual performance bonuses tied to individual and company achievements",
+    "Travel allowances for field assignments and business development activities",
+    "Skill enhancement training in latest technologies (AI, IoT, Smart Systems)",
+    "Employee wellness programs including mental health support and fitness benefits",
+    "Retirement planning assistance and provident fund contributions",
+    "Educational assistance for children and professional course sponsorships",
+    "Team building activities, recreational facilities, and celebration events"
   ];
 
   const internshipPrograms = [
     {
-      title: "Technical Internship",
+      title: "Technical Engineering Internship",
       duration: "6 months",
-      description: "Hands-on experience in elevator technology, installation, and maintenance processes."
+      description: "Hands-on experience in elevator technology, installation, maintenance processes, and IoT integration. Work with senior engineers on real projects involving smart elevator systems and safety protocols."
     },
     {
-      title: "Sales & Marketing Internship", 
-      duration: "3 months",
-      description: "Learn business development, client relations, and market analysis in the elevator industry."
+      title: "Sales & Business Development Internship", 
+      duration: "3-6 months",
+      description: "Learn comprehensive business development strategies, client relationship management, market analysis, and proposal development in the vertical mobility industry. Gain exposure to B2B sales processes."
     },
     {
-      title: "Engineering Internship",
+      title: "Research & Development Internship",
       duration: "6 months", 
-      description: "Work with R&D teams on innovative projects involving IoT, AI, and sustainable technologies."
+      description: "Collaborate with R&D teams on innovative projects involving AI integration, energy-efficient systems, and sustainable technologies. Contribute to next-generation elevator and escalator innovations."
+    },
+    {
+      title: "Digital Marketing & Communications Internship",
+      duration: "3 months",
+      description: "Work on digital marketing campaigns, content creation, social media strategy, and brand communications. Gain experience in B2B marketing for technical products and services."
+    },
+    {
+      title: "Quality Assurance & Compliance Internship",
+      duration: "4 months",
+      description: "Learn quality control processes, BIS/CE compliance standards, safety auditing, and testing procedures. Understand international quality frameworks and certification processes."
     }
   ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setResumeFile(e.target.files[0]);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', { formData, resumeFile });
-  };
 
   return (
     <PageLayout>
@@ -152,11 +143,29 @@ const Careers = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6 animate-fade-in">Careers at Yatra</h1>
-          <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
-            Join our mission to elevate everyday living through innovation, sustainability, and quality. 
-            Build your career with a company that values excellence, integrity, and customer-first thinking.
+          <h1 className="text-5xl font-bold mb-6 animate-fade-in">Life at Yatra Elevators</h1>
+          <p className="text-xl max-w-4xl mx-auto animate-fade-in delay-300 mb-6">
+            Join a team that's passionate about elevating lives through innovation, quality, and excellence. At Yatra Elevators, 
+            we believe in creating a workplace where talent thrives, ideas flourish, and every individual contributes to our 
+            mission of transforming vertical mobility solutions across India.
           </p>
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Why Work With Us?</h2>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <h3 className="font-semibold mb-2">Innovation-Driven</h3>
+                <p className="text-sm opacity-90">Work with cutting-edge technologies including AI, IoT, and sustainable solutions</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Growth-Focused</h3>
+                <p className="text-sm opacity-90">Continuous learning opportunities and career advancement programs</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Purpose-Driven</h3>
+                <p className="text-sm opacity-90">Make a real impact by improving mobility and accessibility for millions</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -164,10 +173,11 @@ const Careers = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">Life at Yatra</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Experience a collaborative, innovative work culture with purpose-driven growth opportunities 
-              in a company that's shaping the future of vertical mobility.
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Our Work Culture & Values</h2>
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto">
+              Experience a dynamic, inclusive work environment where innovation meets tradition. We foster a culture of continuous learning, 
+              collaboration, and excellence where every team member is empowered to contribute to our mission of transforming vertical mobility 
+              across India. Our workplace promotes creativity, technical expertise, and professional growth in a supportive ecosystem.
             </p>
           </div>
           
@@ -240,8 +250,8 @@ const Careers = () => {
                   </ul>
                 </div>
                 
-                <Button className="w-full" onClick={() => document.getElementById('application-form')?.scrollIntoView()}>
-                  Apply Now
+                <Button className="w-full" onClick={() => navigate(`/careers/apply/${job.id}`)}>
+                  Apply for this Position
                 </Button>
               </div>
             ))}
@@ -253,10 +263,12 @@ const Careers = () => {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">Internships & Training</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Hands-on industry exposure for students and young professionals. Start your career 
-              journey with comprehensive training and mentorship programs.
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Internships & Professional Training Programs</h2>
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto">
+              Launch your career in the vertical mobility industry with our comprehensive internship and training programs. 
+              Gain hands-on experience working with cutting-edge technologies, learn from industry experts, and develop 
+              skills that will accelerate your professional journey. Our programs combine theoretical knowledge with 
+              practical applications in real-world projects.
             </p>
           </div>
           
@@ -281,10 +293,11 @@ const Careers = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">Employee Benefits</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              We believe in taking care of our team members with comprehensive benefits 
-              that support both professional growth and personal well-being.
+            <h2 className="text-4xl font-bold mb-6 text-gray-900">Comprehensive Employee Benefits</h2>
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto">
+              At Yatra Elevators, we understand that exceptional talent deserves exceptional benefits. Our comprehensive package 
+              goes beyond traditional compensation to include wellness programs, professional development opportunities, 
+              and support systems that nurture both your career growth and personal well-being.
             </p>
           </div>
           
@@ -301,142 +314,37 @@ const Careers = () => {
         </div>
       </section>
 
-      {/* Application Form */}
+      {/* General Application Section */}
       <section id="application-form" className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-6 text-white">Submit Your Resume</h2>
-              <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-                Take the first step towards an exciting career with Yatra Elevators. 
-                Upload your resume and let our team discover your potential.
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-12">
+              <h2 className="text-4xl font-bold mb-6 text-white">Don't See Your Perfect Role?</h2>
+              <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-6">
+                We're always looking for talented individuals to join our team. Submit a general application 
+                and we'll keep you in mind for future opportunities that match your skills and interests.
               </p>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-2xl mx-auto">
+                <h3 className="text-xl font-semibold text-white mb-4">Apply for a Specific Position Above</h3>
+                <p className="text-blue-200">
+                  Click "Apply for this Position" on any job listing above to submit a targeted application 
+                  with job-specific requirements and tailored questions.
+                </p>
+              </div>
             </div>
             
-            <div className="bg-white/10 backdrop-blur-lg p-10 rounded-3xl shadow-2xl border border-white/20">
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div>
-                      <Label htmlFor="name" className="text-white font-medium text-lg mb-3 block">Full Name *</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
-                        placeholder="Enter your full name"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="text-white font-medium text-lg mb-3 block">Email Address *</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone" className="text-white font-medium text-lg mb-3 block">Phone Number *</Label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
-                        placeholder="+91 98765 43210"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-6">
-                    <div>
-                      <Label htmlFor="position" className="text-white font-medium text-lg mb-3 block">Interested Position</Label>
-                      <select
-                        id="position"
-                        name="position"
-                        value={formData.position}
-                        onChange={handleInputChange}
-                        className="h-12 w-full px-4 py-3 bg-white/10 border border-white/30 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 appearance-none cursor-pointer"
-                      >
-                        <option value="" className="text-gray-800">Select a position</option>
-                        {jobOpenings.map((job, index) => (
-                          <option key={index} value={job.title} className="text-gray-800">{job.title}</option>
-                        ))}
-                        <option value="general" className="text-gray-800">General Application</option>
-                      </select>
-                    </div>
-                    <div>
-                      <Label htmlFor="experience" className="text-white font-medium text-lg mb-3 block">Years of Experience</Label>
-                      <Input
-                        id="experience"
-                        name="experience"
-                        value={formData.experience}
-                        onChange={handleInputChange}
-                        className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
-                        placeholder="e.g., 3 years"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="coverLetter" className="text-white font-medium text-lg mb-3 block">Cover Letter (Optional)</Label>
-                      <Textarea
-                        id="coverLetter"
-                        name="coverLetter"
-                        value={formData.coverLetter}
-                        onChange={handleInputChange}
-                        rows={4}
-                        className="bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-blue-400 focus:ring-blue-400/20 rounded-xl resize-none"
-                        placeholder="Tell us why you'd be a great fit for Yatra Elevators..."
-                      />
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-8">
-                  <Label htmlFor="resume" className="text-white font-medium text-lg mb-4 block">Upload Resume *</Label>
-                  <div className="relative">
-                    <label htmlFor="resume" className="group flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-white/40 rounded-2xl cursor-pointer bg-white/5 hover:bg-white/10 transition-all duration-300">
-                      <div className="flex flex-col items-center justify-center pt-7 pb-6">
-                        <div className="p-4 bg-blue-500/20 rounded-full mb-4 group-hover:bg-blue-500/30 transition-all duration-300">
-                          <Upload className="w-8 h-8 text-blue-300" />
-                        </div>
-                        <p className="mb-2 text-lg font-semibold text-white">
-                          <span className="text-blue-300">Click to upload</span> or drag and drop
-                        </p>
-                        <p className="text-sm text-white/70">PDF, DOC, DOCX (MAX. 5MB)</p>
-                        {resumeFile && (
-                          <div className="mt-4 flex items-center space-x-2 px-4 py-2 bg-green-500/20 rounded-lg">
-                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                            <p className="text-sm text-green-300 font-medium">{resumeFile.name}</p>
-                          </div>
-                        )}
-                      </div>
-                      <input id="resume" type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.doc,.docx" required />
-                    </label>
-                  </div>
-                </div>
-                
-                <div className="mt-10 pt-8 border-t border-white/20">
-                  <Button 
-                    type="submit" 
-                    size="lg" 
-                    className="w-full h-14 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                  >
-                    <Send className="h-6 w-6 mr-3" />
-                    Submit Application
-                  </Button>
-                  <p className="text-center text-white/60 text-sm mt-4">
-                    We'll review your application and get back to you within 48 hours
-                  </p>
-                </div>
-              </form>
+            <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/20">
+              <h3 className="text-2xl font-semibold text-white mb-4">General Application</h3>
+              <p className="text-blue-100 mb-6">
+                Send us your resume and we'll reach out when we have opportunities that match your background.
+              </p>
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-8 py-3 rounded-xl"
+                onClick={() => navigate('/careers/apply/general-application')}
+              >
+                Submit General Application
+              </Button>
             </div>
           </div>
         </div>
@@ -445,14 +353,23 @@ const Careers = () => {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Elevate Your Career?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join a company that's not just building elevators, but building the future of vertical mobility. 
-            Your journey with Yatra starts here.
+          <h2 className="text-4xl font-bold mb-6">Ready to Elevate Your Career with Yatra?</h2>
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
+            Join India's leading elevator and escalator company where innovation meets tradition. Be part of a team that's 
+            transforming vertical mobility solutions across the nation. Experience professional growth, cutting-edge technology, 
+            and the satisfaction of making a difference in millions of lives. Your journey with Yatra starts here - let's elevate together!
           </p>
-          <Button size="lg" variant="secondary" className="bg-white text-blue-800 hover:bg-blue-50" onClick={() => document.getElementById('application-form')?.scrollIntoView()}>
-            Apply Today
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" className="bg-white text-blue-800 hover:bg-blue-50" onClick={() => navigate('/careers/apply/general-application')}>
+              Submit General Application
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-800">
+              Download Career Brochure
+            </Button>
+          </div>
+          <div className="mt-8 text-blue-200">
+            <p>🌟 Join 500+ Professionals Already Building the Future with Yatra Elevators</p>
+          </div>
         </div>
       </section>
     </PageLayout>

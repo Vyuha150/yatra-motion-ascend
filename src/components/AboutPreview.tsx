@@ -12,25 +12,26 @@ const AboutPreview = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-100 to-blue-50">
+    <section className="py-40 bg-gradient-to-br from-slate-100 to-blue-50">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-blue-600 mb-6">
               Why Choose <span className="text-blue-600">Yatra Elevators?</span>
             </h2>
             
             <div className="space-y-6 mb-8">
               <p className="text-lg text-slate-700 leading-relaxed">
-                With decades of experience in the elevator industry, Yatra Elevators has established 
-                itself as a trusted name for premium vertical transportation solutions across South India.
+                Choosing Yatra Elevators & Escalators means choosing responsibility, innovation, and a customer based approach. We have designed to offer advanced vertical mobility solutions that conglomerate advanced technology with powerful engineering, promising safety, efficiency, and comfort in every ride.
               </p>
               
               <p className="text-lg text-slate-700 leading-relaxed">
-                We combine cutting-edge technology with traditional craftsmanship to deliver elevators 
-                that are not just functional, but truly exceptional. Our commitment extends beyond 
-                installation to lifetime service and support.
+                From Tailor made designs to accurate installations and responsive post sales support, we are committed to delivering excellence at each and every stage. Our deep analysing of market needs, matching to global standards and a passion for quality set us to be unique.
+              </p>
+              
+              <p className="text-lg text-blue-700 leading-relaxed font-medium">
+                At Yatra, we don't just move people, we inspire them.
               </p>
             </div>
 
@@ -63,7 +64,7 @@ const AboutPreview = () => {
                   <stat.icon className="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
                 </div>
                 
-                <div className="text-3xl font-bold text-slate-900 mb-2">
+                <div className="text-3xl font-bold text-blue-600 mb-2">
                   {stat.number}
                 </div>
                 

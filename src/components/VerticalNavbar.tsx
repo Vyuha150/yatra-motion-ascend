@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { X, Home, User, Package, Briefcase, Phone, Users, ShoppingCart, Settings, Shield, BarChart3, FileText, Wrench, LogOut, Zap } from 'lucide-react';
+import { X, Home, User, Package, Briefcase, Phone, Users, Settings, Shield, BarChart3, FileText, Wrench, LogOut, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './Auth/useAuth';
@@ -15,13 +15,12 @@ const VerticalNavbar = ({ isOpen, onClose }: VerticalNavbarProps) => {
   
   const navItems = [
     { icon: Home, label: 'Home', href: '/', color: 'text-blue-400' },
-    { icon: User, label: 'About Us', href: '/about', color: 'text-green-400' },
-    { icon: Package, label: 'Products & Services', href: '/products', color: 'text-purple-400' },
-    { icon: Zap, label: 'Innovation & Tech', href: '/innovation', color: 'text-indigo-400' },
-    { icon: Briefcase, label: 'Projects', href: '/projects', color: 'text-orange-400' },
-    { icon: Phone, label: 'Contact Us', href: '/contact', color: 'text-pink-400' },
-    { icon: Users, label: 'Careers', href: '/careers', color: 'text-cyan-400' },
-    { icon: ShoppingCart, label: 'Cart', href: '#cart', color: 'text-yellow-400' },
+    { icon: User, label: 'About Us', href: '/about', color: 'text-blue-400' },
+    { icon: Package, label: 'Products & Services', href: '/products', color: 'text-blue-400' },
+    { icon: Zap, label: 'Innovation & Tech', href: '/innovation', color: 'text-blue-400' },
+    { icon: Briefcase, label: 'Projects', href: '/projects', color: 'text-blue-400' },
+    { icon: Phone, label: 'Contact Us', href: '/contact', color: 'text-blue-400' },
+    { icon: Users, label: 'Careers', href: '/careers', color: 'text-blue-400' },
   ];
 
   const socialIcons = [

@@ -122,7 +122,7 @@ const AboutUs = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
                 <Award className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-4xl text-black md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
                 Our Legacy: The <span className="text-primary">ICONIC Group</span>
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -281,7 +281,7 @@ const AboutUs = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
                 <Eye className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-4xl text-black md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
                 Mission & <span className="text-primary">Vision</span>
               </h2>
             </div>
@@ -364,7 +364,7 @@ const AboutUs = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
                 <Users className="h-10 w-10 text-white" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
                 <span className="text-primary">Leadership</span> Team
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -424,7 +424,7 @@ const AboutUs = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
                 <Factory className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-4xl text-black md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
                 Manufacturing & <span className="text-primary">R&D</span>
               </h2>
             </div>
@@ -506,7 +506,7 @@ const AboutUs = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
                 <Leaf className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
                 Sustainability & <span className="text-primary">Green Practices</span>
               </h2>
             </div>
@@ -571,7 +571,7 @@ const AboutUs = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
                 <HandHeart className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-4xl text-black md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
                 Corporate <span className="text-primary">Social Responsibility</span>
               </h2>
             </div>

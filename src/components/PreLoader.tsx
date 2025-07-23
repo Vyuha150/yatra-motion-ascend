@@ -8,7 +8,7 @@ interface PreLoaderProps {
 const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [currentFloor, setCurrentFloor] = useState(1);
+  const [currentFloor, setCurrentFloor] = useState(8);
 
   useEffect(() => {
     // Progress animation
@@ -22,14 +22,6 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
       });
     }, 50);
 
-    // Floor counter animation - counts up as elevator moves down
-    const floorInterval = setInterval(() => {
-      setCurrentFloor((prev) => {
-        const nextFloor = (prev % 8) + 1; // Cycles through floors 1-8
-        return nextFloor;
-      });
-    }, 300);
-
     // Complete loading when progress reaches 100%
     const completeTimer = setTimeout(() => {
       setIsLoading(false);
@@ -38,10 +30,16 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
 
     return () => {
       clearInterval(progressInterval);
-      clearInterval(floorInterval);
       clearTimeout(completeTimer);
     };
   }, [onLoadComplete]);
+
+  // Sync floor with elevator position
+  useEffect(() => {
+    // Calculate current floor based on progress (elevator moves from floor 8 to 1)
+    const calculatedFloor = Math.max(1, Math.min(8, 8 - Math.floor((progress / 100) * 7)));
+    setCurrentFloor(calculatedFloor);
+  }, [progress]);
 
   return (
     <div
@@ -79,7 +77,7 @@ const PreLoader = ({ onLoadComplete }: PreLoaderProps) => {
               {[...Array(8)].map((_, i) => (
                 <div key={i} className="absolute left-0 right-0 h-8 border-b border-slate-600" style={{ top: `${i * 32}px` }}>
                   <div className="absolute right-2 top-1 text-xs text-slate-400 font-mono">
-                    {i + 1}
+                    {8 - i}
                   </div>
                 </div>
               ))}

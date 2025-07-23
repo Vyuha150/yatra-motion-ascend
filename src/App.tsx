@@ -5,12 +5,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./components/Auth/AuthProvider";
+import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import AboutUs from "./pages/AboutUs";
 import Products from "./pages/Products";
 import Projects from "./pages/Projects";
 import ContactUs from "./pages/ContactUs";
 import Careers from "./pages/Careers";
+import JobApplication from "./pages/JobApplication";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
@@ -27,6 +29,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -35,6 +38,7 @@ const App = () => (
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/careers/apply/:jobId" element={<JobApplication />} />
             <Route path="/innovation" element={<InnovationTech />} />
             <Route path="/client-requirement" element={<ClientRequirement />} />
             <Route path="/feedback" element={<CustomerFeedback />} />

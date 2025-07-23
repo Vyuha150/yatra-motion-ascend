@@ -45,7 +45,7 @@ const ProductShowcase = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-4xl text-black md:text-5xl font-bold text-slate-900 mb-6">
             Our <span className="text-blue-600">Solutions</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
@@ -98,8 +98,7 @@ const ProductShowcase = () => {
 
                   {/* Learn More Button */}
                   <Button 
-                    variant="ghost" 
-                    className="w-full  group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 border border-blue-200 group-hover:border-blue-600"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
                   >
                     Learn More
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

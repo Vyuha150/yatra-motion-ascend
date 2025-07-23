@@ -22,17 +22,7 @@ const ElevatorFloor = ({ children, floorNumber, isActive = false, className = ''
         {/* Top Rail */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-border/30 to-transparent" />
         
-        {/* Subtle Grid Pattern */}
-        <div 
-          className="absolute inset-4 opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage: `
-              linear-gradient(hsl(var(--border)) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)
-            `,
-            backgroundSize: '40px 40px'
-          }}
-        />
+        
       </div>
       
       {/* Floor Content with Glass Effect */}

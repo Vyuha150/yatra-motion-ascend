@@ -1,11 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Hero from '../components/Hero';
 import ProductShowcase from '../components/ProductShowcase';
 import ProjectGallery from '../components/ProjectGallery';
 import AboutPreview from '../components/AboutPreview';
-import SolutionsShowcase from '../components/SolutionsShowcase';
 import ContactCTA from '../components/ContactCTA';
 import FloatingChat from '../components/FloatingChat';
 import FloatingNavButton from '../components/FloatingNavButton';
@@ -23,14 +22,13 @@ const Index = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Floor configuration
-  const floors = [
+  const floors = useMemo(() => [
     { number: 1, name: "Welcome", component: <Hero /> },
     { number: 2, name: "About Us", component: <AboutPreview /> },
-    { number: 3, name: "Our Elevators", component: <ProductShowcase /> },
-    { number: 4, name: "Solutions", component: <SolutionsShowcase /> },
-    { number: 5, name: "Projects", component: <ProjectGallery /> },
-    { number: 6, name: "Contact", component: <ContactCTA /> }
-  ];
+    { number: 3, name: "Our Products", component: <ProductShowcase /> },
+    { number: 4, name: "Our Projects", component: <ProjectGallery /> },
+    { number: 5, name: "Contact", component: <ContactCTA /> }
+  ], []);
 
   const handleNavToggle = (isOpen: boolean) => {
     setIsNavOpen(isOpen);

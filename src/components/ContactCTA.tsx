@@ -110,7 +110,7 @@ const ContactCTA = () => {
               <Button 
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
+                className="border-2 border-white text-black hover:bg-white hover:text-blue-600 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
               >
                 Schedule Consultation
               </Button>

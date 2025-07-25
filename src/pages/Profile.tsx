@@ -20,16 +20,34 @@ import {
   Save,
   X,
   Key,
-  Loader2
+  Loader2,
+  Trash2,
+  AlertTriangle,
+  CheckCircle,
+  Send
 } from 'lucide-react';
 import { toast } from 'sonner';
 import PageLayout from '@/components/PageLayout';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { authService } from '@/services/authService';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading, updateProfile, changePassword, refreshProfile } = useAuth();
+  const { user, loading: authLoading, updateProfile, changePassword, refreshProfile, logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [emailVerificationLoading, setEmailVerificationLoading] = useState(false);
+  const [deleteAccountLoading, setDeleteAccountLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -217,6 +235,53 @@ const Profile = () => {
       toast.error(errorMessage);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSendVerificationEmail = async () => {
+    if (!user?.email) {
+      toast.error('No email address found');
+      return;
+    }
+
+    setEmailVerificationLoading(true);
+
+    try {
+      await authService.sendVerificationOTP(user.email);
+      toast.success('Verification email sent! Please check your inbox.');
+    } catch (error: unknown) {
+      console.error('Email verification error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send verification email. Please try again.';
+      toast.error(errorMessage);
+    } finally {
+      setEmailVerificationLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!user) {
+      toast.error('No user found');
+      return;
+    }
+
+    setDeleteAccountLoading(true);
+
+    try {
+      // Call delete account API (you'll need to implement this in authService)
+      // For now, we'll just show a placeholder
+      toast.error('Account deletion is not yet implemented. Please contact support.');
+      
+      // When implemented, it would look like:
+      // await authService.deleteAccount();
+      // toast.success('Account deleted successfully');
+      // logout();
+      // navigate('/');
+    } catch (error: unknown) {
+      console.error('Delete account error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete account. Please try again.';
+      toast.error(errorMessage);
+    } finally {
+      setDeleteAccountLoading(false);
     }
   };
 

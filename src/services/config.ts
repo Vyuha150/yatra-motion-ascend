@@ -18,6 +18,8 @@ export const API_ENDPOINTS = {
     CHANGE_PASSWORD: '/api/auth/change-password',
     SEND_VERIFICATION_OTP: '/api/auth/send-verification-otp',
     VERIFY_EMAIL_OTP: '/api/auth/verify-email-otp',
+    SEND_OTP: '/api/auth/send-otp',
+    VERIFY_OTP_REGISTER: '/api/auth/verify-otp-register',
     FORGOT_PASSWORD: '/api/auth/forgot-password',
     RESET_PASSWORD: '/api/auth/reset-password',
   },

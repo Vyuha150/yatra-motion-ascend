@@ -11,9 +11,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Check if user is logged in on app start
     const checkAuthStatus = async () => {
       try {
-        const currentUser = await authService.getCurrentUser();
-        if (currentUser) {
-          setUser(currentUser);
+        if (authService.isAuthenticated()) {
+          const currentUser = authService.getCurrentUser();
+          if (currentUser) {
+            setUser(currentUser);
+          }
         }
       } catch (error) {
         console.error('Error checking auth status:', error);

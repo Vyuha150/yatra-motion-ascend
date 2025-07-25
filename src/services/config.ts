@@ -22,6 +22,7 @@ export const API_ENDPOINTS = {
     VERIFY_OTP_REGISTER: '/api/auth/verify-otp-register',
     FORGOT_PASSWORD: '/api/auth/forgot-password',
     RESET_PASSWORD: '/api/auth/reset-password',
+    DELETE_ACCOUNT: '/api/auth/delete-account',
   },
   
   // Products

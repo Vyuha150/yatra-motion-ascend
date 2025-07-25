@@ -267,15 +267,10 @@ const Profile = () => {
     setDeleteAccountLoading(true);
 
     try {
-      // Call delete account API (you'll need to implement this in authService)
-      // For now, we'll just show a placeholder
-      toast.error('Account deletion is not yet implemented. Please contact support.');
-      
-      // When implemented, it would look like:
-      // await authService.deleteAccount();
-      // toast.success('Account deleted successfully');
-      // logout();
-      // navigate('/');
+      await authService.deleteAccount();
+      toast.success('Account deleted successfully');
+      logout();
+      navigate('/');
     } catch (error: unknown) {
       console.error('Delete account error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to delete account. Please try again.';
@@ -341,9 +336,15 @@ const Profile = () => {
                   <Shield className="h-3 w-3 mr-1" />
                   {formatRole(user.role)}
                 </Badge>
-                {user.isEmailVerified && (
+                {user.isEmailVerified ? (
                   <Badge variant="outline" className="text-green-600 border-green-600">
-                    Verified
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    Email Verified
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+                    <AlertTriangle className="h-3 w-3 mr-1" />
+                    Email Not Verified
                   </Badge>
                 )}
               </div>
@@ -361,10 +362,11 @@ const Profile = () => {
 
           {/* Profile Details */}
           <Tabs defaultValue="profile" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="profile">Profile Information</TabsTrigger>
               <TabsTrigger value="account">Account Details</TabsTrigger>
               <TabsTrigger value="security">Security Settings</TabsTrigger>
+              <TabsTrigger value="danger" className="text-red-600">Danger Zone</TabsTrigger>
             </TabsList>
             
             <TabsContent value="profile">
@@ -456,10 +458,55 @@ const Profile = () => {
                           className="pl-10"
                           placeholder="Email address"
                         />
+                        {user?.isEmailVerified ? (
+                          <CheckCircle className="absolute right-3 top-3 h-4 w-4 text-green-500" />
+                        ) : (
+                          <AlertTriangle className="absolute right-3 top-3 h-4 w-4 text-yellow-500" />
+                        )}
                       </div>
-                      <p className="text-xs text-muted-foreground">
-                        Email cannot be changed. Contact support if needed.
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-muted-foreground">
+                          Email cannot be changed. Contact support if needed.
+                        </p>
+                        {!user?.isEmailVerified && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={handleSendVerificationEmail}
+                            disabled={emailVerificationLoading}
+                            className="text-xs"
+                          >
+                            {emailVerificationLoading ? (
+                              <>
+                                <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                <Send className="mr-1 h-3 w-3" />
+                                Verify Email
+                              </>
+                            )}
+                          </Button>
+                        )}
+                      </div>
+                      {!user?.isEmailVerified && (
+                        <div className="flex items-center gap-2 p-2 bg-yellow-50 border border-yellow-200 rounded-md">
+                          <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                          <p className="text-xs text-yellow-700">
+                            Your email address is not verified. Click "Verify Email" to send a verification link.
+                          </p>
+                        </div>
+                      )}
+                      {user?.isEmailVerified && (
+                        <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded-md">
+                          <CheckCircle className="h-4 w-4 text-green-600" />
+                          <p className="text-xs text-green-700">
+                            Your email address has been verified.
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -795,6 +842,144 @@ const Profile = () => {
                       )}
                     </Button>
                   </form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="danger">
+              <Card className="border-red-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-red-600">
+                    <AlertTriangle className="h-5 w-5" />
+                    Danger Zone
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    These actions are irreversible. Please proceed with caution.
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Email Verification Status */}
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold">Email Verification Status</h3>
+                      {user?.isEmailVerified ? (
+                        <Badge variant="default" className="bg-green-500">
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          Verified
+                        </Badge>
+                      ) : (
+                        <Badge variant="destructive">
+                          <AlertTriangle className="h-3 w-3 mr-1" />
+                          Not Verified
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {user?.isEmailVerified 
+                        ? 'Your email address has been verified and your account is fully activated.'
+                        : 'Your email address needs to be verified to ensure account security and enable all features.'
+                      }
+                    </p>
+                    {!user?.isEmailVerified && (
+                      <Button
+                        onClick={handleSendVerificationEmail}
+                        disabled={emailVerificationLoading}
+                        variant="outline"
+                        size="sm"
+                      >
+                        {emailVerificationLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Sending Verification Email...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="mr-2 h-4 w-4" />
+                            Send Verification Email
+                          </>
+                        )}
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Delete Account Section */}
+                  <div className="p-4 border border-red-200 rounded-lg bg-red-50">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Trash2 className="h-5 w-5 text-red-600" />
+                      <h3 className="font-semibold text-red-600">Delete Account</h3>
+                    </div>
+                    <p className="text-sm text-red-700 mb-4">
+                      Permanently delete your account and all associated data. This action cannot be undone.
+                      All your orders, preferences, and profile information will be lost forever.
+                    </p>
+                    <div className="space-y-2">
+                      <p className="text-xs text-red-600 font-medium">
+                        Before deleting your account, please ensure:
+                      </p>
+                      <ul className="text-xs text-red-600 list-disc list-inside space-y-1">
+                        <li>You have downloaded any important data</li>
+                        <li>You have completed or cancelled any pending orders</li>
+                        <li>You understand this action is irreversible</li>
+                      </ul>
+                    </div>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="mt-4"
+                          disabled={deleteAccountLoading}
+                        >
+                          {deleteAccountLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Deleting Account...
+                            </>
+                          ) : (
+                            <>
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete My Account
+                            </>
+                          )}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="flex items-center gap-2 text-red-600">
+                            <AlertTriangle className="h-5 w-5" />
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription className="space-y-2">
+                            <p>
+                              This will permanently delete your account for <strong>{user?.email}</strong> 
+                              and remove all your data from our servers.
+                            </p>
+                            <p className="text-red-600 font-medium">
+                              This action cannot be undone. All your:
+                            </p>
+                            <ul className="list-disc list-inside text-sm space-y-1">
+                              <li>Profile information and preferences</li>
+                              <li>Order history and tracking data</li>
+                              <li>Saved addresses and payment methods</li>
+                              <li>Account settings and customizations</li>
+                            </ul>
+                            <p className="text-red-600 font-medium">
+                              will be permanently lost.
+                            </p>
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction 
+                            onClick={handleDeleteAccount}
+                            className="bg-red-600 hover:bg-red-700"
+                          >
+                            Yes, Delete My Account
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>

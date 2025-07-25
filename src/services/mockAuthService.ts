@@ -373,6 +373,19 @@ class MockAuthService {
   isSuperAdmin(): boolean {
     return this.hasRole('super_admin');
   }
+
+  async deleteAccount(): Promise<{ success: boolean; data: { message: string } }> {
+    // Mock delete account - simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Clear user data
+    this.logout();
+    
+    return {
+      success: true,
+      data: { message: 'Account deleted successfully' }
+    };
+  }
 }
 
 export const mockAuthService = new MockAuthService();

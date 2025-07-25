@@ -320,6 +320,27 @@ class AuthService {
     
     return this.hasRole('super_admin');
   }
+
+  async deleteAccount(): Promise<ApiResponse<{ message: string }>> {
+    if (USE_MOCK_SERVICE) {
+      // Mock delete account
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.logout();
+      return {
+        success: true,
+        data: { message: 'Account deleted successfully' }
+      };
+    }
+    
+    const response = await httpClient.delete<{ message: string }>(API_ENDPOINTS.AUTH.DELETE_ACCOUNT);
+    
+    if (response.success) {
+      // Clear local data after successful deletion
+      this.logout();
+    }
+    
+    return response;
+  }
 }
 
 export const authService = new AuthService();

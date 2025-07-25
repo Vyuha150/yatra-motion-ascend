@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import Hero from '../components/Hero';
+import EnhancedHero from '../components/EnhancedHero';
 import ProductShowcase from '../components/ProductShowcase';
 import ProjectGallery from '../components/ProjectGallery';
 import AboutPreview from '../components/AboutPreview';
@@ -13,6 +13,10 @@ import PreLoader from '../components/PreLoader';
 import ElevatorControlPanel from '../components/ElevatorControlPanel';
 import FloorIndicator from '../components/FloorIndicator';
 import ElevatorFloor from '../components/ElevatorFloor';
+import AnimatedCursor from '../components/AnimatedCursor';
+import SmoothScroll from '../components/SmoothScroll';
+import FloatingElements from '../components/FloatingElements';
+import NoiseOverlay from '../components/NoiseOverlay';
 
 const Index = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -22,7 +26,7 @@ const Index = () => {
 
   // Floor configuration
   const floors = [
-    { number: 1, name: "Welcome", component: <Hero /> },
+    { number: 1, name: "Welcome", component: <EnhancedHero /> },
     { number: 2, name: "About Us", component: <AboutPreview /> },
     { number: 3, name: "Our Elevators", component: <ProductShowcase /> },
     { number: 4, name: "Projects", component: <ProjectGallery /> },
@@ -90,13 +94,19 @@ const Index = () => {
   const currentFloorData = floors.find(floor => floor.number === currentFloor);
 
   return (
-    <div className="min-h-screen bg-background relative steel-texture">
-      {/* Elevator Cabin Lighting Effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary/10 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/10 to-transparent" />
-      </div>
+    <SmoothScroll>
+      <div className="min-h-screen bg-background relative steel-texture cursor-none">
+        {/* Enhanced Visual Effects */}
+        <NoiseOverlay />
+        <FloatingElements />
+        <AnimatedCursor />
+        
+        {/* Elevator Cabin Lighting Effects */}
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/10 to-transparent" />
+        </div>
       
       {/* Floor Indicator */}
       <FloorIndicator 
@@ -126,11 +136,12 @@ const Index = () => {
         onFloorChange={handleFloorChange}
       />
       
-      {/* Floating Elements */}
-      <FloatingChat />
-      <FloatingNavButton onToggle={handleNavToggle} isNavOpen={isNavOpen} />
-      <VerticalNavbar isOpen={isNavOpen} onClose={handleNavClose} />
-    </div>
+        {/* Floating Elements */}
+        <FloatingChat />
+        <FloatingNavButton onToggle={handleNavToggle} isNavOpen={isNavOpen} />
+        <VerticalNavbar isOpen={isNavOpen} onClose={handleNavClose} />
+      </div>
+    </SmoothScroll>
   );
 };
 

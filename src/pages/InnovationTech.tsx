@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Shield, Zap, Activity, Smartphone, Leaf, AlertTriangle, Settings, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import PageLayout from '@/components/PageLayout';
+import InnovationCard from '@/components/InnovationCard';
 
 const InnovationTech = () => {
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
+  const innovationsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const cards = Array.from(entry.target.querySelectorAll('.innovation-card'));
+            cards.forEach((_, index) => {
+              setTimeout(() => {
+                setVisibleCards(prev => [...prev, index]);
+              }, index * 200);
+            });
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (innovationsRef.current) {
+      observer.observe(innovationsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const innovations = [
     {
       icon: Zap,
@@ -104,64 +132,46 @@ const InnovationTech = () => {
       </section>
 
       {/* Innovation Grid */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-black">Technological Innovations</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-2xl mb-8">
+              <Zap className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Technological <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Innovations</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Discover how our advanced technologies are revolutionizing vertical transportation 
               with smart, efficient, and sustainable solutions.
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-8">
-            {innovations.map((innovation, index) => {
-              const Icon = innovation.icon;
-              return (
-                <div key={index} className="bg-card rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-border">
-                  <div className="flex items-start space-x-6">
-                    <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-xl flex items-center justify-center">
-                        <Icon className="h-8 w-8 text-white" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-3 text-card-foreground">{innovation.title}</h3>
-                      <p className="text-muted-foreground mb-4 leading-relaxed">
-                        {innovation.description}
-                      </p>
-                      
-                      <div className="mb-4">
-                        <h4 className="font-semibold mb-2 text-card-foreground">Key Features:</h4>
-                        <div className="grid grid-cols-2 gap-2">
-                          {innovation.features.map((feature, idx) => (
-                            <div key={idx} className="flex items-center text-sm">
-                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                              <span className="text-muted-foreground">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      <div className="bg-primary/10 p-4 rounded-lg border border-primary/20">
-                        <h4 className="font-semibold text-primary mb-2">Impact:</h4>
-                        <p className="text-muted-foreground text-sm">{innovation.benefits}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div ref={innovationsRef} className="grid lg:grid-cols-2 gap-8">
+            {innovations.map((innovation, index) => (
+              <div key={index} className="innovation-card">
+                <InnovationCard 
+                  {...innovation}
+                  index={index}
+                  isVisible={visibleCards.includes(index)}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Safety & Compliance */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-black">Safety & Compliance</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl mb-8">
+              <Shield className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Safety & <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Compliance</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Safety is our top priority. Every Yatra product meets the highest international 
               standards and incorporates multiple layers of protection.
             </p>
@@ -171,12 +181,23 @@ const InnovationTech = () => {
             {safetyFeatures.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <div key={index} className="text-center bg-card p-8 rounded-2xl shadow-lg border border-border">
-                  <Icon className="h-16 w-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-bold mb-4 text-card-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                <div 
+                  key={index} 
+                  className="group text-center bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                  style={{
+                    animationDelay: `${index * 200}ms`
+                  }}
+                >
+                  <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="h-10 w-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
                     {feature.description}
                   </p>
+                  <div className="mt-6 h-1 w-0 bg-gradient-to-r from-red-500 to-red-600 mx-auto group-hover:w-16 transition-all duration-500"></div>
                 </div>
               );
             })}

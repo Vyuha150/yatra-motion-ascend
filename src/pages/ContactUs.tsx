@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/PageLayout';
@@ -52,52 +53,55 @@ const ContactUs = () => {
   };
 
   return (
-    <>
-      <style>{`
-        .animation-delay-75 {
-          animation-delay: 0.075s;
-        }
-        .animation-delay-100 {
-          animation-delay: 0.1s;
-        }
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .fade-in-up {
-          animation: fadeInUp 0.5s ease-out;
-        }
-      `}</style>
-      <PageLayout>
+    <PageLayout>
       <AnimatedHighlights />
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <motion.section 
+        className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 font-source"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6 animate-fade-in">Contact Us</h1>
-          <p className="text-xl max-w-3xl mx-auto animate-fade-in delay-300">
+          <motion.h1 
+            className="text-5xl font-black mb-6 font-montserrat tracking-tight"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Contact Us
+          </motion.h1>
+          <motion.p 
+            className="text-xl max-w-3xl mx-auto font-source font-medium leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             Get in touch with our team of experts. We're here to help you with 
             all your elevator needs and provide the best solutions for your project.
-          </p>
+          </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* Contact Info & Form */}
-      <section className="py-20">
+      <motion.section 
+        className="py-20 font-source"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, amount: 0.3, margin: "-100px" }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Information */}
-            <div>
-              <h2 className="text-3xl font-bold mb-8">Head Office & Branch Locations</h2>
-              <p className="text-gray-600 mb-6">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl font-bold mb-8 font-montserrat tracking-tight">Head Office & Branch Locations</h2>
+              <p className="text-gray-600 mb-6 font-source">
                 Kindly Find out with Sai Sir and fill up these details
               </p>
               
@@ -116,9 +120,9 @@ const ContactUs = () => {
                     <Phone className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1 leading-tight">Phone</h3>
-                    <p className="text-gray-700 leading-relaxed">+91 9876543210</p>
-                    <p className="text-gray-700 leading-relaxed">+91 8765432109</p>
+                    <h3 className="font-bold text-lg mb-1 leading-tight font-montserrat">Phone</h3>
+                    <p className="text-gray-700 leading-relaxed font-source">+91 9876543210</p>
+                    <p className="text-gray-700 leading-relaxed font-source">+91 8765432109</p>
                   </div>
                 </div>
 
@@ -127,9 +131,9 @@ const ContactUs = () => {
                     <Mail className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1 leading-tight">Email</h3>
-                    <p className="text-gray-700 leading-relaxed">info@yatraelevators.com</p>
-                    <p className="text-gray-700 leading-relaxed">support@yatraelevators.com</p>
+                    <h3 className="font-bold text-lg mb-1 leading-tight font-montserrat">Email</h3>
+                    <p className="text-gray-700 leading-relaxed font-source">info@yatraelevators.com</p>
+                    <p className="text-gray-700 leading-relaxed font-source">support@yatraelevators.com</p>
                   </div>
                 </div>
 
@@ -138,8 +142,8 @@ const ContactUs = () => {
                     <MapPin className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1 leading-tight">Head Office Address</h3>
-                    <p className="text-gray-700 leading-relaxed">
+                    <h3 className="font-bold text-lg mb-1 leading-tight font-montserrat">Head Office Address</h3>
+                    <p className="text-gray-700 leading-relaxed font-source">
                       (To be filled by Sai Sir)<br />
                       Bangalore, Karnataka<br />
                       India
@@ -152,21 +156,21 @@ const ContactUs = () => {
                     <Clock className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1 leading-tight">Business Hours</h3>
-                    <p className="text-gray-700 leading-relaxed">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                    <p className="text-gray-700 leading-relaxed">Saturday: 9:00 AM - 2:00 PM</p>
-                    <p className="text-gray-700 leading-relaxed">Sunday: Closed</p>
-                    <p className="text-sm text-blue-600 mt-2 leading-relaxed">24/7 Emergency Support Available</p>
+                    <h3 className="font-bold text-lg mb-1 leading-tight font-montserrat">Business Hours</h3>
+                    <p className="text-gray-700 leading-relaxed font-source">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    <p className="text-gray-700 leading-relaxed font-source">Saturday: 9:00 AM - 2:00 PM</p>
+                    <p className="text-gray-700 leading-relaxed font-source">Sunday: Closed</p>
+                    <p className="text-sm text-blue-600 mt-2 leading-relaxed font-source">24/7 Emergency Support Available</p>
                   </div>
                 </div>
               </div>
 
               {/* Emergency Help Line */}
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                <h3 className="font-bold text-lg text-red-800 mb-2">Emergency Help Line</h3>
-                <p className="text-red-700">For any kind of emergencies, please call on <strong>__________________</strong></p>
+                <h3 className="font-bold text-lg text-red-800 mb-2 font-montserrat">Emergency Help Line</h3>
+                <p className="text-red-700 font-source">For any kind of emergencies, please call on <strong>__________________</strong></p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Contact Form (Sales & Support) */}
             <div className="relative bg-white p-8 rounded-lg shadow-lg">
@@ -195,7 +199,7 @@ const ContactUs = () => {
                 </div>
               )}
               
-              <h2 className="text-3xl font-bold mb-6">Contact Form (Sales & Support)</h2>
+              <h2 className="text-3xl font-bold mb-6 text-black font-montserrat tracking-tight">Contact Form (Sales & Support)</h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -327,19 +331,25 @@ const ContactUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Additional Contact Forms */}
-      <section className="py-20 bg-gray-50">
+      <motion.section 
+        className="py-20 bg-gray-50"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, amount: 0.3, margin: "-100px" }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Dealer/Distributor Enquiry */}
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h2 className="text-3xl font-bold mb-6">Dealer Distributor Enquiry</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-3xl font-bold mb-6 font-montserrat text-black tracking-tight">Dealer Distributor Enquiry</h2>
+              <p className="text-gray-600 mb-6 font-source">
                 Yatra Elevators & Escalators is actively looking for positive and growth oriented dealers and distributors to join our huge network. If you are powered by excellence and are looking to join a trusted brand in vertical transportation, we would surely invite you to partner with us.
               </p>
-              <p className="text-gray-600 mb-8">
+              <p className="text-gray-600 mb-8 font-source">
                 As a Yatra dealer or distributor, you will gain entry to high quality products, sophisticated support, competitive pricing, and marketing resources to help increase your business.
               </p>
               
@@ -372,11 +382,11 @@ const ContactUs = () => {
 
             {/* Partnership Form */}
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h2 className="text-3xl font-bold mb-6">Become a Partner</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-3xl font-bold mb-6 font-montserrat text-black tracking-tight">Become a Partner</h2>
+              <p className="text-gray-600 mb-6 font-source">
                 At Yatra Elevators & Escalators, we trust in developing together through strong, systematic partnerships. If you are into business or a contractor, architect, or industry professional looking to associate with a trustworthy and innovative elevator and escalator company, we welcome you to join hands with us.
               </p>
-              <p className="text-gray-600 mb-8">
+              <p className="text-gray-600 mb-8 font-source">
                 As a Yatra partner, you'll benefit from our technical expertise, quality products, timely support, and a shared promise to customer satisfaction.
               </p>
               
@@ -420,20 +430,25 @@ const ContactUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Map Section */}
-      <section className="py-20 bg-white">
+      <motion.section 
+        className="py-20 bg-white"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, amount: 0.3, margin: "-100px" }}
+      >
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-4">Find Us</h2>
-          <p className="text-center text-gray-600 mb-8">Tell the technical team to tag the location and integrate the map</p>
+          <h2 className="text-3xl font-bold text-center mb-4 font-montserrat tracking-tight">Find Us</h2>
+          <p className="text-center text-gray-600 mb-8 font-source">Tell the technical team to tag the location and integrate the map</p>
           <div className="bg-gray-300 h-96 rounded-lg flex items-center justify-center">
             <p className="text-gray-600">Interactive Map will be integrated here</p>
           </div>
         </div>
-      </section>
+      </motion.section>
     </PageLayout>
-    </>
   );
 };
 

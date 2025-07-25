@@ -31,23 +31,25 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/careers/apply/:jobId" element={<JobApplication />} />
-            <Route path="/innovation" element={<InnovationTech />} />
-            <Route path="/client-requirement" element={<ClientRequirement />} />
-            <Route path="/feedback" element={<CustomerFeedback />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/admin" element={<Admin />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="font-inter antialiased">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/careers/apply/:jobId" element={<JobApplication />} />
+              <Route path="/innovation" element={<InnovationTech />} />
+              <Route path="/client-requirement" element={<ClientRequirement />} />
+              <Route path="/feedback" element={<CustomerFeedback />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/admin" element={<Admin />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronDown, Phone, Download, Calendar, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -55,77 +56,127 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900">
+    <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 font-inter">
       {/* Common Header */}
       <CommonHeader />
 
       {/* Background Slider */}
       <div className="absolute inset-0 z-0">
         {heroImages.map((image, index) => (
-          <div
+          <motion.div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-30' : 'opacity-0'
-            }`}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: index === currentSlide ? 0.3 : 0 }}
+            transition={{ duration: 1 }}
           >
             <div 
               className="w-full h-full bg-cover bg-center"
               style={{ backgroundImage: `url(${image})` }}
             />
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-20">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
-            <span className="block mb-2">YATRA</span>
-            <span className="text-steel-accent">ELEVATORS</span>
-          </h1>
+          <motion.h1 
+            className="text-5xl md:text-7xl font-black text-white mb-6 font-poppins tracking-tight"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.span 
+              className="block mb-2"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              YATRA
+            </motion.span>
+            <motion.span 
+              className="text-steel-accent"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              ELEVATORS
+            </motion.span>
+          </motion.h1>
           
-          <p className="text-xl md:text-2xl text-white mb-4 animate-fade-in delay-300 drop-shadow-lg">
+          <motion.p 
+            className="text-xl md:text-2xl text-white mb-4 drop-shadow-lg font-inter font-medium"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
             Reliable. Safe. Smart.
-          </p>
+          </motion.p>
           
-          <p className="text-lg text-white mb-12 max-w-2xl mx-auto animate-fade-in delay-500 drop-shadow-lg">
+          <motion.p 
+            className="text-lg text-white mb-12 max-w-2xl mx-auto drop-shadow-lg font-inter font-normal leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
             Premium elevator solutions with lifetime service commitment. 
             Experience excellence in vertical transportation across South India.
-          </p>
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in delay-700">
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
             <Link to="/client-requirement">
-              <Button 
-                size="lg" 
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <FileText className="mr-2 h-5 w-5" />
-                Get Free Quote
-              </Button>
+                <Button 
+                  size="lg" 
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl font-poppins"
+                >
+                  <FileText className="mr-2 h-5 w-5" />
+                  Get Free Quote
+                </Button>
+              </motion.div>
             </Link>
             
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
-              onClick={handleDownloadBrochure}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Download className="mr-2 h-5 w-5" />
-              Download Brochure
-            </Button>
-            
-            <ContactModal buttonText="Book Service">
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-2 border-steel-accent text-steel-accent hover:bg-steel-accent hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105"
+                className="border-2 border-white text-black hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 font-poppins"
+                onClick={handleDownloadBrochure}
               >
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Service
+                <Download className="mr-2 h-5 w-5" />
+                Download Brochure
               </Button>
+            </motion.div>
+            
+            <ContactModal buttonText="Book Service">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="border-2 border-steel-accent text-steel-accent hover:bg-steel-accent hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 font-montserrat"
+                >
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book Service
+                </Button>
+              </motion.div>
             </ContactModal>
-          </div>
+          </motion.div>
           
           {/* Secondary CTA for feedback */}
           <div className="mt-6 animate-fade-in delay-1000">

@@ -52,7 +52,7 @@ const FloatingNavButton = ({ onToggle, isNavOpen }: FloatingNavButtonProps) => {
       <Button
         onClick={handleClick}
         size="lg"
-        className="w-16 h-16 rounded-full bg-steel-dark hover:bg-steel-medium text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-steel-accent flex flex-col items-center justify-center gap-1"
+        className="w-16 h-16 rounded-full bg-white hover:bg-gray-50 text-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-gray-200 flex flex-col items-center justify-center gap-1"
       >
         {isNavOpen ? (
           <X className="h-6 w-6" />

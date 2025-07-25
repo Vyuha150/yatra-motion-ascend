@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import PageLayout from '@/components/PageLayout';
 import AnimatedHighlights from '@/components/AnimatedHighlights';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +8,63 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap, Shield, Wrench, Star, CheckCircle, Home, Building2, Hospital, Truck, ShoppingCart, Plane, Users, Clock } from 'lucide-react';
 
 const Products = () => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.4
+      }
+    }
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.4, 0.0, 0.2, 1]
+      }
+    }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
   const elevatorTypes = [
     {
       title: "Passenger Elevators",
@@ -155,263 +213,545 @@ const Products = () => {
   return (
     <PageLayout>
       <AnimatedHighlights />
-      <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <div className="min-h-screen bg-white overflow-x-hidden font-source">
         {/* Hero Section */}
-        <section className="relative py-20 px-4 text-center bg-gradient-to-r from-primary via-blue-600 to-primary">
+        <motion.section 
+          className="relative py-20 px-4 text-center bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
           <div className="relative z-10 max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <motion.h1 
+              className="text-4xl md:text-6xl font-black text-white mb-6 font-montserrat tracking-tight"
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               Our <span className="text-white">Products</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 leading-relaxed mb-8">
+            </motion.h1>
+            <motion.p 
+              className="text-xl md:text-2xl text-white/90 leading-relaxed mb-8 font-source font-medium"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Comprehensive range of elevators and escalators for every vertical transportation need
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <Badge variant="outline" className="text-white border-white px-4 py-2">
-                <Clock className="w-4 h-4 mr-2" />
-                24/7 Support
-              </Badge>
-              <Badge variant="outline" className="text-white border-white px-4 py-2">
-                <Shield className="w-4 h-4 mr-2" />
-                Safety Certified
-              </Badge>
-              <Badge variant="outline" className="text-white border-white px-4 py-2">
-                <Zap className="w-4 h-4 mr-2" />
-                Energy Efficient
-              </Badge>
-            </div>
-            <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
-              Explore Products <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            </motion.p>
+            <motion.div 
+              className="flex flex-wrap justify-center gap-4 mb-8"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={itemVariants}>
+                <Badge variant="outline" className="text-white border-white px-4 py-2 font-medium font-source">
+                  <Clock className="w-4 h-4 mr-2" />
+                  24/7 Support
+                </Badge>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Badge variant="outline" className="text-white border-white px-4 py-2 font-medium font-source">
+                  <Shield className="w-4 h-4 mr-2" />
+                  Safety Certified
+                </Badge>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Badge variant="outline" className="text-white border-white px-4 py-2 font-medium font-source">
+                  <Zap className="w-4 h-4 mr-2" />
+                  Energy Efficient
+                </Badge>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100 font-semibold font-montserrat">
+                Explore Products <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Elevators Section */}
-        <section className="py-16 px-4">
+        <motion.section 
+          className="py-16 px-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                <Building2 className="h-10 w-10 inline-block mr-3 text-primary" />
+            <motion.div className="text-center mb-12" variants={itemVariants}>
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-poppins"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div
+                  className="inline-block"
+                  whileHover={{ rotate: 15, scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Building2 className="h-10 w-10 inline-block mr-3 text-blue-600" />
+                </motion.div>
                 Elevator Solutions
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              </motion.h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto font-inter leading-relaxed">
                 From residential homes to industrial facilities, our comprehensive elevator range provides safe, efficient, and reliable vertical transportation solutions
               </p>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={containerVariants}
+            >
               {elevatorTypes.map((elevator, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-xl">
-                      <elevator.icon className="w-8 h-8 text-primary mr-3" />
-                      {elevator.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-muted-foreground leading-relaxed">{elevator.description}</p>
-                    
-                    <div className="grid grid-cols-2 gap-2">
-                      <Badge variant="secondary" className="justify-center">
-                        <Users className="w-3 h-3 mr-1" />
-                        {elevator.capacity}
-                      </Badge>
-                      <Badge variant="secondary" className="justify-center">
-                        <Zap className="w-3 h-3 mr-1" />
-                        {elevator.speed}
-                      </Badge>
-                    </div>
+                <motion.div 
+                  key={index}
+                  variants={cardVariants}
+                  whileHover={{ 
+                    y: -12, 
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Card className="h-full hover:shadow-2xl transition-all duration-500 bg-white border border-gray-200 overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
+                      <CardTitle className="flex items-center text-xl text-gray-900 font-poppins font-semibold">
+                        <motion.div
+                          whileHover={{ rotate: 10, scale: 1.1 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <elevator.icon className="w-8 h-8 text-blue-600 mr-3" />
+                        </motion.div>
+                        {elevator.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4 p-6">
+                      <p className="text-gray-600 leading-relaxed font-inter text-sm">{elevator.description}</p>
+                      
+                      <motion.div 
+                        className="grid grid-cols-2 gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        <Badge variant="secondary" className="justify-center bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium">
+                          <Users className="w-3 h-3 mr-1" />
+                          {elevator.capacity}
+                        </Badge>
+                        <Badge variant="secondary" className="justify-center bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium">
+                          <Zap className="w-3 h-3 mr-1" />
+                          {elevator.speed}
+                        </Badge>
+                      </motion.div>
 
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-sm text-foreground">Key Features:</h4>
-                      {elevator.features.slice(0, 4).map((feature, idx) => (
-                        <div key={idx} className="flex items-center text-sm">
-                          <CheckCircle className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
-                          <span className="text-muted-foreground">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="border-t pt-4">
-                      <h4 className="font-semibold text-sm text-foreground mb-2">Applications:</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {elevator.applications.map((app, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {app}
-                          </Badge>
+                      <div className="space-y-2">
+                        <h4 className="font-semibold text-sm text-gray-900 font-poppins">Key Features:</h4>
+                        {elevator.features.slice(0, 4).map((feature, idx) => (
+                          <motion.div 
+                            key={idx} 
+                            className="flex items-center text-sm"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                          >
+                            <CheckCircle className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
+                            <span className="text-gray-600 font-inter">{feature}</span>
+                          </motion.div>
                         ))}
                       </div>
-                    </div>
 
-                    <Button className="w-full" variant="outline">
-                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
+                      <div className="border-t border-gray-200 pt-4">
+                        <h4 className="font-semibold text-sm text-gray-900 mb-2 font-poppins">Applications:</h4>
+                        <div className="flex flex-wrap gap-1">
+                          {elevator.applications.map((app, idx) => (
+                            <motion.div
+                              key={idx}
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Badge variant="outline" className="text-xs border-gray-300 text-gray-600 font-medium">
+                                {app}
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold" variant="default">
+                          Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </motion.div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Escalators Section */}
-        <section className="py-16 px-4 bg-muted/30">
+        <motion.section 
+          className="py-16 px-4 bg-gray-50"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
+        >
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                <ArrowRight className="h-10 w-10 inline-block mr-3 text-primary rotate-45" />
+            <motion.div className="text-center mb-12" variants={itemVariants}>
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-poppins"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div
+                  className="inline-block"
+                  whileHover={{ rotate: 45, scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ArrowRight className="h-10 w-10 inline-block mr-3 text-blue-600 rotate-45" />
+                </motion.div>
                 Escalator & Moving Walkway Solutions
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              </motion.h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto font-inter leading-relaxed">
                 Efficient horizontal and inclined transportation systems designed for high-traffic environments with superior safety and reliability
               </p>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <motion.div 
+              className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+              variants={containerVariants}
+            >
               {escalatorTypes.map((escalator, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-xl">
-                      <escalator.icon className="w-8 h-8 text-primary mr-3" />
-                      {escalator.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-muted-foreground leading-relaxed">{escalator.description}</p>
-                    
-                    <div className="grid grid-cols-1 gap-2">
-                      <Badge variant="secondary" className="justify-center">
-                        <Users className="w-3 h-3 mr-1" />
-                        {escalator.capacity}
-                      </Badge>
-                      <Badge variant="secondary" className="justify-center">
-                        <Zap className="w-3 h-3 mr-1" />
-                        {escalator.speed}
-                      </Badge>
-                    </div>
+                <motion.div 
+                  key={index}
+                  variants={cardVariants}
+                  whileHover={{ 
+                    y: -12, 
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Card className="h-full hover:shadow-2xl transition-all duration-500 bg-white border border-gray-200 overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50">
+                      <CardTitle className="flex items-center text-xl text-gray-900 font-poppins font-semibold">
+                        <motion.div
+                          whileHover={{ rotate: 10, scale: 1.1 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <escalator.icon className="w-8 h-8 text-blue-600 mr-3" />
+                        </motion.div>
+                        {escalator.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4 p-6">
+                      <p className="text-gray-600 leading-relaxed font-inter text-sm">{escalator.description}</p>
+                      
+                      <motion.div 
+                        className="grid grid-cols-1 gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        <Badge variant="secondary" className="justify-center bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium">
+                          <Users className="w-3 h-3 mr-1" />
+                          {escalator.capacity}
+                        </Badge>
+                        <Badge variant="secondary" className="justify-center bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium">
+                          <Zap className="w-3 h-3 mr-1" />
+                          {escalator.speed}
+                        </Badge>
+                      </motion.div>
 
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-sm text-foreground">Key Features:</h4>
-                      {escalator.features.slice(0, 4).map((feature, idx) => (
-                        <div key={idx} className="flex items-center text-sm">
-                          <CheckCircle className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
-                          <span className="text-muted-foreground">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="border-t pt-4">
-                      <h4 className="font-semibold text-sm text-foreground mb-2">Applications:</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {escalator.applications.map((app, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {app}
-                          </Badge>
+                      <div className="space-y-2">
+                        <h4 className="font-semibold text-sm text-gray-900 font-poppins">Key Features:</h4>
+                        {escalator.features.slice(0, 4).map((feature, idx) => (
+                          <motion.div 
+                            key={idx} 
+                            className="flex items-center text-sm"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                          >
+                            <CheckCircle className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
+                            <span className="text-gray-600 font-inter">{feature}</span>
+                          </motion.div>
                         ))}
                       </div>
-                    </div>
 
-                    <Button className="w-full" variant="outline">
-                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
+                      <div className="border-t border-gray-200 pt-4">
+                        <h4 className="font-semibold text-sm text-gray-900 mb-2 font-poppins">Applications:</h4>
+                        <div className="flex flex-wrap gap-1">
+                          {escalator.applications.map((app, idx) => (
+                            <motion.div
+                              key={idx}
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Badge variant="outline" className="text-xs border-gray-300 text-gray-600 font-medium">
+                                {app}
+                              </Badge>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold" variant="default">
+                          Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </motion.div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Technical Specifications Section */}
-        <section className="py-16 px-4">
+        <motion.section 
+          className="py-16 px-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
+        >
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <motion.div className="text-center mb-12" variants={itemVariants}>
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-poppins"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
                 Technical Excellence
-              </h2>
-            </div>
+              </motion.h2>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+              variants={containerVariants}
+            >
               {technicalSpecs.map((spec, index) => (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{spec.category}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {spec.items.map((item, idx) => (
-                        <div key={idx} className="text-sm text-muted-foreground p-2 bg-muted/50 rounded">
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                <motion.div 
+                  key={index}
+                  variants={cardVariants}
+                  whileHover={{ 
+                    y: -8, 
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Card className="text-center hover:shadow-2xl transition-all duration-500 bg-white border border-gray-200 overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-green-50 to-teal-50">
+                      <CardTitle className="text-lg text-gray-900 font-poppins font-semibold">{spec.category}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="space-y-3">
+                        {spec.items.map((item, idx) => (
+                          <motion.div 
+                            key={idx} 
+                            className="text-sm text-gray-600 p-3 bg-gray-50 rounded-lg font-inter"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            whileHover={{ 
+                              backgroundColor: "#f3f4f6",
+                              scale: 1.02,
+                              transition: { duration: 0.2 }
+                            }}
+                          >
+                            {item}
+                          </motion.div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Why Choose Section */}
-        <section className="py-16 px-4 bg-white">
+        <motion.section 
+          className="py-16 px-4 bg-gray-50"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
+        >
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Why Choose Yatra Elevators?</h2>
-            </div>
+            <motion.div className="text-center mb-12" variants={itemVariants}>
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-poppins"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                Why Choose Yatra Elevators?
+              </motion.h2>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-8">
-                  <Shield className="w-16 h-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold mb-4 text-foreground">Safety First Approach</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    At Yatra Elevators, safety is non-negotiable and a strong foundational thing. Our First approach towards Safety precautions and guidelines energized to bring up the mindset of protection. We strongly endeavored to follow up the national and international safety standards, making sure each one of the elevators and escalators are reliable, safely designed with advanced technology.
-                  </p>
-                </CardContent>
-              </Card>
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              variants={containerVariants}
+            >
+              <motion.div
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -12, 
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Card className="text-center hover:shadow-2xl transition-all duration-500 bg-white border border-gray-200 overflow-hidden">
+                  <CardContent className="p-8">
+                    <motion.div
+                      whileHover={{ 
+                        rotate: [0, -10, 10, 0],
+                        scale: 1.1,
+                        transition: { duration: 0.5 }
+                      }}
+                    >
+                      <Shield className="w-16 h-16 text-blue-600 mx-auto mb-6" />
+                    </motion.div>
+                    <h3 className="text-2xl font-semibold mb-4 text-gray-900 font-poppins">Safety First Approach</h3>
+                    <p className="text-gray-600 leading-relaxed font-inter">
+                      At Yatra Elevators, safety is non-negotiable and a strong foundational thing. Our First approach towards Safety precautions and guidelines energized to bring up the mindset of protection. We strongly endeavored to follow up the national and international safety standards, making sure each one of the elevators and escalators are reliable, safely designed with advanced technology.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-8">
-                  <Zap className="w-16 h-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold mb-4 text-foreground">Energy Efficiency & Regenerative Drives</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    At Yatra Elevators, energy is not just a source, it is the most crucial thing for every home. By integrating LED power, specifically engineered for heavy-duty commercial use, these elevators cope with substantial electrical bills and energy, enabling magnanimous vertical transport of goods without compromising safety or adaptability.
-                  </p>
-                </CardContent>
-              </Card>
+              <motion.div
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -12, 
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Card className="text-center hover:shadow-2xl transition-all duration-500 bg-white border border-gray-200 overflow-hidden">
+                  <CardContent className="p-8">
+                    <motion.div
+                      whileHover={{ 
+                        rotate: [0, -10, 10, 0],
+                        scale: 1.1,
+                        transition: { duration: 0.5 }
+                      }}
+                    >
+                      <Zap className="w-16 h-16 text-blue-600 mx-auto mb-6" />
+                    </motion.div>
+                    <h3 className="text-2xl font-semibold mb-4 text-gray-900 font-poppins">Energy Efficiency & Regenerative Drives</h3>
+                    <p className="text-gray-600 leading-relaxed font-inter">
+                      At Yatra Elevators, energy is not just a source, it is the most crucial thing for every home. By integrating LED power, specifically engineered for heavy-duty commercial use, these elevators cope with substantial electrical bills and energy, enabling magnanimous vertical transport of goods without compromising safety or adaptability.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-8">
-                  <Clock className="w-16 h-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold mb-4 text-foreground">24/7 Customer Support</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    At Yatra Escalators and Elevators, our commitment to customer satisfaction is quite promising. Our well trained professional customer support team is available around the clock to take the service requests, emergencies, and all technical issues with jet speed and proficiency. Whether it's a general query or an urgent breakdown, we deliver accurate assistance to reduce downtime.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+              <motion.div
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -12, 
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Card className="text-center hover:shadow-2xl transition-all duration-500 bg-white border border-gray-200 overflow-hidden">
+                  <CardContent className="p-8">
+                    <motion.div
+                      whileHover={{ 
+                        rotate: [0, -10, 10, 0],
+                        scale: 1.1,
+                        transition: { duration: 0.5 }
+                      }}
+                    >
+                      <Clock className="w-16 h-16 text-blue-600 mx-auto mb-6" />
+                    </motion.div>
+                    <h3 className="text-2xl font-semibold mb-4 text-gray-900 font-poppins">24/7 Customer Support</h3>
+                    <p className="text-gray-600 leading-relaxed font-inter">
+                      At Yatra Escalators and Elevators, our commitment to customer satisfaction is quite promising. Our well trained professional customer support team is available around the clock to take the service requests, emergencies, and all technical issues with jet speed and proficiency. Whether it's a general query or an urgent breakdown, we deliver accurate assistance to reduce downtime.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Call to Action */}
-        <section className="py-16 px-4 bg-primary text-white">
+        <motion.section 
+          className="py-16 px-4 bg-blue-600 text-white"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
+        >
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-4 font-poppins"
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               Ready to Elevate Your Building?
-            </h2>
-            <p className="text-xl mb-8 text-white/90">
+            </motion.h2>
+            <motion.p 
+              className="text-xl mb-8 text-white/90 font-inter leading-relaxed"
+              variants={itemVariants}
+            >
               Contact us today for a customized vertical transportation solution that meets your specific requirements
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
-                Get Quote <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Download Brochure
-              </Button>
-            </div>
-            <p className="text-white/80 text-sm">
+            </motion.p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
+              variants={itemVariants}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100 font-semibold">
+                  Get Quote <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button size="lg" variant="outline" className="border-white text-black hover:bg-white/10 font-semibold">
+                  Download Brochure
+                </Button>
+              </motion.div>
+            </motion.div>
+            <motion.p 
+              className="text-white/80 text-sm font-inter"
+              variants={itemVariants}
+            >
               Join thousands of satisfied customers who trust Yatra for their vertical transportation needs
-            </p>
+            </motion.p>
           </div>
-        </section>
+        </motion.section>
       </div>
     </PageLayout>
   );

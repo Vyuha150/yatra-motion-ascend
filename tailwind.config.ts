@@ -1,5 +1,6 @@
 
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -184,6 +185,14 @@ export default {
 					}
 				}
 			},
+			fontFamily: {
+				'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+				'poppins': ['Poppins', 'system-ui', '-apple-system', 'sans-serif'],
+				'montserrat': ['Montserrat', 'system-ui', '-apple-system', 'sans-serif'],
+				'roboto': ['Roboto', 'system-ui', '-apple-system', 'sans-serif'],
+				'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+				'heading': ['Poppins', 'system-ui', '-apple-system', 'sans-serif']
+			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
@@ -201,5 +210,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [tailwindcssAnimate],
 } satisfies Config;

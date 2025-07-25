@@ -146,7 +146,7 @@ const AdminLayout = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="users" 
-                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-slate-500 data-[state=active]:text-white rounded-xl transition-all"
+                className="flex flex-col items-center gap-1 p-3 data-[state=active]:bg-gray-500 data-[state=active]:text-white rounded-xl transition-all"
               >
                 <Settings className="h-5 w-5" />
                 <span className="text-xs font-medium">Users</span>

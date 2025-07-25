@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import PageLayout from '@/components/PageLayout';
 import AnimatedHighlights from '@/components/AnimatedHighlights';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,6 +33,40 @@ import {
 } from 'lucide-react';
 
 const AboutUs = () => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.4
+      }
+    }
+  };
+
   const iconicVerticals = [
     { icon: Hotel, title: "Hotels & Resorts", color: "text-blue-500" },
     { icon: Building, title: "Ready Mix Concrete", color: "text-gray-500" },
@@ -75,9 +110,14 @@ const AboutUs = () => {
   return (
     <PageLayout>
       <AnimatedHighlights />
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background font-source">
         {/* Hero Section */}
-        <section className="relative py-24 px-4 text-center bg-gradient-to-br from-primary via-blue-600 to-primary overflow-hidden">
+        <motion.section 
+          className="relative py-24 px-4 text-center bg-gradient-to-br from-primary via-blue-600 to-primary overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-primary/10" />
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
@@ -87,50 +127,101 @@ const AboutUs = () => {
             </div>
           </div>
           <div className="relative z-10 max-w-5xl mx-auto">
-            <div className="mb-8">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-6 animate-bounce">
+            <motion.div 
+              className="mb-8"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.div 
+                className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-6"
+                whileHover={{ scale: 1.1, rotate: 360 }}
+                transition={{ duration: 0.3 }}
+              >
                 <Building2 className="h-10 w-10 text-white" />
-              </div>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              </motion.div>
+            </motion.div>
+            <motion.h1 
+              className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight font-montserrat tracking-tight"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               About <span className="text-white">ICONIC Group</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl mx-auto">
+            </motion.h1>
+            <motion.p 
+              className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl mx-auto font-source font-medium"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               Fifteen years of excellence, trust, and innovation in shaping the future
-            </p>
-            <div className="flex justify-center items-center mt-8 space-x-8">
-              <div className="flex items-center space-x-2 text-white/90">
+            </motion.p>
+            <motion.div 
+              className="flex justify-center items-center mt-8 space-x-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.8 }}
+            >
+              <motion.div 
+                className="flex items-center space-x-2 text-white/90"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Star className="h-5 w-5 text-white" />
-                <span className="text-sm font-medium">15+ Years</span>
-              </div>
-              <div className="flex items-center space-x-2 text-white/90">
+                <span className="text-sm font-medium font-source">15+ Years</span>
+              </motion.div>
+              <motion.div 
+                className="flex items-center space-x-2 text-white/90"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Users className="h-5 w-5 text-white" />
-                <span className="text-sm font-medium">1000+ Projects</span>
-              </div>
-              <div className="flex items-center space-x-2 text-white/90">
+                <span className="text-sm font-medium font-source">1000+ Projects</span>
+              </motion.div>
+              <motion.div 
+                className="flex items-center space-x-2 text-white/90"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Globe className="h-5 w-5 text-white" />
-                <span className="text-sm font-medium">9 Verticals</span>
-              </div>
-            </div>
+                <span className="text-sm font-medium font-source">9 Verticals</span>
+              </motion.div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Our Legacy Section */}
-        <section className="py-20 px-4 bg-white">
+        <motion.section 
+          className="py-20 px-4 bg-white"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6">
+            <motion.div className="text-center mb-16" variants={itemVariants}>
+              <motion.div 
+                className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full mb-6"
+                whileHover={{ scale: 1.1, rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
                 <Award className="h-8 w-8 text-white" />
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+              </motion.div>
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
                 Our Legacy: The <span className="text-primary">ICONIC Group</span>
               </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter">
                 Building dreams, creating futures, and establishing trust for over fifteen years
               </p>
-            </div>
+            </motion.div>
 
-            <Card className="mb-12 shadow-lg bg-card hover:shadow-xl transition-all duration-500 hover:scale-[1.02] border border-border">
+            <motion.div variants={cardVariants}>
+              <Card className="mb-12 shadow-lg bg-card hover:shadow-xl transition-all duration-500 hover:scale-[1.02] border border-border">
               <CardContent className="p-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                   <div>
@@ -205,8 +296,9 @@ const AboutUs = () => {
                 </div>
               </CardContent>
             </Card>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Why Elevators & Escalators Section */}
         <section className="py-20 px-4 bg-muted/30">

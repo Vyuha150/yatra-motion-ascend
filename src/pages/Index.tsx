@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Hero from '../components/Hero';
 import ProductShowcase from '../components/ProductShowcase';
 import ProjectGallery from '../components/ProjectGallery';

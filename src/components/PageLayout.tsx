@@ -19,7 +19,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 relative">
+    <div className="min-h-screen bg-gray-50 relative">
       {/* Header - Logo removed for cleaner navigation */}
       <div className="absolute top-0 left-0 right-0 z-20 flex justify-between items-center p-6">
         {/* Logo removed - navigation handled by floating menu */}

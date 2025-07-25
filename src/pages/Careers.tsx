@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, MapPin, Clock, Users, Target, Heart, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';

@@ -7,6 +7,7 @@ interface InnovationCardProps {
   description: string;
   features: string[];
   benefits: string;
+  image?: string;
   index: number;
   isVisible: boolean;
 }
@@ -17,6 +18,7 @@ const InnovationCard: React.FC<InnovationCardProps> = ({
   description,
   features,
   benefits,
+  image,
   index,
   isVisible
 }) => {

@@ -60,46 +60,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light Elevator Theme - Clean and Professional */
-    --background: 0 0% 100%;
-    --foreground: 210 15% 10%;
+    /* Dark Elevator Theme - Modern and Professional */
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
     
-    /* Light Elevator Panel Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 210 15% 10%;
+    /* Dark Elevator Panel Colors */
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 15% 10%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
     
     /* Elevator Blue Theme */
-    --primary: 214 100% 45%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 214 100% 50%;
+    --primary-foreground: 0 0% 98%;
     
-    /* Light Steel Secondary */
-    --secondary: 210 8% 90%;
-    --secondary-foreground: 210 15% 15%;
+    /* Dark Steel Secondary */
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 98%;
     
-    /* Light Muted */
-    --muted: 210 8% 92%;
-    --muted-foreground: 210 8% 45%;
+    /* Dark Muted */
+    --muted: 0 0% 9%;
+    --muted-foreground: 0 0% 63%;
     
     /* Electric Accent */
-    --accent: 51 100% 45%;
-    --accent-foreground: 210 15% 10%;
+    --accent: 45 100% 51%;
+    --accent-foreground: 0 0% 98%;
     
-    /* Light steel-themed elevator colors */
-    --steel-dark: 213 16% 75%;
-    --steel-medium: 213 16% 85%;
-    --steel-light: 213 16% 95%;
-    --steel-accent: 210 100% 75%;
+    /* Elevator-specific design tokens */
+    --elevator-gold: 45 100% 51%;
+    --elevator-silver: 0 0% 75%;
+    --elevator-steel: 210 11% 15%;
+    
+    /* Dark steel-themed elevator colors */
+    --steel-dark: 210 11% 25%;
+    --steel-medium: 210 11% 15%;
+    --steel-light: 210 11% 35%;
+    --steel-accent: 214 100% 50%;
     
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 0 0% 98%;
     
-    /* Light Elevator Panel Borders */
-    --border: 210 10% 80%;
-    --input: 210 10% 85%;
-    --ring: 214 100% 45%;
+    /* Dark Elevator Panel Borders */
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 214 100% 50%;
+    
+    /* Design system enhancements */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(0 0% 1%));
+    --shadow-dramatic: 0 25px 50px -12px hsl(0 0% 0% / 0.8);
+    --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 
     --radius: 0.5rem;
 

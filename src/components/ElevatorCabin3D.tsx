@@ -22,8 +22,8 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen }) => {
     }
   });
 
-  // Animate doors
-  useEffect(() => {
+  // Animate doors using useFrame for smooth animation
+  useFrame(() => {
     if (leftDoorRef.current && rightDoorRef.current) {
       const targetX = doorsOpen ? -1.2 : 0;
       leftDoorRef.current.position.x = THREE.MathUtils.lerp(leftDoorRef.current.position.x, targetX, 0.1);

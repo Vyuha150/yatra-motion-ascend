@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Shield, Zap, Activity, Smartphone, Leaf, AlertTriangle, Settings, Clock, MousePointer, Eye } from 'lucide-react';
+import { Shield, Zap, Activity, Smartphone, Leaf, AlertTriangle, Settings, Clock, MousePointer, Eye, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import PageLayout from '@/components/PageLayout';
@@ -150,82 +150,14 @@ const InnovationTech = () => {
     }
   ];
 
-  // Animation variants
-  const letterVariants = {
-    hidden: { opacity: 0, y: 50, rotateX: -90 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        delay: i * 0.05,
-        duration: 0.6,
-        ease: [0.23, 1, 0.320, 1]
-      }
-    })
-  };
-
-  const cardVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 100, 
-      scale: 0.8,
-      rotateY: -15
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateY: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: [0.23, 1, 0.320, 1]
-      }
-    }),
-    hover: {
-      y: -20,
-      scale: 1.02,
-      rotateY: 2,
-      transition: {
-        duration: 0.4,
-        ease: [0.23, 1, 0.320, 1]
-      }
-    }
-  };
-
-  const floatingVariants = {
-    animate: {
-      y: [-20, 20, -20],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const textRevealVariants = {
-    hidden: { 
-      clipPath: 'inset(100% 0 0 0)',
-      opacity: 0
-    },
-    visible: {
-      clipPath: 'inset(0% 0 0 0)',
-      opacity: 1,
-      transition: {
-        duration: 1.2,
-        ease: [0.23, 1, 0.320, 1]
-      }
-    }
-  };
 
   const splitText = (text: string) => {
     return text.split('').map((char, i) => (
       <motion.span
         key={i}
-        variants={letterVariants}
-        custom={i}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: i * 0.05, duration: 0.6 }}
         className="inline-block"
       >
         {char}
@@ -266,14 +198,13 @@ const InnovationTech = () => {
         {/* Floating Geometric Shapes */}
         <motion.div
           className="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-white/10 rounded-full"
-          variants={floatingVariants}
-          animate="animate"
+          animate={{ y: [-20, 20, -20] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute top-3/4 right-1/4 w-24 h-24 border-2 border-blue-400/20 rotate-45"
-          variants={floatingVariants}
-          animate="animate"
-          style={{ animationDelay: '2s' }}
+          animate={{ y: [-20, 20, -20] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         />
 
         <div className="relative z-10 max-w-5xl mx-auto px-4">
@@ -284,7 +215,9 @@ const InnovationTech = () => {
           >
             <motion.h1 
               className="text-6xl md:text-8xl font-black text-white mb-6 font-montserrat tracking-tight"
-              variants={textRevealVariants}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2 }}
             >
               {splitText("INNOVATION")}
               <br />
@@ -359,10 +292,10 @@ const InnovationTech = () => {
             
             <motion.h2 
               className="text-5xl md:text-6xl font-black text-gray-900 mb-6 font-montserrat"
-              variants={textRevealVariants}
-              initial="hidden"
-              whileInView="visible"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 1.2 }}
             >
               TECHNOLOGICAL <br />
               <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
@@ -400,9 +333,16 @@ const InnovationTech = () => {
               <motion.div 
                 key={index} 
                 className="innovation-card group"
-                custom={index}
-                variants={cardVariants}
-                whileHover="hover"
+                initial={{ opacity: 0, y: 100, scale: 0.8 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ y: -20, scale: 1.02 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 120
+                }}
                 onHoverStart={() => {
                   setHoveredCard(index);
                   setIsHovering(true);

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import Hero from '../components/Hero';
+import HeroImmersive from '../components/HeroImmersive';
+import WhyYatraFeatures from '../components/WhyYatraFeatures';
 import AboutPreview from '../components/AboutPreview';
 import ProductShowcase from '../components/ProductShowcase';
 import ProductsModern from '../components/ProductsModern';
@@ -20,12 +21,13 @@ const Index = () => {
   // Floor configuration
   const floors = [
     { id: 'hero', name: 'Welcome', floor: 1 },
-    { id: 'about', name: 'About Us', floor: 2 },
-    { id: 'products', name: 'Products', floor: 3 },
-    { id: 'products-modern', name: 'Solutions', floor: 4 },
-    { id: 'solutions', name: 'Services', floor: 5 },
-    { id: 'projects', name: 'Projects', floor: 6 },
-    { id: 'contact', name: 'Contact', floor: 7 }
+    { id: 'why-yatra', name: 'Why Yatra', floor: 2 },
+    { id: 'about', name: 'About Us', floor: 3 },
+    { id: 'products', name: 'Products', floor: 4 },
+    { id: 'products-modern', name: 'Solutions', floor: 5 },
+    { id: 'solutions', name: 'Services', floor: 6 },
+    { id: 'projects', name: 'Projects', floor: 7 },
+    { id: 'contact', name: 'Contact', floor: 8 }
   ];
 
   // Scroll detection for floor changes
@@ -94,7 +96,12 @@ const Index = () => {
 
       {/* Hero Section */}
       <section id="hero">
-        <Hero />
+        <HeroImmersive />
+      </section>
+      
+      {/* Why Yatra Features */}
+      <section id="why-yatra">
+        <WhyYatraFeatures />
       </section>
       
       {/* About Preview */}

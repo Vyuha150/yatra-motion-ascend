@@ -131,7 +131,7 @@ const SolutionsShowcase = () => {
           {solutions.map((solution, index) => (
             <Card 
               key={index} 
-              className={`solution-card opacity-0 group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm overflow-hidden ${index < 2 ? 'xl:col-span-1' : index === 2 ? 'lg:col-span-2 xl:col-span-1' : ''}`}
+              className={`solution-card group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm overflow-hidden ${index < 2 ? 'xl:col-span-1' : index === 2 ? 'lg:col-span-2 xl:col-span-1' : ''}`}
             >
               <CardHeader className="relative pb-4">
                 <div className={`absolute inset-0 bg-gradient-to-r ${solution.color} opacity-5`}></div>

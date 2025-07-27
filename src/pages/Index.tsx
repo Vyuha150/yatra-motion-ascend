@@ -78,31 +78,16 @@ const Index = () => {
         isTransitioning={isTransitioning}
       />
       
-      {/* Right Side Floor Indicator */}
+      {/* Right Side Floor Indicator - Simple */}
       <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50">
         <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-lg border-2 border-slate-600 p-4 shadow-2xl">
-          <div className="text-white font-bold text-xs mb-3 text-center">FLOORS</div>
-          <div className="flex flex-col space-y-2">
-            {floors.slice().reverse().map((floor) => (
-              <div
-                key={floor.floor}
-                className={`relative w-8 h-8 rounded border-2 transition-all duration-300 cursor-pointer ${
-                  floor.floor === currentFloor 
-                    ? 'bg-green-400 border-green-400 shadow-[0_0_8px_rgb(34,197,94)]' 
-                    : 'bg-slate-700 border-slate-500 hover:border-slate-400'
-                }`}
-                onClick={() => {
-                  const element = document.getElementById(floor.id);
-                  element?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <div className={`absolute inset-0 flex items-center justify-center text-xs font-bold ${
-                  floor.floor === currentFloor ? 'text-black' : 'text-white'
-                }`}>
-                  {floor.floor}
-                </div>
+          <div className="text-white font-bold text-xs mb-3 text-center">FLOOR</div>
+          <div className="flex items-center justify-center">
+            <div className="w-12 h-12 bg-black rounded border-2 border-slate-500 flex items-center justify-center">
+              <div className="text-green-400 font-mono text-xl font-bold drop-shadow-[0_0_8px_rgb(34,197,94)]">
+                {currentFloor}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

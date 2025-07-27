@@ -24,19 +24,8 @@ const FloorIndicator = ({ currentFloor, floorName, isTransitioning = false }: Fl
             FLOOR: {floorName.toUpperCase()}
           </div>
           
-          {/* Floor Indicators */}
-          <div className="flex flex-col space-y-1">
-            {[5, 4, 3, 2, 1].map((floor) => (
-              <div
-                key={floor}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                  floor === currentFloor 
-                    ? 'bg-green-400 shadow-[0_0_4px_rgb(34,197,94)] animate-pulse' 
-                    : 'bg-slate-600'
-                }`}
-              />
-            ))}
-          </div>
+          {/* Current Floor Indicator */}
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgb(34,197,94)]"></div>
         </div>
       </div>
     </div>

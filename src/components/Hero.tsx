@@ -57,6 +57,11 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 font-inter">
+      {/* Blue Header Bar */}
+      <div className="absolute top-0 left-0 right-0 z-30 bg-blue-600 text-white text-center py-3 text-sm font-medium">
+        MRL Lifts Available - Space Saving Technology
+      </div>
+      
       {/* Common Header */}
       <CommonHeader />
 
@@ -96,7 +101,7 @@ const Hero = () => {
               YATRA
             </motion.span>
             <motion.span 
-              className="text-steel-accent"
+              className="text-blue-400"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -153,7 +158,7 @@ const Hero = () => {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-2 border-white text-black hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 font-poppins"
+                className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 font-poppins"
                 onClick={handleDownloadBrochure}
               >
                 <Download className="mr-2 h-5 w-5" />
@@ -169,7 +174,7 @@ const Hero = () => {
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="border-2 border-steel-accent text-steel-accent hover:bg-steel-accent hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 font-montserrat"
+                  className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 font-montserrat"
                 >
                   <Calendar className="mr-2 h-5 w-5" />
                   Book Service
@@ -179,12 +184,12 @@ const Hero = () => {
           </motion.div>
           
           {/* Secondary CTA for feedback */}
-          <div className="mt-6 animate-fade-in delay-1000">
+          <div className="mt-8 animate-fade-in delay-1000">
             <Link to="/feedback">
               <Button 
                 variant="ghost"
                 size="sm"
-                className="text-white/80 hover:text-white hover:bg-white/10 underline"
+                className="text-white/80 hover:text-white hover:bg-white/10 underline text-base"
               >
                 Share Your Experience & Feedback
               </Button>

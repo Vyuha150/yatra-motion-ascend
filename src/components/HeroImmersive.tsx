@@ -28,10 +28,11 @@ const HeroImmersive = () => {
 
   // Background images for slideshow
   const backgroundImages = [
-    '/lovable-uploads/1a497235-d2f7-4a8b-a0fe-6201d849a5b7.png',
-    '/lovable-uploads/c2a7d7fc-4049-432e-a070-026b5ed33e88.png',
-    '/lovable-uploads/06e9374a-64ce-4ce9-87a4-45a2f6b3d541.png',
-    '/lovable-uploads/2d685460-01d3-494e-9b9a-b0af2cf8cc17.png'
+    '/lovable-uploads/39e306f2-9e81-4918-9dc9-d9fe97fe0d80.png',
+    '/lovable-uploads/cbec866b-0d17-4145-8966-af7e73c66f28.png',
+    '/lovable-uploads/add4b9a9-80ab-4015-b254-78ea9eab9b33.png',
+    '/lovable-uploads/61867bfb-decc-45e6-903e-46ddec98756d.png',
+    '/lovable-uploads/a2d245fa-76cb-48ab-9049-c0967f0e5959.png'
   ];
 
   useEffect(() => {

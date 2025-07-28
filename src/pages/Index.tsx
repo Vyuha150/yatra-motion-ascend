@@ -12,6 +12,7 @@ import FloatingChat from '../components/FloatingChat';
 import FloatingNavButton from '../components/FloatingNavButton';
 import VerticalNavbar from '../components/VerticalNavbar';
 import FloorIndicator from '../components/FloorIndicator';
+import TopFloorIndicator from '../components/TopFloorIndicator';
 
 const Index = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -79,7 +80,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Enhanced Vertical Floor Indicator */}
+      {/* Top Middle Floor Indicator */}
+      <TopFloorIndicator 
+        currentFloor={currentFloor} 
+        floorName={currentFloorData.name}
+        floors={floors}
+        onFloorChange={handleFloorChange}
+      />
+
+      {/* Enhanced Vertical Floor Indicator (Right Side) */}
       <FloorIndicator 
         currentFloor={currentFloor} 
         floorName={currentFloorData.name}

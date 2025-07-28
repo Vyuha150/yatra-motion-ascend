@@ -12,7 +12,6 @@ import FloatingChat from '../components/FloatingChat';
 import FloatingNavButton from '../components/FloatingNavButton';
 import VerticalNavbar from '../components/VerticalNavbar';
 import FloorIndicator from '../components/FloorIndicator';
-import ElevatorShaftBackground from '../components/ElevatorShaftBackground';
 
 const Index = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -74,21 +73,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Elevator Shaft Background Animation */}
-      <ElevatorShaftBackground />
-      
       {/* Floor Indicators - Top Middle */}
       <FloorIndicator 
         currentFloor={currentFloor} 
         floorName={currentFloorData.name}
         isTransitioning={isTransitioning}
-        floors={floors}
-        onFloorClick={(floorId) => {
-          const element = document.getElementById(floorId);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }}
       />
       
       {/* Right Side Floor Indicator - Simple */}

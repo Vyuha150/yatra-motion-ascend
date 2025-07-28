@@ -18,47 +18,53 @@ const Index = () => {
   const [currentFloor, setCurrentFloor] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Floor configuration
+  // Define all homepage sections as floors
   const floors = [
-    { id: 'hero', name: 'Welcome', floor: 1 },
-    { id: 'why-yatra', name: 'Why Yatra', floor: 2 },
-    { id: 'about', name: 'About Us', floor: 3 },
-    { id: 'products', name: 'Products', floor: 4 },
-    { id: 'products-modern', name: 'Solutions', floor: 5 },
-    { id: 'solutions', name: 'Services', floor: 6 },
-    { id: 'projects', name: 'Projects', floor: 7 },
-    { id: 'contact', name: 'Contact', floor: 8 }
+    { id: 1, name: 'Welcome', sectionId: 'hero' },
+    { id: 2, name: 'Why Yatra', sectionId: 'why-yatra' },
+    { id: 3, name: 'About Us', sectionId: 'about' },
+    { id: 4, name: 'Products', sectionId: 'products' },
+    { id: 5, name: 'Solutions', sectionId: 'products-modern' },
+    { id: 6, name: 'Services', sectionId: 'solutions' },
+    { id: 7, name: 'Projects', sectionId: 'projects' },
+    { id: 8, name: 'Contact', sectionId: 'contact' }
   ];
+
+  // Handle floor changes from scroll or navigation
+  const handleFloorChange = (floor: number) => {
+    if (floor !== currentFloor) {
+      setIsTransitioning(true);
+      setCurrentFloor(floor);
+      setTimeout(() => setIsTransitioning(false), 500);
+    }
+  };
 
   // Scroll detection for floor changes
   useEffect(() => {
     const handleScroll = () => {
-      if (isTransitioning) return;
-      
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-      const sections = document.querySelectorAll('section, div[id]');
-      
-      // Find current section
-      for (let i = floors.length - 1; i >= 0; i--) {
-        const sectionElement = document.getElementById(floors[i].id);
-        if (sectionElement && sectionElement.offsetTop <= scrollPosition) {
-          if (currentFloor !== floors[i].floor) {
-            setIsTransitioning(true);
-            setCurrentFloor(floors[i].floor);
-            
-            // Reset transition state after animation
-            setTimeout(() => {
-              setIsTransitioning(false);
-            }, 500);
-          }
-          break;
-        }
+      const sections = floors.map(floor => ({
+        ...floor,
+        element: document.getElementById(floor.sectionId)
+      }));
+
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const currentSection = sections.find(section => {
+        if (!section.element) return false;
+        const rect = section.element.getBoundingClientRect();
+        return rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2;
+      });
+
+      if (currentSection && currentSection.id !== currentFloor) {
+        handleFloorChange(currentSection.id);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [currentFloor, isTransitioning, floors]);
+  }, [currentFloor, floors]);
 
   const handleNavToggle = (isOpen: boolean) => {
     setIsNavOpen(isOpen);
@@ -69,30 +75,18 @@ const Index = () => {
   };
 
   // Get current floor name
-  const currentFloorData = floors.find(f => f.floor === currentFloor) || floors[0];
+  const currentFloorData = floors.find(f => f.id === currentFloor) || floors[0];
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Floor Indicators - Top Middle */}
+      {/* Enhanced Vertical Floor Indicator */}
       <FloorIndicator 
         currentFloor={currentFloor} 
         floorName={currentFloorData.name}
         isTransitioning={isTransitioning}
+        floors={floors}
+        onFloorChange={handleFloorChange}
       />
-      
-      {/* Right Side Floor Indicator - Simple */}
-      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50">
-        <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-lg border-2 border-slate-600 p-4 shadow-2xl">
-          <div className="text-white font-bold text-xs mb-3 text-center">FLOOR</div>
-          <div className="flex items-center justify-center">
-            <div className="w-12 h-12 bg-black rounded border-2 border-slate-500 flex items-center justify-center">
-              <div className="text-green-400 font-mono text-xl font-bold drop-shadow-[0_0_8px_rgb(34,197,94)]">
-                {currentFloor}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Hero Section */}
       <section id="hero">

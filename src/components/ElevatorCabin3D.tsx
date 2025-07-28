@@ -96,8 +96,8 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen, onDoorClic
       
       {/* IoT Panel Tooltip */}
       {hovered === 'control' && (
-        <Html position={[1.5, 1.5, 0.8]} center>
-          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-blue-400/30">
+        <Html position={[1.5, 1.5, 0.8]} center distanceFactor={10}>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-blue-400/30 pointer-events-none">
             IoT Smart Control Panel
           </div>
         </Html>
@@ -154,8 +154,8 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen, onDoorClic
       
       {/* Door Tooltip */}
       {hovered === 'door' && (
-        <Html position={[0, 2, 2]} center>
-          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-blue-400/30">
+        <Html position={[0, 2, 2]} center distanceFactor={10}>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-blue-400/30 pointer-events-none">
             Click to open/close doors
           </div>
         </Html>
@@ -194,8 +194,8 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen, onDoorClic
       </Box>
       
       {hovered === 'display' && (
-        <Html position={[0, 2.5, 1.8]} center>
-          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-green-400/30">
+        <Html position={[0, 2.5, 1.8]} center distanceFactor={10}>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-green-400/30 pointer-events-none">
             LED Floor Display
           </div>
         </Html>
@@ -217,8 +217,8 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen, onDoorClic
       </Box>
       
       {hovered === 'brake' && (
-        <Html position={[-1.5, -0.8, 1.2]} center>
-          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-red-400/30">
+        <Html position={[-1.5, -0.8, 1.2]} center distanceFactor={10}>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-red-400/30 pointer-events-none">
             Emergency Braking System
           </div>
         </Html>

@@ -9,10 +9,12 @@ import CommonHeader from './CommonHeader';
 import ContactModal from './ContactModal';
 import ElevatorCabin3D from './ElevatorCabin3D';
 import ParticleField from './ParticleField';
+import ElevatorSkeleton from './ElevatorSkeleton';
 
 const HeroImmersive = () => {
   const [doorsOpen, setDoorsOpen] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -26,9 +28,14 @@ const HeroImmersive = () => {
       setShowContent(true);
     }, 2000);
 
+    // Scroll listener for parallax
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+
     return () => {
       clearTimeout(doorTimer);
       clearTimeout(contentTimer);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -70,13 +77,14 @@ const HeroImmersive = () => {
       {/* Common Header */}
       <CommonHeader />
 
-      {/* 3D Scene */}
-      <div className="absolute inset-0 z-0">
+      {/* 3D Scene - Positioned to right side on desktop */}
+      <div className="absolute inset-0 lg:left-1/2 z-0">
         <Canvas
           camera={{ position: [0, 0, 8], fov: 60 }}
           gl={{ antialias: true, alpha: true }}
+          dpr={[1, 2]}
         >
-          <Suspense fallback={null}>
+          <Suspense fallback={<ElevatorSkeleton />}>
             <Environment preset="city" />
             <ambientLight intensity={0.3} />
             <directionalLight position={[5, 5, 5]} intensity={1} />
@@ -85,16 +93,24 @@ const HeroImmersive = () => {
             <ParticleField />
             
             {/* Elevator Cabin */}
-            <ElevatorCabin3D doorsOpen={doorsOpen} />
+            <ElevatorCabin3D 
+              doorsOpen={doorsOpen} 
+              onDoorClick={() => setDoorsOpen(!doorsOpen)}
+              scrollY={scrollY}
+            />
             
-            {/* Camera Controls */}
+            {/* Camera Controls - Enhanced for mobile */}
             <OrbitControls 
               enablePan={false}
-              enableZoom={false}
+              enableZoom={true}
+              minDistance={5}
+              maxDistance={12}
               maxPolarAngle={Math.PI / 1.8}
               minPolarAngle={Math.PI / 3}
               autoRotate
-              autoRotateSpeed={0.5}
+              autoRotateSpeed={0.3}
+              enableDamping
+              dampingFactor={0.05}
             />
           </Suspense>
         </Canvas>
@@ -104,9 +120,9 @@ const HeroImmersive = () => {
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 z-5" />
 
-      {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pt-20">
-        <div className="max-w-4xl mx-auto">
+      {/* Hero Content - Positioned to left side on desktop */}
+      <div className="relative z-10 flex flex-col items-center lg:items-start justify-center h-full text-center lg:text-left px-4 pt-20 lg:pl-12 lg:pr-0">
+        <div className="max-w-4xl lg:max-w-2xl mx-auto lg:mx-0">
           {showContent && (
             <motion.div
               variants={containerVariants}

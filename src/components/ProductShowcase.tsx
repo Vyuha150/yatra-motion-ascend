@@ -13,7 +13,7 @@ const ProductShowcase = () => {
       description:
         "Elegant residential elevators designed for modern homes with space-efficient MRL technology.",
       icon: Home,
-      image: "/1.png",
+      image: "/lovable-uploads/4bc2b65c-ae8a-4184-8946-8bb3e3d75cff.png",
       features: ["Space Efficient", "Energy Saving", "Quiet Operation"],
     },
     {
@@ -22,7 +22,7 @@ const ProductShowcase = () => {
       description:
         "Commercial grade elevators for office buildings, malls, and high-rise structures.",
       icon: Users,
-      image: "/2.png",
+      image: "/lovable-uploads/d2edc3c3-d4f3-438c-bcfc-4ed2fa9766df.png",
       features: ["High Capacity", "Fast Speed", "Safety Certified"],
     },
     {
@@ -31,7 +31,7 @@ const ProductShowcase = () => {
       description:
         "Heavy-duty cargo elevators built for industrial and commercial material handling.",
       icon: Truck,
-      image: "/3.png",
+      image: "/lovable-uploads/f7e2cdad-09c2-44bc-adbb-3e625122b25d.png",
       features: ["Heavy Load", "Durable Build", "Industrial Grade"],
     },
     {
@@ -40,7 +40,7 @@ const ProductShowcase = () => {
       description:
         "Comprehensive lifetime service with 24/7 support and preventive maintenance programs.",
       icon: Wrench,
-      image: "/4.png",
+      image: "/lovable-uploads/6963d42c-2dcd-46bb-b7c2-12e60ea70829.png",
       features: ["24/7 Support", "Preventive Care", "Expert Technicians"],
     },
   ];

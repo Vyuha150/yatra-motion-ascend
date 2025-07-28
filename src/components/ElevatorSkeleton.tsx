@@ -1,27 +1,30 @@
 import React from 'react';
+import { Box } from '@react-three/drei';
 
 const ElevatorSkeleton = () => {
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="relative">
-        {/* Cabin skeleton */}
-        <div className="w-64 h-40 bg-slate-700/30 rounded-lg animate-pulse border-2 border-slate-600/50" />
-        
-        {/* Door skeletons */}
-        <div className="absolute top-2 left-2 w-28 h-36 bg-slate-600/40 rounded animate-pulse" />
-        <div className="absolute top-2 right-2 w-28 h-36 bg-slate-600/40 rounded animate-pulse" />
-        
-        {/* Control panel skeleton */}
-        <div className="absolute top-4 right-4 w-8 h-16 bg-slate-500/50 rounded animate-pulse" />
-        
-        {/* Loading text */}
-        <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
-          <div className="text-white/60 text-sm font-medium">
-            Loading 3D Elevator...
-          </div>
-        </div>
-      </div>
-    </div>
+    <group position={[0, 0, 0]}>
+      {/* Cabin skeleton */}
+      <Box args={[4, 3, 3]} position={[0, 0, -1.5]}>
+        <meshBasicMaterial color="#374151" opacity={0.3} transparent />
+      </Box>
+
+      {/* Door skeletons */}
+      <Box args={[1.8, 2.6, 0.1]} position={[-0.9, 0, 1.4]}>
+        <meshBasicMaterial color="#4b5563" opacity={0.4} transparent />
+      </Box>
+      <Box args={[1.8, 2.6, 0.1]} position={[0.9, 0, 1.4]}>
+        <meshBasicMaterial color="#4b5563" opacity={0.4} transparent />
+      </Box>
+
+      {/* Control panel skeleton */}
+      <Box args={[0.5, 1.0, 0.08]} position={[1.4, 0.2, 0.7]}>
+        <meshBasicMaterial color="#6b7280" opacity={0.5} transparent />
+      </Box>
+
+      {/* Simple ambient light for visibility */}
+      <ambientLight intensity={0.4} />
+    </group>
   );
 };
 

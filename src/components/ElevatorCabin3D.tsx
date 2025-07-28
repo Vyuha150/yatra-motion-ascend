@@ -1,23 +1,32 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Box, Plane, Text, useTexture } from '@react-three/drei';
+import { Box, Plane, Text, Html } from '@react-three/drei';
 import { Mesh, Group, Vector3 } from 'three';
 import * as THREE from 'three';
 
 interface ElevatorCabin3DProps {
   doorsOpen: boolean;
+  onInteraction?: (type: string, data?: any) => void;
+  enableInteraction?: boolean;
+  isFullscreen?: boolean;
 }
 
-const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen }) => {
+const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ 
+  doorsOpen, 
+  onInteraction, 
+  enableInteraction = true,
+  isFullscreen = false 
+}) => {
   const groupRef = useRef<Group>(null);
   const leftDoorRef = useRef<Mesh>(null);
   const rightDoorRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState<string | null>(null);
+  const [showTooltips, setShowTooltips] = useState(false);
   const { camera } = useThree();
 
-  // Auto-rotate the cabin slightly
+  // Auto-rotate the cabin slightly (only when not in fullscreen mode)
   useFrame((state) => {
-    if (groupRef.current) {
+    if (groupRef.current && !isFullscreen) {
       groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
     }
   });
@@ -39,9 +48,32 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen }) => {
       </Box>
 
       {/* Floor */}
-      <Plane args={[3.8, 2.8]} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]}>
-        <meshStandardMaterial color="#34495e" metalness={0.6} roughness={0.3} />
+      <Plane 
+        args={[3.8, 2.8]} 
+        rotation={[-Math.PI / 2, 0, 0]} 
+        position={[0, -1.5, 0]}
+        onPointerOver={() => {
+          if (enableInteraction) setHovered('floor');
+        }}
+        onPointerOut={() => setHovered(null)}
+        onClick={() => onInteraction?.('floor', { type: 'Smart Flooring' })}
+      >
+        <meshStandardMaterial 
+          color={hovered === 'floor' ? "#4a5568" : "#34495e"} 
+          metalness={0.6} 
+          roughness={0.3} 
+        />
       </Plane>
+
+      {/* Floor Tooltip */}
+      {showTooltips && hovered === 'floor' && (
+        <Html position={[0, -0.8, 0]} center>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm">
+            🏢 Anti-Slip Smart Flooring
+            <div className="text-xs text-gray-300 mt-1">Premium materials with safety sensors</div>
+          </div>
+        </Html>
+      )}
 
       {/* Ceiling */}
       <Plane args={[3.8, 2.8]} rotation={[Math.PI / 2, 0, 0]} position={[0, 1.5, 0]}>
@@ -65,8 +97,17 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen }) => {
       <Box 
         args={[0.6, 1.2, 0.1]} 
         position={[1.5, 0.2, 0.8]}
-        onPointerOver={() => setHovered('control')}
-        onPointerOut={() => setHovered(null)}
+        onPointerOver={() => {
+          if (enableInteraction) {
+            setHovered('control');
+            setShowTooltips(true);
+          }
+        }}
+        onPointerOut={() => {
+          setHovered(null);
+          setShowTooltips(false);
+        }}
+        onClick={() => onInteraction?.('control-panel', { type: 'IoT Panel' })}
       >
         <meshStandardMaterial 
           color={hovered === 'control' ? "#3498db" : "#1a1a1a"} 
@@ -76,14 +117,27 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen }) => {
         />
       </Box>
 
+      {/* Control Panel Tooltip */}
+      {showTooltips && hovered === 'control' && (
+        <Html position={[1.5, 1.0, 0.8]} center>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm">
+            🔧 IoT Control Panel
+            <div className="text-xs text-gray-300 mt-1">Smart elevator controls with AI integration</div>
+          </div>
+        </Html>
+      )}
+
       {/* Control Panel Buttons */}
       {[1, 2, 3, 4, 5].map((floor, index) => (
         <Box 
           key={floor}
           args={[0.08, 0.08, 0.02]} 
           position={[1.55, 0.6 - index * 0.15, 0.85]}
-          onPointerOver={() => setHovered(`button-${floor}`)}
+          onPointerOver={() => {
+            if (enableInteraction) setHovered(`button-${floor}`);
+          }}
           onPointerOut={() => setHovered(null)}
+          onClick={() => onInteraction?.('floor-button', { floor })}
         >
           <meshStandardMaterial 
             color={hovered === `button-${floor}` ? "#ffd700" : "#ffffff"} 
@@ -91,6 +145,34 @@ const ElevatorCabin3D: React.FC<ElevatorCabin3DProps> = ({ doorsOpen }) => {
           />
         </Box>
       ))}
+
+      {/* Safety System Indicator - New Interactive Element */}
+      <Box 
+        args={[0.3, 0.15, 0.05]} 
+        position={[-1.5, 1.0, 0.8]}
+        onPointerOver={() => {
+          if (enableInteraction) setHovered('safety');
+        }}
+        onPointerOut={() => setHovered(null)}
+        onClick={() => onInteraction?.('safety-system', { type: 'Emergency Brake System' })}
+      >
+        <meshStandardMaterial 
+          color={hovered === 'safety' ? "#e74c3c" : "#c0392b"} 
+          metalness={0.8} 
+          roughness={0.2}
+          emissive={hovered === 'safety' ? "#8b0000" : "#000000"}
+        />
+      </Box>
+
+      {/* Safety System Tooltip */}
+      {showTooltips && hovered === 'safety' && (
+        <Html position={[-1.5, 1.3, 0.8]} center>
+          <div className="bg-black/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm">
+            ⚡ Emergency Brake System
+            <div className="text-xs text-gray-300 mt-1">Advanced safety with multiple fail-safes</div>
+          </div>
+        </Html>
+      )}
 
       {/* Elevator Doors */}
       <Plane 

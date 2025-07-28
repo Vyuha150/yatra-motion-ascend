@@ -1,19 +1,27 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, Loader } from '@react-three/drei';
-import { motion, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ChevronDown, Phone, Download, Calendar, FileText, Play } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import CommonHeader from './CommonHeader';
-import ContactModal from './ContactModal';
-import ElevatorCabin3D from './ElevatorCabin3D';
-import ParticleField from './ParticleField';
-import ElevatorSkeleton from './ElevatorSkeleton';
+import React, { useState, useEffect, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment, Loader } from "@react-three/drei";
+import { motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
+import {
+  ChevronDown,
+  Phone,
+  Download,
+  Calendar,
+  FileText,
+  Play,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import CommonHeader from "./CommonHeader";
+import ContactModal from "./ContactModal";
+import ElevatorCabin3D from "./ElevatorCabin3D";
+import ParticleField from "./ParticleField";
+import ElevatorSkeleton from "./ElevatorSkeleton";
 
 const HeroImmersive = () => {
   const [doorsOpen, setDoorsOpen] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [show3D, setShow3D] = useState(true);
   const [scrollY, setScrollY] = useState(0);
   const shouldReduceMotion = useReducedMotion();
 
@@ -28,21 +36,27 @@ const HeroImmersive = () => {
       setShowContent(true);
     }, 2000);
 
+    // Hide 3D scene after 5 seconds
+    const hide3DTimer = setTimeout(() => {
+      setShow3D(false);
+    }, 5000);
+
     // Scroll listener for parallax
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
       clearTimeout(doorTimer);
       clearTimeout(contentTimer);
-      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(hide3DTimer);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleDownloadBrochure = () => {
-    const link = document.createElement('a');
-    link.href = 'data:application/pdf;base64,';
-    link.download = 'Yatra_Elevators_Brochure.pdf';
+    const link = document.createElement("a");
+    link.href = "data:application/pdf;base64,";
+    link.download = "Yatra_Elevators_Brochure.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -73,97 +87,109 @@ const HeroImmersive = () => {
       <div className="absolute top-0 left-0 right-0 z-30 bg-blue-600 text-white text-center py-3 text-sm font-medium">
         MRL Lifts Available - Space Saving Technology
       </div>
-      
+
       {/* Common Header */}
       <CommonHeader />
 
-      {/* 3D Scene - Positioned to right side on desktop */}
-      <div className="absolute inset-0 lg:left-1/2 z-0">
-        <Canvas
-          camera={{ position: [0, 0, 8], fov: 60 }}
-          gl={{ antialias: true, alpha: true }}
-          dpr={[1, 2]}
+      {/* 3D Scene - Positioned to right side on desktop, hidden after 5 seconds */}
+      {show3D && (
+        <motion.div
+          className="absolute inset-0 lg:left-1/2 z-0"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <Suspense fallback={<ElevatorSkeleton />}>
-            <Environment preset="city" />
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            
-            {/* Particle Field */}
-            <ParticleField />
-            
-            {/* Elevator Cabin */}
-            <ElevatorCabin3D 
-              doorsOpen={doorsOpen} 
-              onDoorClick={() => setDoorsOpen(!doorsOpen)}
-              scrollY={scrollY}
-            />
-            
-            {/* Camera Controls - Enhanced for mobile */}
-            <OrbitControls 
-              enablePan={false}
-              enableZoom={true}
-              minDistance={5}
-              maxDistance={12}
-              maxPolarAngle={Math.PI / 1.8}
-              minPolarAngle={Math.PI / 3}
-              autoRotate
-              autoRotateSpeed={0.3}
-              enableDamping
-              dampingFactor={0.05}
-            />
-          </Suspense>
-        </Canvas>
-        <Loader />
-      </div>
+          <Canvas
+            camera={{ position: [0, 0, 8], fov: 60 }}
+            gl={{ antialias: true, alpha: true }}
+            dpr={[1, 2]}
+          >
+            <Suspense fallback={<ElevatorSkeleton />}>
+              <Environment preset="city" />
+              <ambientLight intensity={0.3} />
+              <directionalLight position={[5, 5, 5]} intensity={1} />
+
+              {/* Particle Field */}
+              <ParticleField />
+
+              {/* Elevator Cabin */}
+              <ElevatorCabin3D
+                doorsOpen={doorsOpen}
+                onDoorClick={() => setDoorsOpen(!doorsOpen)}
+                scrollY={scrollY}
+              />
+
+              {/* Camera Controls - Enhanced for mobile */}
+              <OrbitControls
+                enablePan={false}
+                enableZoom={true}
+                minDistance={5}
+                maxDistance={12}
+                maxPolarAngle={Math.PI / 1.8}
+                minPolarAngle={Math.PI / 3}
+                autoRotate
+                autoRotateSpeed={0.3}
+                enableDamping
+                dampingFactor={0.05}
+              />
+            </Suspense>
+          </Canvas>
+          <Loader />
+        </motion.div>
+      )}
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 z-5" />
 
-      {/* Hero Content - Positioned to left side on desktop */}
-      <div className="relative z-10 flex flex-col items-center lg:items-start justify-center h-full text-center lg:text-left px-4 pt-20 lg:pl-12 lg:pr-0">
-        <div className="max-w-4xl lg:max-w-2xl mx-auto lg:mx-0">
+      {/* Hero Content - Centered after 3D disappears, left-aligned when 3D is visible */}
+      <div
+        className={`relative z-10 flex flex-col justify-center h-full px-4 pt-20 transition-all duration-500 ${
+          show3D
+            ? "items-center lg:items-start text-center lg:text-left lg:pl-12 lg:pr-0"
+            : "items-center text-center"
+        }`}
+      >
+        <div
+          className={`mx-auto transition-all duration-500 ${
+            show3D ? "max-w-4xl lg:max-w-2xl lg:mx-0" : "max-w-4xl"
+          }`}
+        >
           {showContent && (
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.h1 
+              <motion.h1
                 className="text-5xl md:text-7xl font-black text-white mb-6 font-poppins tracking-tight"
                 variants={itemVariants}
               >
-                <motion.span 
-                  className="block mb-2"
-                  variants={itemVariants}
-                >
+                <motion.span className="block my-2" variants={itemVariants}>
                   YATRA
                 </motion.span>
-                <motion.span 
-                  className="text-blue-400"
-                  variants={itemVariants}
-                >
+                <motion.span className="text-blue-400" variants={itemVariants}>
                   ELEVATORS
                 </motion.span>
               </motion.h1>
-              
-              <motion.p 
+
+              <motion.p
                 className="text-xl md:text-2xl text-white mb-4 drop-shadow-lg font-inter font-medium"
                 variants={itemVariants}
               >
                 Experience the Future of Vertical Mobility
               </motion.p>
-              
-              <motion.p 
+
+              <motion.p
                 className="text-lg text-white mb-12 max-w-2xl mx-auto drop-shadow-lg font-inter font-normal leading-relaxed"
                 variants={itemVariants}
               >
-                Step into tomorrow with our intelligent elevator systems featuring IoT control, 
-                unmatched safety, and lifetime service commitment.
+                Step into tomorrow with our intelligent elevator systems
+                featuring IoT control, unmatched safety, and lifetime service
+                commitment.
               </motion.p>
 
               {/* CTA Buttons */}
-              <motion.div 
+              <motion.div
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                 variants={itemVariants}
               >
@@ -171,22 +197,22 @@ const HeroImmersive = () => {
                   whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
                   whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}
                 >
-                  <Button 
-                    size="lg" 
+                  <Button
+                    size="lg"
                     className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 font-poppins group"
                   >
                     <Play className="mr-2 h-5 w-5 group-hover:animate-pulse" />
                     View Cabin
                   </Button>
                 </motion.div>
-                
+
                 <Link to="/client-requirement">
                   <motion.div
                     whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
                     whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}
                   >
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="lg"
                       className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 font-poppins"
                     >
@@ -195,14 +221,14 @@ const HeroImmersive = () => {
                     </Button>
                   </motion.div>
                 </Link>
-                
+
                 <ContactModal buttonText="Book Service">
                   <motion.div
                     whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
                     whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}
                   >
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="lg"
                       className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 font-montserrat"
                     >
@@ -212,14 +238,11 @@ const HeroImmersive = () => {
                   </motion.div>
                 </ContactModal>
               </motion.div>
-              
+
               {/* Secondary CTA for feedback */}
-              <motion.div 
-                className="mt-8"
-                variants={itemVariants}
-              >
+              <motion.div className="mt-8" variants={itemVariants}>
                 <Link to="/feedback">
-                  <Button 
+                  <Button
                     variant="ghost"
                     size="sm"
                     className="text-white/80 hover:text-white hover:bg-white/10 underline text-base"
@@ -234,7 +257,7 @@ const HeroImmersive = () => {
 
         {/* Scroll Indicator */}
         {showContent && (
-          <motion.div 
+          <motion.div
             className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -242,10 +265,10 @@ const HeroImmersive = () => {
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}
-              transition={{ 
-                duration: shouldReduceMotion ? 0 : 2, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+              transition={{
+                duration: shouldReduceMotion ? 0 : 2,
+                repeat: Infinity,
+                ease: "easeInOut",
               }}
             >
               <ChevronDown className="h-8 w-8 text-white opacity-70" />

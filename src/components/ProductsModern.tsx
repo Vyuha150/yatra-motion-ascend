@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Zap, Shield, Cpu, Leaf } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
-import elevatorControls from '@/assets/elevator-controls.jpg';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Zap, Shield, Cpu, Leaf } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import elevatorControls from "@/assets/elevator-controls.jpg";
 
 const ProductsModern = () => {
   const navigate = useNavigate();
@@ -14,42 +14,66 @@ const ProductsModern = () => {
       id: "passenger",
       title: "Passenger Elevators",
       subtitle: "Smooth. Safe. Sophisticated.",
-      description: "Experience seamless vertical mobility with our premium passenger elevators. Engineered for comfort, designed for elegance.",
-      features: ["Whisper-quiet operation", "Energy-efficient drives", "Premium cabin finishes", "Smart controls"],
+      description:
+        "Experience seamless vertical mobility with our premium passenger elevators. Engineered for comfort, designed for elegance.",
+      features: [
+        "Whisper-quiet operation",
+        "Energy-efficient drives",
+        "Premium cabin finishes",
+        "Smart controls",
+      ],
       icon: Zap,
-      color: "from-blue-500/20 to-cyan-500/20"
+      color: "from-blue-500/20 to-cyan-500/20",
     },
     {
       id: "freight",
       title: "Freight Solutions",
       subtitle: "Heavy-duty. Reliable. Powerful.",
-      description: "Built for the toughest demands. Our freight elevators handle maximum loads with unwavering precision and reliability.",
-      features: ["Heavy load capacity", "Reinforced construction", "Industrial-grade motors", "24/7 operation ready"],
+      description:
+        "Built for the toughest demands. Our freight elevators handle maximum loads with unwavering precision and reliability.",
+      features: [
+        "Heavy load capacity",
+        "Reinforced construction",
+        "Industrial-grade motors",
+        "24/7 operation ready",
+      ],
       icon: Shield,
-      color: "from-orange-500/20 to-red-500/20"
+      color: "from-orange-500/20 to-red-500/20",
     },
     {
       id: "smart",
       title: "Smart Technology",
       subtitle: "AI-powered. IoT-enabled. Future-ready.",
-      description: "Intelligence meets vertical transportation. Our smart elevators learn, adapt, and optimize every journey.",
-      features: ["AI optimization", "Predictive maintenance", "Mobile integration", "Real-time monitoring"],
+      description:
+        "Intelligence meets vertical transportation. Our smart elevators learn, adapt, and optimize every journey.",
+      features: [
+        "AI optimization",
+        "Predictive maintenance",
+        "Mobile integration",
+        "Real-time monitoring",
+      ],
       icon: Cpu,
-      color: "from-purple-500/20 to-pink-500/20"
+      color: "from-purple-500/20 to-pink-500/20",
     },
     {
       id: "green",
       title: "Eco Solutions",
       subtitle: "Sustainable. Efficient. Responsible.",
-      description: "Green technology that doesn't compromise on performance. Reducing carbon footprint while maximizing efficiency.",
-      features: ["Regenerative drives", "LED lighting", "Eco-friendly materials", "Energy monitoring"],
+      description:
+        "Green technology that doesn't compromise on performance. Reducing carbon footprint while maximizing efficiency.",
+      features: [
+        "Regenerative drives",
+        "LED lighting",
+        "Eco-friendly materials",
+        "Energy monitoring",
+      ],
       icon: Leaf,
-      color: "from-green-500/20 to-emerald-500/20"
-    }
+      color: "from-green-500/20 to-emerald-500/20",
+    },
   ];
 
   return (
-    <section className="min-h-screen bg-background relative overflow-hidden py-20">
+    <section className="min-h-screen bg-blue-50 relative overflow-hidden py-20">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
@@ -64,14 +88,14 @@ const ProductsModern = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            Products that{' '}
-            <span className="text-primary">elevate</span>{' '}
-            every experience.
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-black">
+            Products that <span className="text-primary">elevate</span> every
+            experience.
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            From residential homes to industrial complexes, our comprehensive range of elevator solutions 
-            delivers unmatched performance, safety, and innovation.
+            From residential homes to industrial complexes, our comprehensive
+            range of elevator solutions delivers unmatched performance, safety,
+            and innovation.
           </p>
         </motion.div>
 
@@ -89,8 +113,8 @@ const ProductsModern = () => {
               onClick={() => setActiveProduct(index)}
               className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
                 activeProduct === index
-                  ? 'bg-foreground text-background'
-                  : 'bg-muted text-muted-foreground hover:bg-foreground/10'
+                  ? "bg-foreground text-background"
+                  : "bg-muted text-muted-foreground hover:bg-white text-black"
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -119,13 +143,15 @@ const ProductsModern = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className={`w-20 h-20 rounded-full bg-gradient-to-br ${products[activeProduct].color} flex items-center justify-center mb-6`}
                 >
-                  {React.createElement(products[activeProduct].icon, { className: "h-10 w-10 text-foreground" })}
+                  {React.createElement(products[activeProduct].icon, {
+                    className: "h-10 w-10 text-blue-500",
+                  })}
                 </motion.div>
 
-                <h3 className="text-3xl md:text-4xl font-bold mb-2">
+                <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">
                   {products[activeProduct].title}
                 </h3>
-                
+
                 <p className="text-lg text-primary mb-6">
                   {products[activeProduct].subtitle}
                 </p>
@@ -146,7 +172,7 @@ const ProductsModern = () => {
                     className="flex items-center space-x-3"
                   >
                     <div className="w-2 h-2 bg-primary rounded-full" />
-                    <span className="text-foreground">{feature}</span>
+                    <span className="text-black">{feature}</span>
                   </motion.div>
                 ))}
               </div>
@@ -158,7 +184,7 @@ const ProductsModern = () => {
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
                 <Button
-                  onClick={() => navigate('/products')}
+                  onClick={() => navigate("/products")}
                   size="lg"
                   className="bg-foreground text-background hover:bg-foreground/90 text-lg px-8 py-6 rounded-full font-semibold"
                 >
@@ -176,26 +202,28 @@ const ProductsModern = () => {
               className="relative"
             >
               <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-muted to-muted/50">
-                <img 
+                <img
                   src={elevatorControls}
                   alt={products[activeProduct].title}
                   className="w-full h-full object-cover opacity-80"
                 />
-                
+
                 {/* Overlay gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${products[activeProduct].color} mix-blend-overlay`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${products[activeProduct].color} mix-blend-overlay`}
+                />
               </div>
 
               {/* Floating elements */}
               <motion.div
-                animate={{ 
+                animate={{
                   y: [0, -10, 0],
-                  rotate: [0, 5, 0]
+                  rotate: [0, 5, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
                 className="absolute -top-6 -right-6 w-24 h-24 bg-primary/20 rounded-full backdrop-blur-sm flex items-center justify-center"
               >
@@ -203,15 +231,15 @@ const ProductsModern = () => {
               </motion.div>
 
               <motion.div
-                animate={{ 
+                animate={{
                   y: [0, 10, 0],
-                  rotate: [0, -3, 0]
+                  rotate: [0, -3, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 1
+                  delay: 1,
                 }}
                 className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/20 rounded-full backdrop-blur-sm"
               />
@@ -234,8 +262,8 @@ const ProductsModern = () => {
                 onClick={() => setActiveProduct(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   activeProduct === index
-                    ? 'bg-primary scale-125'
-                    : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                    ? "bg-primary scale-125"
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
               />
             ))}

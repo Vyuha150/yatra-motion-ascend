@@ -31,14 +31,13 @@ const HeroImmersive = () => {
       setDoorsOpen(true);
     }, 1000);
 
-    // Content reveal sequence
-    const contentTimer = setTimeout(() => {
-      setShowContent(true);
-    }, 2000);
-
     // Hide 3D scene after 5 seconds
     const hide3DTimer = setTimeout(() => {
       setShow3D(false);
+      // Content reveal sequence - starts only after 3D disappears
+      setTimeout(() => {
+        setShowContent(true);
+      }, 300); // Small delay after 3D disappears for smooth transition
     }, 5000);
 
     // Scroll listener for parallax
@@ -47,7 +46,6 @@ const HeroImmersive = () => {
 
     return () => {
       clearTimeout(doorTimer);
-      clearTimeout(contentTimer);
       clearTimeout(hide3DTimer);
       window.removeEventListener("scroll", handleScroll);
     };
@@ -91,10 +89,10 @@ const HeroImmersive = () => {
       {/* Common Header */}
       <CommonHeader />
 
-      {/* 3D Scene - Positioned to right side on desktop, hidden after 5 seconds */}
+      {/* 3D Scene - Centered, hidden after 5 seconds */}
       {show3D && (
         <motion.div
-          className="absolute inset-0 lg:left-1/2 z-0"
+          className="absolute inset-0 z-0"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
@@ -141,19 +139,11 @@ const HeroImmersive = () => {
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 z-5" />
 
-      {/* Hero Content - Centered after 3D disappears, left-aligned when 3D is visible */}
+      {/* Hero Content - Centered after 3D disappears */}
       <div
-        className={`relative z-10 flex flex-col justify-center h-full px-4 pt-20 transition-all duration-500 ${
-          show3D
-            ? "items-center lg:items-start text-center lg:text-left lg:pl-12 lg:pr-0"
-            : "items-center text-center"
-        }`}
+        className={`relative z-10 flex flex-col justify-center h-full px-4 pt-20 transition-all duration-500 items-center text-center`}
       >
-        <div
-          className={`mx-auto transition-all duration-500 ${
-            show3D ? "max-w-4xl lg:max-w-2xl lg:mx-0" : "max-w-4xl"
-          }`}
-        >
+        <div className={`mx-auto transition-all duration-500 max-w-4xl`}>
           {showContent && (
             <motion.div
               variants={containerVariants}
@@ -256,12 +246,12 @@ const HeroImmersive = () => {
         </div>
 
         {/* Scroll Indicator */}
-        {showContent && (
+        {showContent && !show3D && (
           <motion.div
             className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 3, duration: 0.8 }}
+            transition={{ delay: 1, duration: 0.8 }}
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}

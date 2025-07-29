@@ -28,12 +28,23 @@ const Auth = () => {
   const navigate = useNavigate();
   const { login: authLogin } = useAuth();
 
+  const fillDemoCredentials = (email: string, password: string) => {
+    setFormData(prev => ({
+      ...prev,
+      email,
+      password
+    }));
+    setError('');
+    setSuccess('');
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+    // Clear error and success messages when user starts typing
     if (error) setError('');
     if (success) setSuccess('');
   };
@@ -113,6 +124,7 @@ const Auth = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     
     if (!validateForm()) return;
 
@@ -128,28 +140,50 @@ const Auth = () => {
           return;
         } else {
           // Second step: verify OTP and register
-          await authService.verifyOtpAndRegister({
+          const response = await authService.verifyOtpAndRegister({
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
             password: formData.password,
             otp: formData.otp
           });
-          setSuccess('Registration successful! Redirecting to home page...');
-          setTimeout(() => navigate('/'), 2000);
+
+          if (response.success && response.data) {
+            setSuccess('Registration successful! Redirecting to home page...');
+            setTimeout(() => navigate('/'), 2000);
+          } else {
+            setError(response.message || 'Registration failed. Please try again.');
+            return; // Prevent further execution
+          }
         }
       } else {
-        // Use the authLogin from useAuth hook which will update the global state
-        await authLogin({
+        // Login flow
+        const response = await authLogin({
           email: formData.email,
           password: formData.password
         });
-        // Navigate immediately after successful login
-        navigate('/', { replace: true });
+
+        if (response.success && response.data) {
+          setSuccess('Login successful! Redirecting...');
+          // Navigate after a short delay to show success message
+          setTimeout(() => navigate('/'), 1500);
+        } else {
+          setError(response.message || 'Login failed. Please check your credentials.');
+          return; // Prevent further execution
+        }
       }
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Authentication failed. Please try again.';
+      console.error('Authentication error:', err);
+      let errorMessage = 'Authentication failed. Please try again.';
+      
+      if (err && typeof err === 'object' && 'message' in err) {
+        errorMessage = String(err.message);
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
       setError(errorMessage);
+      return; // Prevent further execution
     } finally {
       setLoading(false);
     }
@@ -196,6 +230,7 @@ const Auth = () => {
               }
             </p>
             
+          
             
           </CardHeader>
 

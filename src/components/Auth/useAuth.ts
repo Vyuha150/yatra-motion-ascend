@@ -1,11 +1,12 @@
 import { createContext, useContext } from 'react';
-import { User, LoginCredentials, RegisterData, ProfileUpdateData, ChangePasswordData } from '@/services/authService';
+import { User, LoginCredentials, RegisterData, ProfileUpdateData, ChangePasswordData, LoginResponse } from '@/services/authService';
+import { ApiResponse } from '@/services/httpClient';
 
 export interface AuthContextType {
   profile: User;
   user: User | null;
   loading: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<ApiResponse<LoginResponse>>;
   register: (userData: RegisterData) => Promise<void>;
   logout: () => void;
   updateProfile: (data: ProfileUpdateData) => Promise<void>;

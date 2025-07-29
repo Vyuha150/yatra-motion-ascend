@@ -54,32 +54,34 @@ class HttpClient {
         return response;
       },
       (error) => {
+        // Handle 401 without redirect
         if (error.response?.status === 401) {
-          // Handle unauthorized - remove token and redirect to login
           this.removeAuthToken();
-          window.location.href = '/auth';
         }
-        // Format error response
-        const errorResponse = {
+
+        // Create a consistent error response format
+        const errorResponse: ApiResponse = {
           success: false,
           message: error.response?.data?.message || 'An error occurred',
           error: error.response?.data?.error || error.message,
         };
-        return Promise.reject(errorResponse);
+
+        // Return the error response instead of rejecting
+        return Promise.resolve({ data: errorResponse });
       }
     );
   }
 
   private getAuthToken(): string | null {
-    return localStorage.getItem('yatra_auth_token');
+    return localStorage.getItem('yatra_token');
   }
 
   private setAuthToken(token: string): void {
-    localStorage.setItem('yatra_auth_token', token);
+    localStorage.setItem('yatra_token', token);
   }
 
   private removeAuthToken(): void {
-    localStorage.removeItem('yatra_auth_token');
+    localStorage.removeItem('yatra_token');
     localStorage.removeItem('yatra_user');
   }
 

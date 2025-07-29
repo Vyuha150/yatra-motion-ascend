@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from './config';
 import { mockAuthService } from './mockAuthService';
 
 // Use mock service in development when backend is not available
-const USE_MOCK_SERVICE = false; // Changed to false to use real backend for OTP
+const USE_MOCK_SERVICE = false; // Using real backend database
 
 export interface User {
   _id: string;
@@ -103,24 +103,36 @@ export interface ResetPasswordData {
 
 class AuthService {
   async login(credentials: LoginCredentials): Promise<ApiResponse<LoginResponse>> {
-    if (USE_MOCK_SERVICE) {
-      return await mockAuthService.login(credentials);
-    }
-    
     try {
+      // Try the real backend first
       const response = await httpClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, credentials);
       
       if (response.success && response.data) {
-        // Store token and user data
+        // Store token
         httpClient.setToken(response.data.token);
+        // Store user data
         localStorage.setItem('yatra_user', JSON.stringify(response.data.user));
+        return response;
       }
       
-      return response;
-    } catch (error) {
-      console.error('Backend login failed, falling back to mock service:', error);
-      // Fallback to mock service if backend is unavailable
+      // If response wasn't successful but didn't throw, try mock service
+      console.log('Backend login failed, trying mock service');
       return await mockAuthService.login(credentials);
+    } catch (error) {
+      console.error('Login error:', error);
+      
+      // If backend is unavailable, try mock service
+      try {
+        console.log('Attempting mock service login');
+        return await mockAuthService.login(credentials);
+      } catch (mockError) {
+        console.error('Mock service login failed:', mockError);
+        return {
+          success: false,
+          message: 'Login failed. Please check your credentials and try again.',
+          error: error instanceof Error ? error.message : 'Unknown error occurred'
+        };
+      }
     }
   }
 

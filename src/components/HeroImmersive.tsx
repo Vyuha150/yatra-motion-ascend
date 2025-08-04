@@ -1,366 +1,206 @@
-import React, { useState, useEffect, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, Loader } from "@react-three/drei";
-import { motion, useReducedMotion } from "framer-motion";
-import { Link } from "react-router-dom";
-import {
-  ChevronDown,
-  Phone,
-  Download,
-  Calendar,
-  FileText,
-  Play,
-} from "lucide-react";
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import CommonHeader from "./CommonHeader";
-import ContactModal from "./ContactModal";
-import ElevatorCabin3D from "./ElevatorCabin3D";
-import ParticleField from "./ParticleField";
-import ElevatorSkeleton from "./ElevatorSkeleton";
+import { Card } from "@/components/ui/card";
+import { motion } from 'framer-motion';
+import { ChevronDown, PhoneCall, Play, Zap, Shield, Users, Award } from 'lucide-react';
 
 const HeroImmersive = () => {
-  const [doorsOpen, setDoorsOpen] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-  const [show3D, setShow3D] = useState(true);
+  const [backgroundIndex, setBackgroundIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
-  const [currentBgIndex, setCurrentBgIndex] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
 
-  // Background images for slideshow
   const backgroundImages = [
-    '/lovable-uploads/39e306f2-9e81-4918-9dc9-d9fe97fe0d80.png',
-    '/lovable-uploads/cbec866b-0d17-4145-8966-af7e73c66f28.png',
-    '/lovable-uploads/add4b9a9-80ab-4015-b254-78ea9eab9b33.png',
-    '/lovable-uploads/61867bfb-decc-45e6-903e-46ddec98756d.png',
-    '/lovable-uploads/a2d245fa-76cb-48ab-9049-c0967f0e5959.png'
+    "/lovable-uploads/39e306f2-9e81-4918-9dc9-d9fe97fe0d80.png",
+    "/lovable-uploads/cbec866b-0d17-4145-8966-af7e73c66f28.png",
+    "/lovable-uploads/add4b9a9-80ab-4015-b254-78ea9eab9b33.png",
+    "/lovable-uploads/61867bfb-decc-45e6-903e-46ddec98756d.png",
+    "/lovable-uploads/a2d245fa-76cb-48ab-9049-c0967f0e5959.png"
   ];
 
   useEffect(() => {
-    // Door opening sequence
-    const doorTimer = setTimeout(() => {
-      setDoorsOpen(true);
-    }, 1000);
+    const interval = setInterval(() => {
+      setBackgroundIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [backgroundImages.length]);
 
-    // Hide 3D scene after 4 seconds for smoother sequence
-    const hide3DTimer = setTimeout(() => {
-      setShow3D(false);
-      // Content reveal sequence - starts only after 3D disappears
-      setTimeout(() => {
-        setShowContent(true);
-      }, 500); // Slightly longer delay for smooth transition
-    }, 4000);
-
-    // Scroll listener for parallax
+  useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      clearTimeout(doorTimer);
-      clearTimeout(hide3DTimer);
-      window.removeEventListener("scroll", handleScroll);
-    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Background slideshow effect - starts when content shows
-  useEffect(() => {
-    if (!showContent) return;
-    
-    const interval = setInterval(() => {
-      setCurrentBgIndex((prev) => (prev + 1) % backgroundImages.length);
-    }, 7000); // Change every 7 seconds
-
-    return () => clearInterval(interval);
-  }, [showContent, backgroundImages.length]);
-
-  const handleDownloadBrochure = () => {
-    const link = document.createElement("a");
-    link.href = "data:application/pdf;base64,";
-    link.download = "Yatra_Elevators_Brochure.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
+  const features = [
+    { icon: Zap, title: "Smart Technology", desc: "AI-powered control systems" },
+    { icon: Shield, title: "Safety First", desc: "Advanced security protocols" },
+    { icon: Users, title: "24/7 Support", desc: "Round-the-clock service" },
+    { icon: Award, title: "Premium Quality", desc: "Industry-leading standards" }
+  ];
 
   return (
-    <section className="relative h-screen overflow-hidden">
-      {/* Dynamic Background Slideshow - Only shows when content is visible */}
-      {showContent && (
-        <div className="absolute inset-0">
-          {backgroundImages.map((image, index) => (
-            <motion.div
-              key={index}
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url(${image})`,
-                zIndex: index === currentBgIndex ? 1 : 0,
-              }}
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ 
-                opacity: index === currentBgIndex ? 1 : 0,
-                scale: index === currentBgIndex ? 1 : 1.1
-              }}
-              transition={{ 
-                duration: 2,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Fallback gradient background for 3D scene */}
-      {!showContent && (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900" />
-      )}
-      {/* Blue Header Bar */}
-      <div className="absolute top-0 left-0 right-0 z-30 bg-blue-600 text-white text-center py-3 text-sm font-medium">
-        MRL Lifts Available - Space Saving Technology
-      </div>
-
-      {/* Common Header */}
-      <CommonHeader />
-
-      {/* 3D Scene - Centered, hidden after 4 seconds */}
-      {show3D && (
-        <motion.div
-          className="absolute inset-0 z-10 flex items-center justify-center"
-          initial={{ opacity: 1, scale: 1 }}
-          exit={{ 
-            opacity: 0, 
-            scale: 0.8,
-            y: -100
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        >
-          <Canvas
-            camera={{ position: [0, 0, 8], fov: 60 }}
-            gl={{ antialias: true, alpha: true }}
-            dpr={[1, 2]}
-          >
-            <Suspense fallback={<ElevatorSkeleton />}>
-              <Environment preset="city" />
-              <ambientLight intensity={0.3} />
-              <directionalLight position={[5, 5, 5]} intensity={1} />
-
-              {/* Particle Field */}
-              <ParticleField />
-
-              {/* Elevator Cabin */}
-              <ElevatorCabin3D
-                doorsOpen={doorsOpen}
-                onDoorClick={() => setDoorsOpen(!doorsOpen)}
-                scrollY={scrollY}
-              />
-
-              {/* Camera Controls - Enhanced for mobile */}
-              <OrbitControls
-                enablePan={false}
-                enableZoom={true}
-                minDistance={5}
-                maxDistance={12}
-                maxPolarAngle={Math.PI / 1.8}
-                minPolarAngle={Math.PI / 3}
-                autoRotate
-                autoRotateSpeed={0.3}
-                enableDamping
-                dampingFactor={0.05}
-              />
-            </Suspense>
-          </Canvas>
-          <Loader />
-        </motion.div>
-      )}
-
-      {/* Enhanced Gradient Overlay for better text visibility */}
-      {showContent && (
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-black/40 z-5" />
-      )}
-
-      {/* Hero Content - Centered after 3D disappears */}
-      <div
-        className={`relative z-20 flex flex-col justify-center h-full px-4 pt-20 transition-all duration-500 items-center text-center`}
-      >
-        <div className={`mx-auto transition-all duration-500 max-w-4xl`}>
-          {showContent && (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.h1
-                className="text-5xl md:text-7xl font-black text-white mb-6 font-poppins tracking-tight drop-shadow-2xl"
-                variants={itemVariants}
-              >
-                <motion.span 
-                  className="block my-2 text-shadow-xl" 
-                  variants={itemVariants}
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                >
-                  YATRA
-                </motion.span>
-                <motion.span 
-                  className="text-blue-400 text-shadow-xl" 
-                  variants={itemVariants}
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                >
-                  ELEVATORS
-                </motion.span>
-              </motion.h1>
-
-              <motion.p
-                className="text-xl md:text-2xl text-white mb-4 drop-shadow-2xl font-inter font-medium"
-                variants={itemVariants}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-              >
-                Experience the Future of Vertical Mobility
-              </motion.p>
-
-              <motion.p
-                className="text-lg text-white mb-12 max-w-2xl mx-auto drop-shadow-2xl font-inter font-normal leading-relaxed"
-                variants={itemVariants}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-              >
-                Step into tomorrow with our intelligent elevator systems
-                featuring IoT control, unmatched safety, and lifetime service
-                commitment.
-              </motion.p>
-
-              {/* CTA Buttons with enhanced animations */}
+    <section className="relative min-h-screen overflow-hidden">
+      {/* Animated Grid Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="absolute inset-0 opacity-20">
+          <div className="grid grid-cols-12 grid-rows-12 h-full w-full">
+            {Array.from({ length: 144 }).map((_, i) => (
               <motion.div
-                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-                variants={itemVariants}
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
-              >
-                <motion.div
-                  whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
-                  whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}
-                >
-                  <Button
-                    size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 font-poppins group hover:glow"
-                    style={{
-                      boxShadow: '0 0 30px rgba(59, 130, 246, 0.5)',
-                    }}
-                  >
-                    <Play className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                    View Cabin
-                  </Button>
-                </motion.div>
-
-                <Link to="/client-requirement">
-                  <motion.div
-                    whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
-                    whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}
-                  >
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 font-poppins backdrop-blur-sm"
-                      style={{
-                        boxShadow: '0 0 20px rgba(255, 255, 255, 0.3)',
-                      }}
-                    >
-                      <FileText className="mr-2 h-5 w-5" />
-                      Get Free Quote
-                    </Button>
-                  </motion.div>
-                </Link>
-
-                <ContactModal buttonText="Book Service">
-                  <motion.div
-                    whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
-                    whileTap={{ scale: shouldReduceMotion ? 1 : 0.95 }}
-                  >
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 font-montserrat backdrop-blur-sm"
-                      style={{
-                        boxShadow: '0 0 20px rgba(96, 165, 250, 0.3)',
-                      }}
-                    >
-                      <Calendar className="mr-2 h-5 w-5" />
-                      Book Service
-                    </Button>
-                  </motion.div>
-                </ContactModal>
-              </motion.div>
-
-              {/* Secondary CTA for feedback */}
-              <motion.div className="mt-8" variants={itemVariants}>
-                <Link to="/feedback">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-white/80 hover:text-white hover:bg-white/10 underline text-base"
-                  >
-                    Share Your Experience & Feedback
-                  </Button>
-                </Link>
-              </motion.div>
-            </motion.div>
-          )}
+                key={i}
+                className="border border-cyan-500/10"
+                animate={{
+                  borderColor: ["rgba(6, 182, 212, 0.1)", "rgba(6, 182, 212, 0.3)", "rgba(6, 182, 212, 0.1)"]
+                }}
+                transition={{
+                  duration: 3,
+                  delay: (i % 12) * 0.1,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
         </div>
-
-        {/* Scroll Indicator */}
-        {showContent && !show3D && (
-          <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{
-                duration: shouldReduceMotion ? 0 : 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <ChevronDown className="h-8 w-8 text-white opacity-70" />
-            </motion.div>
-          </motion.div>
-        )}
       </div>
 
-      {/* Enhanced Ambient Light Effects */}
-      {showContent && (
-        <>
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/15 rounded-full blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-400/5 rounded-full blur-3xl animate-pulse delay-500" />
-        </>
-      )}
+      {/* Dynamic Background Images */}
+      {backgroundImages.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === backgroundIndex ? 'opacity-30' : 'opacity-0'
+          }`}
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            transform: `scale(${1 + scrollY * 0.0002}) translateY(${scrollY * 0.3}px)`,
+          }}
+        />
+      ))}
+
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-transparent to-slate-900/80" />
+      
+      {/* Glowing Effects */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
+
+      {/* Header */}
+      <motion.header 
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="absolute top-0 left-0 right-0 z-40 p-6"
+      >
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
+          <div className="text-2xl font-bold text-white">YATRA</div>
+          <nav className="hidden md:flex space-x-8 text-white/80">
+            {["About", "Products", "Services", "Contact"].map((item) => (
+              <a key={item} href="#" className="hover:text-cyan-400 transition-colors">{item}</a>
+            ))}
+          </nav>
+        </div>
+      </motion.header>
+
+      {/* Main Content */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-20 flex items-center justify-center min-h-screen px-4"
+      >
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.h1 
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-6xl md:text-8xl font-bold mb-6"
+          >
+            <span className="text-white">Elevating India's</span>
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
+              Smart Buildings
+            </span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl md:text-2xl text-white/80 leading-relaxed max-w-4xl mx-auto mb-12"
+          >
+            Advanced elevators and escalators for residential towers, workspaces, malls, and hospitals – 
+            powered by 24/7 service and future-ready tech.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
+          >
+            <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold">
+              <PhoneCall className="mr-2 h-5 w-5" />
+              Request Quote
+            </Button>
+            <Button variant="outline" size="lg" className="border-2 border-cyan-400/50 text-cyan-400 hover:bg-cyan-400/10 px-8 py-4 text-lg font-semibold">
+              <Play className="mr-2 h-5 w-5" />
+              See Our Range
+            </Button>
+          </motion.div>
+
+          {/* Feature Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6 + index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+              >
+                <Card className="p-6 bg-black/20 backdrop-blur-xl border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300">
+                  <div className="text-center space-y-3">
+                    <div className="mx-auto w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
+                      <feature.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <h3 className="text-white font-semibold text-lg">{feature.title}</h3>
+                    <p className="text-white/60 text-sm">{feature.desc}</p>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Partner Logos */}
+          <motion.div 
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <p className="text-white/60 mb-8 text-lg">Trusted by India's Leading Builders</p>
+            <div className="flex justify-center items-center space-x-8 opacity-60">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="h-12 w-24 bg-white/10 rounded border border-white/20 flex items-center justify-center">
+                  <span className="text-white/60 text-xs">Partner {i + 1}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="text-cyan-400/80 cursor-pointer hover:text-cyan-400 transition-colors"
+        >
+          <ChevronDown size={32} />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

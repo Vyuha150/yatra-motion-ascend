@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@/services/authService';
@@ -124,14 +124,15 @@ const UsersManager = () => {
               className="pl-9"
             />
           </div>
-          <Select
-            value={roleFilter}
-            onValueChange={setRoleFilter}
-            className="w-48"
-          >
-            <option value="all">All Roles</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
+          <Select value={roleFilter} onValueChange={setRoleFilter}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Filter by role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Roles</SelectItem>
+              <SelectItem value="admin">Admin</SelectItem>
+              <SelectItem value="user">User</SelectItem>
+            </SelectContent>
           </Select>
         </div>
 
@@ -160,17 +161,21 @@ const UsersManager = () => {
                   </TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
-                    <Select
-                      value={user.role}
+                    <Select 
+                      value={user.role} 
                       onValueChange={(newRole) => handleRoleChange(user._id, newRole)}
-                      className="w-32"
                     >
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="user">User</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectContent>
                     </Select>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={user.isActive ? "success" : "secondary"}>
+                    <Badge variant={user.isActive ? "default" : "secondary"}>
                       {user.isActive ? 'Active' : 'Inactive'}
                     </Badge>
                   </TableCell>
